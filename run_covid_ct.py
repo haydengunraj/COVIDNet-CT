@@ -29,13 +29,12 @@ CLASS_PRED_TENSOR = 'ArgMax:0'
 CLASS_PROB_TENSOR = 'softmax_tensor:0'
 TRAINING_PH_TENSOR = 'is_training:0'
 LOSS_TENSOR = 'add:0'
-LOGITS_TENSOR = 'resnet_model/final_dense:0'
 
 # Name for train checkpoints
 CKPT_NAME = 'model.ckpt'
 
 # Class names ordered by class index
-CLASS_NAMES = ('Non-COVID-19', 'COVID-19')
+CLASS_NAMES = ('Normal', 'COVID-19')
 
 
 def dense_grad_filter(gvs):
@@ -221,7 +220,7 @@ class COVIDNetCTRunner:
             # Plot confusion matrix
             fig, ax = plt.subplots()
             disp = ConfusionMatrixDisplay(confusion_matrix=metrics['confusion matrix'],
-                                          display_labels=('Non-COVID-19', 'COVID-19'))
+                                          display_labels=CLASS_NAMES)
             disp.plot(include_values=True, cmap='Blues', ax=ax, xticks_rotation='horizontal', values_format='.5g')
             plt.show()
 
@@ -239,14 +238,14 @@ class COVIDNetCTRunner:
         # Run inference
         graph, sess = self.load_model()
         with graph.as_default():
-            # softmax = tf.nn.softmax(graph.get_tensor_by_name(LOGITS_TENSOR), name='softmax_tensor')
             # Run image through model
-            class_, prob = sess.run([CLASS_PRED_TENSOR, CLASS_PROB_TENSOR], feed_dict=feed_dict)
-            #
-            # saver = tf.train.Saver()
-            # saver.save(sess, './new_model/model.ckpt-20000')
-
-            print('\nPredicted Class: {}\nConfidence: {:.8f}'.format(CLASS_NAMES[class_[0]], prob[0, class_[0]]))
+            class_, probs = sess.run([CLASS_PRED_TENSOR, CLASS_PROB_TENSOR], feed_dict=feed_dict)
+            print('\nPredicted Class: ' + CLASS_NAMES[class_[0]])
+            print(', '.join('{}: {}'.format(name, conf) for name, conf in zip(CLASS_NAMES, probs[0])))
+            print('**DISCLAIMER**')
+            print('Do not use this prediction for self-diagnosis. '
+                  'You should check with your local authorities for '
+                  'the latest advice on seeking medical assistance.')
 
     def _get_validation_fn(self, sess, batch_size=1, val_split_file='COVIDx-CT_val.txt'):
         """Creates validation function to call in self.trainval() or self.validate()"""
@@ -307,10 +306,14 @@ if __name__ == '__main__':
 
     mode, args = parse_args(sys.argv[1:])
 
+    # Create full paths
+    meta_file = os.path.join(args.model_dir, args.meta_file)
+    ckpt = os.path.join(args.model_dir, args.ckpt)
+
     # Create runner
     runner = COVIDNetCTRunner(
-        args.meta_file,
-        ckpt=args.ckpt,
+        meta_file,
+        ckpt=ckpt,
         data_dir=args.data_dir,
         input_height=args.input_height,
         input_width=args.input_width

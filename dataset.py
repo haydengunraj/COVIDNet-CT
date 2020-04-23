@@ -9,15 +9,15 @@ class COVIDXCTDataset:
         self.image_width = image_width
         self.shuffle_buffer = shuffle_buffer
 
-    def train_dataset(self, train_split_filename='COVIDx-CT_train.txt', batch_size=1):
-        return self._make_dataset(train_split_filename, batch_size, True)
+    def train_dataset(self, train_split_file='COVIDx-CT_train.txt', batch_size=1):
+        return self._make_dataset(train_split_file, batch_size, True)
 
-    def validation_dataset(self, val_split_filename='COVIDx-CT_val.txt', batch_size=1):
-        return self._make_dataset(val_split_filename, batch_size, False)
+    def validation_dataset(self, val_split_file='COVIDx-CT_val.txt', batch_size=1):
+        return self._make_dataset(val_split_file, batch_size, False)
 
-    def _make_dataset(self, split_filename, batch_size, is_training):
+    def _make_dataset(self, split_file, batch_size, is_training):
         """Creates COVIDXCT dataset for train or val split"""
-        files, classes = self._get_files(split_filename)
+        files, classes = self._get_files(split_file)
         count = len(files)
         dataset = tf.data.Dataset.from_tensor_slices((files, classes))
 
@@ -57,13 +57,12 @@ class COVIDXCTDataset:
 
         return load_and_process
 
-    def _get_files(self, split_filename):
+    def _get_files(self, split_file):
         """Gets image filenames and classes"""
-        split_file = os.path.join(self.data_dir, split_filename)
         files, classes = [], []
         with open(split_file, 'r') as f:
             for line in f.readlines():
                 fname, cls = line.strip('\n').split()
-                files.append(os.path.join(self.data_dir, 'images', fname))
+                files.append(os.path.join(self.data_dir, fname))
                 classes.append(int(cls))
         return files, classes

@@ -1,9 +1,9 @@
 .ipynb_checkpoints
-data
 .DS_Store
 *.zip
 __pycache__/
 .idea/
+data/
 explain/
 models/
 output/
