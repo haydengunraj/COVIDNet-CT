@@ -1,0 +1,10 @@
+.ipynb_checkpoints
+data
+.DS_Store
+*.zip
+__pycache__/
+.idea/
+explain/
+models/
+output/
+gensynth/
