@@ -3,7 +3,7 @@
 **Note: The COVIDNet-CT model provided here is intended to be used as a reference model that can be built upon and enhanced as new data becomes available. It is currently at a research stage and not yet intended as a production-ready model (not meant for direct clinical diagnosis), and we are working continuously to improve it as new data becomes available. Please do not use COVIDNet-CT for self-diagnosis and seek help from your local health authorities.**
 
 <p align="center">
-	<img src="assets/covidnet-ct-exp.png" alt="photo not available" width="70%" height="70%">
+	<img src="assets/covidnet-ct-exp.png" alt="photo not available" width="40%" height="40%">
 	<br>
 	<em>Example chest radiography image of a COVID-19 case and its associated critical factors (highlighted in white) as identified by GSInquire.</em>
 </p>

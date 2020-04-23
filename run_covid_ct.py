@@ -30,8 +30,12 @@ CLASS_PROB_TENSOR = 'softmax_tensor:0'
 TRAINING_PH_TENSOR = 'is_training:0'
 LOSS_TENSOR = 'add:0'
 
-# Name for train checkpoints
+# Names for train checkpoints
 CKPT_NAME = 'model.ckpt'
+MODEL_NAME = 'COVIDNet-CT'
+
+# Output directory for storing runs
+OUTPUT_DIR = 'output'
 
 # Class names ordered by class index
 CLASS_NAMES = ('Normal', 'COVID-19')
@@ -54,18 +58,6 @@ def create_session():
     config.gpu_options.allow_growth = True
     sess = tf.Session(config=config)
     return sess
-
-
-def load_model(sess, meta_file, ckpt=None):
-    # Load meta file
-    print('Loading graph meta from ' + meta_file)
-    saver = tf.train.import_meta_graph(meta_file)
-
-    # Load weights
-    sess.run(tf.global_variables_initializer())
-    if ckpt is not None:
-        print('Loading weights from ' + meta_file)
-        saver.restore(sess, ckpt)
 
 
 class Metrics:
@@ -98,7 +90,7 @@ class Metrics:
 
 class COVIDNetCTRunner:
     """Primary training/validation/inference class"""
-    def __init__(self, meta_file, ckpt=None, data_dir=None, input_height=224, input_width=224, batch_size=1):
+    def __init__(self, meta_file, ckpt=None, data_dir=None, input_height=224, input_width=224):
         self.meta_file = meta_file
         self.ckpt = ckpt
         self.input_height = input_height
@@ -112,8 +104,8 @@ class COVIDNetCTRunner:
                 image_width=input_width
             )
 
-    def load_model(self):
-        """Creates graph and session, loads model and weights"""
+    def load_graph(self):
+        """Creates new graph and session"""
         graph = tf.Graph()
         with graph.as_default():
             # Create session and load model
@@ -122,21 +114,21 @@ class COVIDNetCTRunner:
             # Load meta file
             print('Loading meta graph from ' + self.meta_file)
             saver = tf.train.import_meta_graph(self.meta_file)
+        return graph, sess, saver
 
-            # Load weights
-            sess.run(tf.global_variables_initializer())
-            if self.ckpt is not None:
-                print('Loading weights from ' + self.ckpt)
-                saver.restore(sess, self.ckpt)
-
-        return graph, sess
+    def load_ckpt(self, sess, saver):
+        """Helper for loading weights"""
+        # Load weights
+        if self.ckpt is not None:
+            print('Loading weights from ' + self.ckpt)
+            saver.restore(sess, self.ckpt)
 
     def trainval(self, epochs, output_dir, batch_size=1, learning_rate=0.001, momentum=0.9,
-                 fc_only=False, train_split_file='COVIDx-CT_train.txt', val_split_file='COVIDx-CT_val.txt',
+                 fc_only=False, train_split_file='train.txt', val_split_file='val.txt',
                  log_interval=20, val_interval=1000, save_interval=1000):
         """Run training with intermittent validation"""
         ckpt_path = os.path.join(output_dir, CKPT_NAME)
-        graph, sess = self.load_model()
+        graph, sess, saver = self.load_graph()
         with graph.as_default():
             # Create optimizer
             optimizer = tf.train.MomentumOptimizer(
@@ -153,6 +145,10 @@ class COVIDNetCTRunner:
             minimize_op = optimizer.apply_gradients(grad_vars, global_step)
             update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
             train_op = tf.group(minimize_op, update_ops)
+
+            # Load checkpoint
+            sess.run(tf.global_variables_initializer())
+            self.load_ckpt(sess, saver)
 
             # Create train dataset
             dataset, num_images, batch_size = self.dataset.train_dataset(train_split_file, batch_size)
@@ -171,7 +167,7 @@ class COVIDNetCTRunner:
             fetch_dict[TF_SUMMARY_KEY] = self._get_train_summary_op(graph)
 
             # Create validation function
-            run_validation = self._get_validation_fn(sess, val_split_file)
+            run_validation = self._get_validation_fn(sess, batch_size, val_split_file)
 
             # Baseline saving and validation
             print('Saving baseline checkpoint')
@@ -206,11 +202,13 @@ class COVIDNetCTRunner:
             print('Saving checkpoint at last step')
             saver.save(sess, ckpt_path, global_step=num_iters)
 
-    def validate(self, batch_size=1, val_split_file='COVIDx-CT_val.txt'):
+    def validate(self, batch_size=1, val_split_file='val.txt'):
         """Run validation on a checkpoint. By supplying a meta file,
         optimized architectures may be tested as well"""
-        graph, sess = self.load_model()
+        graph, sess, saver = self.load_graph()
         with graph.as_default():
+            # Load checkpoint
+            self.load_ckpt(sess, saver)
 
             # Run validation
             print('Starting validation')
@@ -236,8 +234,11 @@ class COVIDNetCTRunner:
         feed_dict = {IMAGE_INPUT_TENSOR: image, TRAINING_PH_TENSOR: False}
 
         # Run inference
-        graph, sess = self.load_model()
+        graph, sess, saver = self.load_graph()
         with graph.as_default():
+            # Load checkpoint
+            self.load_ckpt(sess, saver)
+
             # Run image through model
             class_, probs = sess.run([CLASS_PRED_TENSOR, CLASS_PROB_TENSOR], feed_dict=feed_dict)
             print('\nPredicted Class: ' + CLASS_NAMES[class_[0]])
@@ -247,7 +248,7 @@ class COVIDNetCTRunner:
                   'You should check with your local authorities for '
                   'the latest advice on seeking medical assistance.')
 
-    def _get_validation_fn(self, sess, batch_size=1, val_split_file='COVIDx-CT_val.txt'):
+    def _get_validation_fn(self, sess, batch_size=1, val_split_file='val.txt'):
         """Creates validation function to call in self.trainval() or self.validate()"""
         # Create val dataset
         dataset, num_images, batch_size = self.dataset.validation_dataset(val_split_file, batch_size)
@@ -307,8 +308,8 @@ if __name__ == '__main__':
     mode, args = parse_args(sys.argv[1:])
 
     # Create full paths
-    meta_file = os.path.join(args.model_dir, args.meta_file)
-    ckpt = os.path.join(args.model_dir, args.ckpt)
+    meta_file = os.path.join(args.model_dir, args.meta_name)
+    ckpt = os.path.join(args.model_dir, args.ckpt_name)
 
     # Create runner
     runner = COVIDNetCTRunner(
@@ -321,14 +322,15 @@ if __name__ == '__main__':
 
     if mode == 'train':
         # Create output_dir and save run settings
-        os.makedirs(args.output_dir, exist_ok=False)
-        with open(os.path.join(args.output_dir, 'run_settings.json'), 'w') as f:
+        output_dir = os.path.join(OUTPUT_DIR, MODEL_NAME + args.output_suffix)
+        os.makedirs(output_dir, exist_ok=False)
+        with open(os.path.join(output_dir, 'run_settings.json'), 'w') as f:
             json.dump(vars(args), f)
 
         # Run trainval
         runner.trainval(
             args.epochs,
-            args.output_dir,
+            output_dir,
             batch_size=args.batch_size,
             learning_rate=args.learning_rate,
             momentum=args.momentum,

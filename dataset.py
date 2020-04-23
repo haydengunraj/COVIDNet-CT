@@ -9,14 +9,14 @@ class COVIDXCTDataset:
         self.image_width = image_width
         self.shuffle_buffer = shuffle_buffer
 
-    def train_dataset(self, train_split_file='COVIDx-CT_train.txt', batch_size=1):
+    def train_dataset(self, train_split_file='train.txt', batch_size=1):
         return self._make_dataset(train_split_file, batch_size, True)
 
-    def validation_dataset(self, val_split_file='COVIDx-CT_val.txt', batch_size=1):
+    def validation_dataset(self, val_split_file='val.txt', batch_size=1):
         return self._make_dataset(val_split_file, batch_size, False)
 
     def _make_dataset(self, split_file, batch_size, is_training):
-        """Creates COVIDXCT dataset for train or val split"""
+        """Creates COVIDX-CT dataset for train or val split"""
         files, classes = self._get_files(split_file)
         count = len(files)
         dataset = tf.data.Dataset.from_tensor_slices((files, classes))
