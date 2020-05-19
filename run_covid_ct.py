@@ -38,7 +38,7 @@ MODEL_NAME = 'COVIDNet-CT'
 OUTPUT_DIR = 'output'
 
 # Class names ordered by class index
-CLASS_NAMES = ('Normal', 'COVID-19')
+CLASS_NAMES = ('Normal', 'Pneumonia', 'COVID-19')
 
 
 def dense_grad_filter(gvs):
@@ -90,7 +90,8 @@ class Metrics:
 
 class COVIDNetCTRunner:
     """Primary training/validation/inference class"""
-    def __init__(self, meta_file, ckpt=None, data_dir=None, input_height=224, input_width=224):
+    def __init__(self, meta_file, ckpt=None, data_dir=None, input_height=224, input_width=224, max_bbox_jitter=0.025,
+                 max_rotation=10, max_shear=0.15, max_pixel_shift=10, max_pixel_scale_change=0.2):
         self.meta_file = meta_file
         self.ckpt = ckpt
         self.input_height = input_height
@@ -101,7 +102,12 @@ class COVIDNetCTRunner:
             self.dataset = COVIDXCTDataset(
                 data_dir,
                 image_height=input_height,
-                image_width=input_width
+                image_width=input_width,
+                max_bbox_jitter=max_bbox_jitter,
+                max_rotation=max_rotation,
+                max_shear=max_shear,
+                max_pixel_shift=max_pixel_shift,
+                max_pixel_scale_change=max_pixel_scale_change
             )
 
     def load_graph(self):
@@ -312,12 +318,23 @@ if __name__ == '__main__':
     ckpt = os.path.join(args.model_dir, args.ckpt_name)
 
     # Create runner
+    if mode == 'train':
+        augmentation_kwargs = dict(
+            max_bbox_jitter=args.max_bbox_jitter,
+            max_rotation=args.max_rotation,
+            max_shear=args.max_shear,
+            max_pixel_shift=args.max_pixel_shift,
+            max_pixel_scale_change=args.max_pixel_scale_change
+        )
+    else:
+        augmentation_kwargs = {}
     runner = COVIDNetCTRunner(
         meta_file,
         ckpt=ckpt,
         data_dir=args.data_dir,
         input_height=args.input_height,
-        input_width=args.input_width
+        input_width=args.input_width,
+        **augmentation_kwargs
     )
 
     if mode == 'train':

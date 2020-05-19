@@ -8,6 +8,7 @@ If using the TF checkpoints, here are some useful tensors:
 * logit tensor: `resnet_model/final_dense:0`
 * output tensor: `softmax_tensor:0`
 * loss tensor: `add:0`
+* training tensor = 'is_training:0'
 
 ## Steps for training
 TF training script from a pretrained model:
