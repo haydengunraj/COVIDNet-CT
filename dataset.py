@@ -6,6 +6,7 @@ import augmentations
 
 
 class COVIDXCTDataset:
+    """COVIDx-CT dataset class, which handles construction of train/validation datasets"""
     def __init__(self, data_dir, image_height=512, image_width=512, max_bbox_jitter=0.025, max_rotation=10,
                  max_shear=0.15, max_pixel_shift=10, max_pixel_scale_change=0.2, shuffle_buffer=1000):
         # General parameters
@@ -36,9 +37,9 @@ class COVIDXCTDataset:
 
         # Create balanced dataset if required
         if is_training and balanced:
-            classes = np.asarray(classes, dtype=np.int32)
             files = np.asarray(files)
-            bboxes = np.asarray(bboxes)
+            classes = np.asarray(classes, dtype=np.int32)
+            bboxes = np.asarray(bboxes, dtype=np.int32)
             class_nums = np.unique(classes)
             class_wise_datasets = []
             for cls in class_nums:

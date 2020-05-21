@@ -129,10 +129,10 @@ def _rotate_bbox(bbox, image_height, image_width, radians):
     new_coords = tf.matmul(rotation_matrix, coords)
 
     # Find new bbox coordinates and clip to image size
-    xmin = tf.to_float(tf.reduce_min(new_coords[0, :])) + center_x
-    ymin = tf.to_float(tf.reduce_min(new_coords[1, :])) + center_y
-    xmax = tf.to_float(tf.reduce_max(new_coords[0, :])) + center_x
-    ymax = tf.to_float(tf.reduce_max(new_coords[1, :])) + center_y
+    xmin = tf.reduce_min(new_coords[0, :]) + center_x
+    ymin = tf.reduce_min(new_coords[1, :]) + center_y
+    xmax = tf.reduce_max(new_coords[0, :]) + center_x
+    ymax = tf.reduce_max(new_coords[1, :]) + center_y
     xmin, ymin, xmax, ymax = _clip_bbox(xmin, ymin, xmax, ymax, image_height, image_width)
     bbox = tf.stack([xmin, ymin, xmax, ymax])
 
@@ -172,10 +172,10 @@ def _shear_bbox(bbox, image_height, image_width, shear_lambda, horizontal=True):
     new_coords = tf.matmul(shear_matrix, coords)
 
     # Find new bbox coordinates and clip to image size
-    xmin = tf.to_float(tf.reduce_min(new_coords[0, :]))
-    ymin = tf.to_float(tf.reduce_min(new_coords[1, :]))
-    xmax = tf.to_float(tf.reduce_max(new_coords[0, :]))
-    ymax = tf.to_float(tf.reduce_max(new_coords[1, :]))
+    xmin = tf.reduce_min(new_coords[0, :])
+    ymin = tf.reduce_min(new_coords[1, :])
+    xmax = tf.reduce_max(new_coords[0, :])
+    ymax = tf.reduce_max(new_coords[1, :])
     xmin, ymin, xmax, ymax = _clip_bbox(xmin, ymin, xmax, ymax, image_height, image_width)
     bbox = tf.stack([xmin, ymin, xmax, ymax])
 
