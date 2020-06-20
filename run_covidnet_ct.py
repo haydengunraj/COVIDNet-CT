@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 from dataset import COVIDXCTDataset
+from data_utils import auto_body_crop
 from utils import parse_args
 
 slim = tf.contrib.slim
@@ -66,13 +67,13 @@ class Metrics:
         num_classes = len(CLASS_NAMES)
         self.labels = list(range(num_classes))
         self.class_names = CLASS_NAMES
-        self.confusion_matrix = np.zeros((num_classes, num_classes), dtype=int)
+        self.confusion_matrix = np.zeros((num_classes, num_classes), dtype=np.uint32)
 
     def update(self, y_true, y_pred):
         self.confusion_matrix = self.confusion_matrix + confusion_matrix(y_true, y_pred, labels=self.labels)
 
     def reset(self):
-        self.confusion_matrix = np.zeros(self.confusion_matrix.shape, dtype=int)
+        self.confusion_matrix *= 0
 
     def values(self):
         conf_matrix = self.confusion_matrix.astype('float')
@@ -228,10 +229,12 @@ class COVIDNetCTRunner:
             disp.plot(include_values=True, cmap='Blues', ax=ax, xticks_rotation='horizontal', values_format='.5g')
             plt.show()
 
-    def infer(self, image_file):
+    def infer(self, image_file, autocrop=False):
         """Run inference on the given image"""
         # Load and preprocess image
-        image = cv2.imread(image_file, 0)
+        image = cv2.imread(image_file, cv2.IMREAD_GRAYSCALE)
+        if autocrop:
+            image, _ = auto_body_crop(image)
         image = cv2.resize(image, (self.input_width, self.input_height), cv2.INTER_CUBIC)
         image = image.astype(np.float32) / 255.0
         image = np.expand_dims(np.stack((image, image, image), axis=-1), axis=0)
@@ -248,7 +251,8 @@ class COVIDNetCTRunner:
             # Run image through model
             class_, probs = sess.run([CLASS_PRED_TENSOR, CLASS_PROB_TENSOR], feed_dict=feed_dict)
             print('\nPredicted Class: ' + CLASS_NAMES[class_[0]])
-            print(', '.join('{}: {}'.format(name, conf) for name, conf in zip(CLASS_NAMES, probs[0])))
+            print('Confidences:' + ', '.join(
+                '{}: {}'.format(name, conf) for name, conf in zip(CLASS_NAMES, probs[0])))
             print('**DISCLAIMER**')
             print('Do not use this prediction for self-diagnosis. '
                   'You should check with your local authorities for '
@@ -363,4 +367,4 @@ if __name__ == '__main__':
         runner.validate(batch_size=args.batch_size, val_split_file=args.val_split_file)
     elif mode == 'infer':
         # Run inference
-        runner.infer(args.image_file)
+        runner.infer(args.image_file, args.auto_crop)

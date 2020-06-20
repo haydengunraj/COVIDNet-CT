@@ -12,7 +12,7 @@ If using the TF checkpoints, here are some useful tensors:
 
 ## Steps for training
 TF training script from a pretrained model:
-1. We provide you with the tensorflow training script, [run_covid_ct.py](../run_covid_ct.py)
+1. We provide you with the tensorflow training script, [run_covid_ct.py](../run_covidnet_ct.py)
 2. Locate the tensorflow checkpoint files (location of pretrained model)
 3. To train from a pretrained model:
 ```
@@ -24,7 +24,7 @@ python run_covid_ct.py train \
 4. For more options and information, `python run_covid_ct.py train --help`
 
 ## Steps for evaluation
-1. We provide you with the tensorflow evaluation script, [run_covid_ct.py](../run_covid_ct.py)
+1. We provide you with the tensorflow evaluation script, [run_covid_ct.py](../run_covidnet_ct.py)
 2. Locate the tensorflow checkpoint files
 3. To evaluate a tf checkpoint:
 ```

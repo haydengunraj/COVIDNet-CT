@@ -6,9 +6,9 @@ from datetime import datetime
 def parse_args(args):
     """Argument parsing for run_covid_ct.py"""
     parser = argparse.ArgumentParser(description='COVIDNet-CT Train/Val/Infer Script')
-    parser.add_argument('-md', '--model_dir', type=str, default='models/COVIDNet-CT', help='Model directory')
+    parser.add_argument('-md', '--model_dir', type=str, default='models/COVIDNet-CT-Small', help='Model directory')
     parser.add_argument('-mn', '--meta_name', type=str, default='model.meta', help='Model meta name')
-    parser.add_argument('-ck', '--ckpt_name', type=str, default='model', help='Model checkpoint name')
+    parser.add_argument('-ck', '--ckpt_name', type=str, default='model-3195', help='Model checkpoint name')
     parser.add_argument('-ih', '--input_height', type=int, default=448, help='Input image height')
     parser.add_argument('-iw', '--input_width', type=int, default=448, help='Input image width')
     if args[0] == 'train':
@@ -47,6 +47,8 @@ def parse_args(args):
         parser.add_argument('-pc', '--plot_confusion', action='store_true', help='Flag to plot confusion matrix')
     elif args[0] == 'infer':
         parser.add_argument('-im', '--image_file', type=str, default='assets/ex-covid-ct.png', help='Image file')
+        parser.add_argument('-ac', '--auto_crop', action='store_true',
+                            help='Flag to attempt automatic cropping of the image')
     elif args[0] in ('-h', '--help'):
         print('COVIDNet-CT Train/Val/Infer Script\nUse run_covid_ct.py {train, val, infer} -h '
               'to see help message for each run option')

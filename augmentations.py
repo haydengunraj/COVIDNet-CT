@@ -89,7 +89,7 @@ def random_shear(image, max_lambda, bbox=None, prob=0.5):
         return image
 
     def _shear(image, bbox):
-        return tf.cond(_should_apply(0.), lambda: _shear_x(image, bbox), lambda: _shear_y(image, bbox))
+        return tf.cond(_should_apply(0.5), lambda: _shear_x(image, bbox), lambda: _shear_y(image, bbox))
 
     retval = image if bbox is None else (image, bbox)
     return tf.cond(_should_apply(prob), lambda: _shear(image, bbox), lambda: retval)
@@ -184,10 +184,10 @@ def _shear_bbox(bbox, image_height, image_width, shear_lambda, horizontal=True):
 
 def _clip_bbox(xmin, ymin, xmax, ymax, image_height, image_width):
     """Clip bbox to valid image coordinates"""
-    xmin = tf.clip_by_value(xmin, 0, image_width - 1)
-    ymin = tf.clip_by_value(ymin, 0, image_height - 1)
-    xmax = tf.clip_by_value(xmax, 0, image_width - 1)
-    ymax = tf.clip_by_value(ymax, 0, image_height - 1)
+    xmin = tf.clip_by_value(xmin, 0, image_width)
+    ymin = tf.clip_by_value(ymin, 0, image_height)
+    xmax = tf.clip_by_value(xmax, 0, image_width)
+    ymax = tf.clip_by_value(ymax, 0, image_height)
     return xmin, ymin, xmax, ymax
 
 

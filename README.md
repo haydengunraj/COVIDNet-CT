@@ -3,7 +3,7 @@
 **Note: The COVIDNet-CT models provided here are intended to be used as reference models that can be built upon and enhanced as new data becomes available. They are currently at a research stage and not yet intended as production-ready models (not meant for direct clinical diagnosis), and we are working continuously to improve them as new data becomes available. Please do not use COVIDNet-CT for self-diagnosis and seek help from your local health authorities.**
 
 <p align="center">
-	<img src="assets/covidnet-ct-exp.png" alt="photo not available" width="40%" height="40%">
+	<img src="assets/exp-covidnet-ct-small.png" alt="photo not available" width="40%" height="40%">
 	<br>
 	<em>Example chest radiography image of a COVID-19 case and its associated critical factors (highlighted in red) as identified by GSInquire.</em>
 </p>
@@ -50,13 +50,52 @@ The main requirements are listed below:
 * Matplotlib
 
 ## Results
-These are the final results for COVIDNet-CT.
+These are the final results for COVIDNet-CT-Small.
 
-### COVIDNet-CT
+### COVIDNet-CT-Small
 <p>
-	<img src="assets/cm-covidnet-ct.png" alt="photo not available" width="50%" height="50%">
+	<img src="assets/cm-covidnet-ct-small.png" alt="photo not available" width="50%" height="50%">
 	<br>
-	<em>Confusion matrix for COVIDNet-CT on the COVIDx-CT test dataset.</em>
+	<em>Confusion matrix for COVIDNet-CT-Small on the COVIDx-CT test dataset.</em>
+</p>
+
+<div class="tg-wrap"><table class="tg">
+  <tr>
+    <th class="tg-7btt" colspan="3">Sensitivity (%)</th>
+  </tr>
+  <tr>
+    <td class="tg-7btt">Normal</td>
+    <td class="tg-7btt">Pneumonia</td>
+    <td class="tg-7btt">COVID-19</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">99.4</td>
+    <td class="tg-c3ow">82.3</td>
+    <td class="tg-c3ow">97.5</td>
+  </tr>
+</table></div>
+
+<div class="tg-wrap"><table class="tg">
+  <tr>
+    <th class="tg-7btt" colspan="3">Positive Predictive Value (%)</th>
+  </tr>
+  <tr>
+    <td class="tg-7btt">Normal</td>
+    <td class="tg-7btt">Pneumonia</td>
+    <td class="tg-7btt">COVID-19</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">100</td>
+    <td class="tg-c3ow">93.0</td>
+    <td class="tg-c3ow">92.5</td>
+  </tr>
+</table></div>
+
+### COVIDNet-CT-Large
+<p>
+	<img src="assets/cm-covidnet-ct-large.png" alt="photo not available" width="50%" height="50%">
+	<br>
+	<em>Confusion matrix for COVIDNet-CT-Large on the COVIDx-CT test dataset.</em>
 </p>
 
 <div class="tg-wrap"><table class="tg">
