@@ -52,7 +52,7 @@ The main requirements are listed below:
 * Matplotlib
 
 ## Results
-These are the final validation and test results for each COVIDNet-CT model on the CNCB AI Diagnosis dataset.
+These are the final test results for each COVIDNet-CT model on the COVIDx-CT dataset.
 
 ### COVIDNet-CT-A
 <p>
