@@ -3,14 +3,16 @@
 **Note: The COVIDNet-CT models provided here are intended to be used as reference models that can be built upon and enhanced as new data becomes available. They are currently at a research stage and not yet intended as production-ready models (not meant for direct clinical diagnosis), and we are working continuously to improve them as new data becomes available. Please do not use COVIDNet-CT for self-diagnosis and seek help from your local health authorities.**
 
 <p align="center">
-	<img src="assets/exp-covidnet-ct-small.png" alt="photo not available" width="40%" height="40%">
+	<img src="assets/exp-covidnet-ct-B.png" alt="photo not available" width="40%" height="40%">
 	<br>
 	<em>Example chest radiography image of a COVID-19 case and its associated critical factors (highlighted in red) as identified by GSInquire.</em>
 </p>
 
-If you are a researcher or healthcare worker and you would like access to the **GSInquire tool to use to interpret COVID-Net results** on your data or existing data, please reach out to a28wong@uwaterloo.ca or alex@darwinai.ca
+Inspired by the open source efforts of the research community, we introduce COVIDNet-CT, a deep convolutional neural network design tailored for the detection of COVID-19 cases from chest CT images that is open source and available to the general public. Furthermore, we investigate how COVIDNet-CT makes predictions using an explainability method in an attempt to not only gain deeper insights into critical factors associated with COVID-19 cases, which can aid clinicians in improved screening, but also audit COVIDNet-CT in a responsible and transparent manner to validate that it is making decisions based on relevant information from the CT images. **By no means a production-ready solution**, the hope is that the open access COVIDNet-CT models, along with the description on constructing the dataset, will be leveraged and built upon by both researchers and citizen data scientists alike to accelerate the development of highly accurate yet practical deep learning solutions for detecting COVID-19 cases and accelerate treatment of those who need it the most.
 
-Our desire is to encourage broad adoption and contribution to this project. Accordingly this project has been licensed under the GNU Affero General Public License 3.0. Please see [license file](LICENSE.md) for terms. If you would like to discuss alternative licensing models, please reach out to us at haydengunraj@gmail.com and a28wong@uwaterloo.ca or alex@darwinai.ca
+Our desire is to encourage broad adoption and contribution to this project. Accordingly this project has been licensed under the GNU Affero General Public License 3.0. Please see [license file](LICENSE.md) for terms. If you would like to discuss alternative licensing models, please reach out to us at haydengunraj@gmail.com and a28wong@uwaterloo.ca or alex@darwinai.ca.
+
+If you are a researcher or healthcare worker and you would like access to the **GSInquire tool to use to interpret COVIDNet-CT results** on your data or existing data, please reach out to a28wong@uwaterloo.ca or alex@darwinai.ca.
 
 If there are any technical questions after the README, FAQ, and past/current issues have been read, please post an issue or contact:
 * haydengunraj@gmail.com
@@ -25,7 +27,7 @@ If there are any technical questions after the README, FAQ, and past/current iss
 	* James Lee
 	* Paul McInnis
 	* Audrey Chung
-	* Hayden Gunraj
+	* Hayden Gunraj, COVIDNet for CT
 * Matt Ross and Blake VanBerlo (City of London), COVID-19 Chest X-Ray Model: https://github.com/aildnont/covid-cxr
 * Ashkan Ebadi (National Research Council Canada)
 * Kim-Ann Git (Selayang Hospital)
@@ -33,7 +35,7 @@ If there are any technical questions after the README, FAQ, and past/current iss
 
 ## Table of Contents
 1. [Requirements](#requirements) to install on your system
-2. How to [download COVIDx-CT dataset](docs/COVIDx-CT.md)
+2. How to [download and prepare CNCB dataset](docs/dataset.md)
 3. Steps for [training, evaluation and inference](docs/train_eval_inference.md)
 4. [Results](#results)
 5. [Links to pretrained models](docs/models.md)
@@ -50,13 +52,13 @@ The main requirements are listed below:
 * Matplotlib
 
 ## Results
-These are the final results for COVIDNet-CT-Small.
+These are the final validation and test results for each COVIDNet-CT model on the CNCB AI Diagnosis dataset.
 
-### COVIDNet-CT-Small
+### COVIDNet-CT-A
 <p>
-	<img src="assets/cm-covidnet-ct-small.png" alt="photo not available" width="50%" height="50%">
+	<img src="assets/cm-covidnet-ct-a.png" alt="photo not available" width="50%" height="50%">
 	<br>
-	<em>Confusion matrix for COVIDNet-CT-Small on the COVIDx-CT test dataset.</em>
+	<em>Confusion matrix for COVIDNet-CT-A on the COVIDx-CT test dataset.</em>
 </p>
 
 <div class="tg-wrap"><table class="tg">
@@ -69,9 +71,9 @@ These are the final results for COVIDNet-CT-Small.
     <td class="tg-7btt">COVID-19</td>
   </tr>
   <tr>
-    <td class="tg-c3ow">99.4</td>
-    <td class="tg-c3ow">82.3</td>
-    <td class="tg-c3ow">97.5</td>
+    <td class="tg-c3ow">100</td>
+    <td class="tg-c3ow">99.0</td>
+    <td class="tg-c3ow">97.3</td>
   </tr>
 </table></div>
 
@@ -85,17 +87,17 @@ These are the final results for COVIDNet-CT-Small.
     <td class="tg-7btt">COVID-19</td>
   </tr>
   <tr>
-    <td class="tg-c3ow">100</td>
-    <td class="tg-c3ow">93.0</td>
-    <td class="tg-c3ow">92.5</td>
+    <td class="tg-c3ow">99.4</td>
+    <td class="tg-c3ow">98.4</td>
+    <td class="tg-c3ow">99.7</td>
   </tr>
 </table></div>
 
-### COVIDNet-CT-Large
+### COVIDNet-CT-B
 <p>
-	<img src="assets/cm-covidnet-ct-large.png" alt="photo not available" width="50%" height="50%">
+	<img src="assets/cm-covidnet-ct-b.png" alt="photo not available" width="50%" height="50%">
 	<br>
-	<em>Confusion matrix for COVIDNet-CT-Large on the COVIDx-CT test dataset.</em>
+	<em>Confusion matrix for COVIDNet-CT-B on the COVIDx-CT test dataset.</em>
 </p>
 
 <div class="tg-wrap"><table class="tg">
@@ -108,9 +110,9 @@ These are the final results for COVIDNet-CT-Small.
     <td class="tg-7btt">COVID-19</td>
   </tr>
   <tr>
-    <td class="tg-c3ow">99.4</td>
-    <td class="tg-c3ow">82.3</td>
-    <td class="tg-c3ow">97.5</td>
+    <td class="tg-c3ow">99.8</td>
+    <td class="tg-c3ow">99.2</td>
+    <td class="tg-c3ow">94.7</td>
   </tr>
 </table></div>
 
@@ -124,8 +126,8 @@ These are the final results for COVIDNet-CT-Small.
     <td class="tg-7btt">COVID-19</td>
   </tr>
   <tr>
-    <td class="tg-c3ow">100</td>
-    <td class="tg-c3ow">93.0</td>
-    <td class="tg-c3ow">92.5</td>
+    <td class="tg-c3ow">99.4</td>
+    <td class="tg-c3ow">96.8</td>
+    <td class="tg-c3ow">99.8</td>
   </tr>
 </table></div>

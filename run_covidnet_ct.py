@@ -209,25 +209,25 @@ class COVIDNetCTRunner:
             print('Saving checkpoint at last step')
             saver.save(sess, ckpt_path, global_step=num_iters)
 
-    def validate(self, batch_size=1, val_split_file='val.txt'):
-        """Run validation on a checkpoint. By supplying a meta file,
-        optimized architectures may be tested as well"""
+    def test(self, batch_size=1, test_split_file='test.txt', plot_confusion=False):
+        """Run test on a checkpoint"""
         graph, sess, saver = self.load_graph()
         with graph.as_default():
             # Load checkpoint
             self.load_ckpt(sess, saver)
 
-            # Run validation
-            print('Starting validation')
-            metrics = self._get_validation_fn(sess, batch_size, val_split_file)()
+            # Run test
+            print('Starting test')
+            metrics = self._get_validation_fn(sess, batch_size, test_split_file)()
             self._log_and_print_metrics(metrics)
 
-            # Plot confusion matrix
-            fig, ax = plt.subplots()
-            disp = ConfusionMatrixDisplay(confusion_matrix=metrics['confusion matrix'],
-                                          display_labels=CLASS_NAMES)
-            disp.plot(include_values=True, cmap='Blues', ax=ax, xticks_rotation='horizontal', values_format='.5g')
-            plt.show()
+            if plot_confusion:
+                # Plot confusion matrix
+                fig, ax = plt.subplots()
+                disp = ConfusionMatrixDisplay(confusion_matrix=metrics['confusion matrix'],
+                                              display_labels=CLASS_NAMES)
+                disp.plot(include_values=True, cmap='Blues', ax=ax, xticks_rotation='horizontal', values_format='.5g')
+                plt.show()
 
     def infer(self, image_file, autocrop=False):
         """Run inference on the given image"""
@@ -362,9 +362,13 @@ if __name__ == '__main__':
             val_interval=args.val_interval,
             save_interval=args.save_interval
         )
-    elif mode == 'val':
+    elif mode == 'test':
         # Run validation
-        runner.validate(batch_size=args.batch_size, val_split_file=args.val_split_file)
+        runner.test(
+            batch_size=args.batch_size,
+            test_split_file=args.test_split_file,
+            plot_confusion=args.plot_confusion
+        )
     elif mode == 'infer':
         # Run inference
         runner.infer(args.image_file, args.auto_crop)
