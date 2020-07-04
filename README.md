@@ -35,13 +35,12 @@ If there are any technical questions after the README, FAQ, and past/current iss
 
 ## Table of Contents
 1. [Requirements](#requirements) to install on your system
-2. How to [download and prepare CNCB dataset](docs/dataset.md)
+2. How to [download and prepare COVIDx-CT dataset](docs/dataset.md)
 3. Steps for [training, evaluation and inference](docs/train_eval_inference.md)
 4. [Results](#results)
 5. [Links to pretrained models](docs/models.md)
 
 ## Requirements
-
 The main requirements are listed below:
 
 * Tested with Tensorflow 1.15

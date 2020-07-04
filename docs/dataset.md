@@ -1,7 +1,6 @@
 # COVIDx-CT Dataset
 
 ## Preparing the Data
-
 We construct the COVIDx-CT dataset from publicly available data provided by the China National Center for Bioinformation (CNCB):
 * Kang Zhang, Xiaohong Liu, Jun Shen, et al. Jianxing He, Tianxin Lin, Weimin Li, Guangyu Wang. (2020). Clinically Applicable AI System for Accurate Diagnosis, Quantitative Measurements and Prognosis of COVID-19 Pneumonia Using Computed Tomography. **Cell**, DOI: 10.1016/j.cell.2020.04.045
 
@@ -18,12 +17,11 @@ To prepare the dataset for training/validation/testing, run:
 ```
 python prepare_CNCB_data.py <CNCB root> -o <output directory>
 ```
-This will construct the COVIDx-CT dataset in `<output directory>`. Data split files are provided in this repo, namely `train_CNCB.txt`, `val_CNCB.txt`, and `test_CNCB.txt`.
+This will construct the COVIDx-CT dataset in `<output directory>`. Data split files are provided in this repo, namely `train_COVIDx-CT.txt`, `val_COVIDx-CT.txt`, and `test_COVIDx-CT.txt`.
 
 After preparing the data, see [this document](train_eval_inference.md) for details on how to run the models.
 
 ## Data Distribution
-
 Chest CT image distribution
 
 |  Type | Normal | Pneumonia | COVID-19 | Total |

@@ -1,5 +1,5 @@
 """
-Training/validation/inference script for COVIDNet-CT model for COVID-19 detection in CT images.
+Training/testing/inference script for COVIDNet-CT model for COVID-19 detection in CT images.
 """
 
 import os
@@ -12,7 +12,7 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
-from dataset import COVIDXCTDataset
+from dataset import COVIDxCTDataset
 from data_utils import auto_body_crop
 from utils import parse_args
 
@@ -90,7 +90,7 @@ class Metrics:
 
 
 class COVIDNetCTRunner:
-    """Primary training/validation/inference class"""
+    """Primary training/testing/inference class"""
     def __init__(self, meta_file, ckpt=None, data_dir=None, input_height=224, input_width=224, max_bbox_jitter=0.025,
                  max_rotation=10, max_shear=0.15, max_pixel_shift=10, max_pixel_scale_change=0.2):
         self.meta_file = meta_file
@@ -100,7 +100,7 @@ class COVIDNetCTRunner:
         if data_dir is None:
             self.dataset = None
         else:
-            self.dataset = COVIDXCTDataset(
+            self.dataset = COVIDxCTDataset(
                 data_dir,
                 image_height=input_height,
                 image_width=input_width,
@@ -259,7 +259,7 @@ class COVIDNetCTRunner:
                   'the latest advice on seeking medical assistance.')
 
     def _get_validation_fn(self, sess, batch_size=1, val_split_file='val.txt'):
-        """Creates validation function to call in self.trainval() or self.validate()"""
+        """Creates validation function to call in self.trainval() or self.test()"""
         # Create val dataset
         dataset, num_images, batch_size = self.dataset.validation_dataset(val_split_file, batch_size)
         dataset = dataset.repeat()  # repeat so there is no need to reconstruct it

@@ -5,7 +5,7 @@ import tensorflow as tf
 import augmentations
 
 
-class COVIDXCTDataset:
+class COVIDxCTDataset:
     """COVIDx-CT dataset class, which handles construction of train/validation datasets"""
     def __init__(self, data_dir, image_height=512, image_width=512, max_bbox_jitter=0.025, max_rotation=10,
                  max_shear=0.15, max_pixel_shift=10, max_pixel_scale_change=0.2, shuffle_buffer=1000):
@@ -27,7 +27,7 @@ class COVIDXCTDataset:
         return self._make_dataset(train_split_file, batch_size, True)
 
     def validation_dataset(self, val_split_file='val.txt', batch_size=1):
-        """Returns validation dataset"""
+        """Returns validation dataset (also used for testing)"""
         return self._make_dataset(val_split_file, batch_size, False)
 
     def _make_dataset(self, split_file, batch_size, is_training, balanced=True):

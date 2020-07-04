@@ -6,9 +6,9 @@ from datetime import datetime
 def parse_args(args):
     """Argument parsing for run_covidnet_ct.py"""
     parser = argparse.ArgumentParser(description='COVIDNet-CT Train/Test/Infer Script')
-    parser.add_argument('-md', '--model_dir', type=str, default='models/COVIDNet-CT-Small', help='Model directory')
+    parser.add_argument('-md', '--model_dir', type=str, default='models/COVIDNet-CT-A', help='Model directory')
     parser.add_argument('-mn', '--meta_name', type=str, default='model.meta', help='Model meta name')
-    parser.add_argument('-ck', '--ckpt_name', type=str, default='model-3195', help='Model checkpoint name')
+    parser.add_argument('-ck', '--ckpt_name', type=str, default='model', help='Model checkpoint name')
     parser.add_argument('-ih', '--input_height', type=int, default=512, help='Input image height')
     parser.add_argument('-iw', '--input_width', type=int, default=512, help='Input image width')
     if args[0] == 'train':

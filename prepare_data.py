@@ -79,7 +79,7 @@ def get_excluded_pids(exclude_file):
 parser = argparse.ArgumentParser()
 parser.add_argument('root_dir', type=str,
                     help='Root directory with NCP, CP, and Normal directories, as well as metadata files')
-parser.add_argument('-o', '--output_dir', type=str, default='data/CNCB', help='Directory to construct dataset in')
+parser.add_argument('-o', '--output_dir', type=str, default='data/COVIDx-CT', help='Directory to construct dataset in')
 parser.add_argument('-l', '--lesion_file', type=str, default='lesions_slices.csv',
                     help='CSV file indicating slices with lesions')
 parser.add_argument('-u', '--unzip_file', type=str, default='unzip_filenames.csv',
@@ -95,8 +95,6 @@ lesion_file = os.path.join(args.root_dir, args.lesion_file)
 unzip_file = os.path.join(args.root_dir, args.unzip_file)
 exclude_file = os.path.join(args.root_dir, args.exclude_file)
 image_files = get_files(lesion_file, unzip_file, exclude_file, args.root_dir)
-print(len(image_files))
-exit()
 
 # Write to new files as PNGs
 for imf in image_files:
