@@ -1,10 +1,11 @@
 # COVIDx-CT Dataset
+COVIDx-CT, an open access benchmark dataset that we generated from open source datasets, currently comprises 104,009 CT slices from 1,489 patients. We will be adding to COVIDx-CT over time to improve the dataset.
 
 ## Preparing the Data
 We construct the COVIDx-CT dataset from publicly available data provided by the China National Center for Bioinformation (CNCB):
 * Kang Zhang, Xiaohong Liu, Jun Shen, et al. Jianxing He, Tianxin Lin, Weimin Li, Guangyu Wang. (2020). Clinically Applicable AI System for Accurate Diagnosis, Quantitative Measurements and Prognosis of COVID-19 Pneumonia Using Computed Tomography. **Cell**, DOI: 10.1016/j.cell.2020.04.045
 
-The CNCB AI Diagnosis dataset may be downloaded [here](http://ncov-ai.big.ac.cn/download?). All CP, NCP, and Normal zip files should be downloaded, as well as `unzip_filenames.csv` and `lesion_slices.csv`. Additionally, the file `exclude_list.txt` should be copied from this repo into the CNCB root directory. Once downloaded and extracted, the data should have the following structure:
+The CNCB dataset may be downloaded [here](http://ncov-ai.big.ac.cn/download?). All CP, NCP, and Normal zip files should be downloaded, as well as `unzip_filenames.csv` and `lesion_slices.csv`. Additionally, the file `exclude_list.txt` should be copied from this repo into the CNCB root directory. Once downloaded and extracted, the data should have the following structure:
 * `<CNCB root>/`
     * `CP/`
     * `NCP/`
@@ -15,7 +16,7 @@ The CNCB AI Diagnosis dataset may be downloaded [here](http://ncov-ai.big.ac.cn/
 
 To prepare the dataset for training/validation/testing, run:
 ```
-python prepare_CNCB_data.py <CNCB root> -o <output directory>
+python prepare_data.py <CNCB root> -o <output directory>
 ```
 This will construct the COVIDx-CT dataset in `<output directory>`. Data split files are provided in this repo, namely `train_COVIDx-CT.txt`, `val_COVIDx-CT.txt`, and `test_COVIDx-CT.txt`.
 
