@@ -50,7 +50,7 @@ def parse_args(args):
         parser.add_argument('-ac', '--auto_crop', action='store_true',
                             help='Flag to attempt automatic cropping of the image')
     elif args[0] in ('-h', '--help'):
-        print('COVIDNet-CT Train/Test/Infer Script\nUse run_covid_ct.py {train, test, infer} -h '
+        print('COVIDNet-CT Train/Test/Infer Script\nUse run_covidnet_ct.py {train, test, infer} -h '
               'to see help message for each run option')
         sys.exit(0)
     else:
