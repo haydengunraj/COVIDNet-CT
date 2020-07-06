@@ -4,7 +4,8 @@ The networks take as input an image of shape (N, 512, 512, 3) and output the sof
 * input tensor: `Placeholder:0`
 * label tensor: `Placeholder_1:0`
 * logit tensor: `resnet_model/final_dense:0`
-* output tensor: `softmax_tensor:0`
+* output confidence tensor: `softmax_tensor:0`
+* output prediction tensor: `ArgMax:0`
 * loss tensor: `add:0`
 * training tensor: `is_training:0`
 
