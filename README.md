@@ -5,7 +5,7 @@
 <p align="center">
 	<img src="assets/exp-covidnet-ct-b.png" alt="photo not available" width="90%" height="40%">
 	<br>
-	<em>Example CT scan of a COVID-19 case and its associated critical factors (highlighted in red) as identified by GSInquire.</em>
+	<em>Example CT scans of COVID-19 cases and their associated critical factors (highlighted in red) as identified by GSInquire.</em>
 </p>
 
 Inspired by the open source efforts of the research community, we introduce COVIDNet-CT, a deep convolutional neural network design tailored for the detection of COVID-19 cases from chest CT images that is open source and available to the general public. COVIDNet-CT models were trained on COVIDx-CT, an open access benchmark dataset that we generated from open source datasets which is comprised of 104,009 CT images from 1,489 patients. Furthermore, we investigate how COVIDNet-CT makes predictions using an explainability method in an attempt to not only gain deeper insights into critical factors associated with COVID-19 cases, which can aid clinicians in improved screening, but also audit COVIDNet-CT in a responsible and transparent manner to validate that it is making decisions based on relevant information from the CT images. **By no means a production-ready solution**, the hope is that the open access COVIDNet-CT models, along with the description on constructing the dataset, will be leveraged and built upon by both researchers and citizen data scientists alike to accelerate the development of highly accurate yet practical deep learning solutions for detecting COVID-19 cases and accelerate treatment of those who need it the most.
