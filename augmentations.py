@@ -1,6 +1,8 @@
 import math
 import tensorflow as tf
 
+from data_utils import exterior_exclusion
+
 
 def random_rotation(image, max_degrees, bbox=None, prob=0.5):
     """Applies random rotation to image and bbox"""
@@ -37,7 +39,7 @@ def random_rotation(image, max_degrees, bbox=None, prob=0.5):
 
 
 def random_bbox_jitter(bbox, image_height, image_width, max_fraction, prob=0.5):
-    """Jitters bbox coordinates by +/- jitter_fraction of the width/height"""
+    """Randomly jitters bbox coordinates by +/- jitter_fraction of the width/height"""
     def _bbox_jitter(bbox):
         bbox = tf.cast(bbox, tf.float32)
         width_jitter = max_fraction*(bbox[2] - bbox[0])
@@ -67,7 +69,7 @@ def random_shift_and_scale(image, max_shift, max_scale_change, prob=0.5):
 
 
 def random_shear(image, max_lambda, bbox=None, prob=0.5):
-    """Applies shear in either the x or y direction"""
+    """Applies random shear in either the x or y direction"""
     shear_lambda = tf.random.uniform([], minval=-max_lambda, maxval=max_lambda, dtype=tf.float32)
     image_shape = tf.cast(tf.shape(image), tf.float32)
     image_height, image_width = image_shape[0], image_shape[1]
@@ -93,6 +95,16 @@ def random_shear(image, max_lambda, bbox=None, prob=0.5):
 
     retval = image if bbox is None else (image, bbox)
     return tf.cond(_should_apply(prob), lambda: _shear(image, bbox), lambda: retval)
+
+
+def random_exterior_exclusion(image, prob=0.5):
+    """Randomly removes visual features exterior to the patient's body"""
+    def _exterior_exclusion(image):
+        shape = image.get_shape()
+        image = tf.py_func(exterior_exclusion, [image], tf.uint8)
+        image.set_shape(shape)
+        return image
+    return tf.cond(_should_apply(prob), lambda: _exterior_exclusion(image), lambda: image)
 
 
 def _translate_image(image, delta_x, delta_y):

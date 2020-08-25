@@ -71,3 +71,24 @@ def multi_ext_file_iter(directory, extensions):
     patterns = ['*.' + ext.lower() for ext in extensions]
     return itertools.chain.from_iterable(
         glob.iglob(os.path.join(directory, pat)) for pat in patterns)
+
+
+def exterior_exclusion(image):
+    """Removes visual features exterior to the patient's body"""
+    # Create initial binary image
+    filt_image = cv2.GaussianBlur(image, (5, 5), 0)
+    thresh = cv2.threshold(filt_image[filt_image > 0], 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[0]
+    bin_image = filt_image > thresh
+
+    # Find body contour
+    body_cont = body_contour(bin_image.astype(np.uint8))
+
+    # Exclude external regions by replacing with bg mean
+    body_mask = np.zeros(image.shape, dtype=np.uint8)
+    cv2.drawContours(body_mask, [body_cont], 0, 1, -1)
+    body_mask = body_mask.astype(bool)
+    bg_mask = (~body_mask) & (image > 0)
+    bg_dark = bg_mask & ~bin_image  # exclude bright regions from mean
+    bg_mean = np.mean(image[bg_dark])
+    image[bg_mask] = bg_mean
+    return image

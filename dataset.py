@@ -93,6 +93,7 @@ class COVIDxCTDataset:
         """Apply augmentations to image and bbox"""
         image_shape = tf.cast(tf.shape(image), tf.float32)
         image_height, image_width = image_shape[0], image_shape[1]
+        image = augmentations.random_exterior_exclusion(image)
         bbox = augmentations.random_bbox_jitter(bbox, image_height, image_width, self.max_bbox_jitter)
         image, bbox = augmentations.random_rotation(image, self.max_rotation, bbox)
         image, bbox = augmentations.random_shear(image, self.max_shear, bbox)
