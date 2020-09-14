@@ -16,8 +16,6 @@ from dataset import COVIDxCTDataset
 from data_utils import auto_body_crop
 from utils import parse_args
 
-slim = tf.contrib.slim
-
 # Dict keys
 TRAIN_OP_KEY = 'train_op'
 TF_SUMMARY_KEY = 'tf_summaries'
