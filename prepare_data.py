@@ -6,7 +6,7 @@ import argparse
 import data_utils
 
 
-IMG_EXTENSIONS = ('png', 'jpg', 'jpeg', 'tif')
+IMG_EXTENSIONS = ('png', 'jpg', 'jpeg', 'tif', 'bmp')
 CLASS_MAP = {'Normal': 0, 'CP': 1, 'NCP': 2}
 
 

@@ -68,7 +68,10 @@ def auto_body_crop(image, scale=1.0):
 
 def multi_ext_file_iter(directory, extensions):
     """Creates a multi-extension file iterator"""
-    patterns = ['*.' + ext.lower() for ext in extensions]
+    extensions = set(ext.lower() for ext in extensions)
+    patterns = ['*.' + ext for ext in extensions]
+    if os.name != 'nt':  # on non-Windows OS, file extensions are case sensitive
+        patterns += ['*.' + ext.upper() for ext in extensions]
     return itertools.chain.from_iterable(
         glob.iglob(os.path.join(directory, pat)) for pat in patterns)
 
