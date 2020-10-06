@@ -5,8 +5,6 @@ import argparse
 
 import data_utils
 
-
-IMG_EXTENSIONS = ('png', 'jpg', 'jpeg', 'tif', 'bmp')
 CLASS_MAP = {'Normal': 0, 'CP': 1, 'NCP': 2}
 
 
@@ -41,7 +39,7 @@ def get_files(lesion_file, unzip_file, exclude_file, root_dir):
 def get_source_paths(root_dir, cls, pid, sid):
     """Helper function to construct source paths"""
     exam_dir = os.path.join(root_dir, cls, pid, sid)
-    return list(data_utils.multi_ext_file_iter(exam_dir, IMG_EXTENSIONS))
+    return list(data_utils.multi_ext_file_iter(exam_dir, data_utils.IMG_EXTENSIONS))
 
 
 def make_output_path(output_dir, source_path):

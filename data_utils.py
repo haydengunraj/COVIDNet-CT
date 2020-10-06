@@ -4,6 +4,8 @@ import glob
 import itertools
 import numpy as np
 
+IMG_EXTENSIONS = ('png', 'jpg', 'jpeg', 'tif', 'bmp')
+
 
 def hu_to_uint8(hu_images, window_width, window_center):
     """Converts HU images to uint8 images"""
@@ -80,6 +82,7 @@ def exterior_exclusion(image):
     """Removes visual features exterior to the patient's body"""
     # Create initial binary image
     filt_image = cv2.GaussianBlur(image, (5, 5), 0)
+    filt_image.shape = image.shape  # ensure channel dimension is preserved if present
     thresh = cv2.threshold(filt_image[filt_image > 0], 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[0]
     bin_image = filt_image > thresh
 
@@ -91,7 +94,7 @@ def exterior_exclusion(image):
     cv2.drawContours(body_mask, [body_cont], 0, 1, -1)
     body_mask = body_mask.astype(bool)
     bg_mask = (~body_mask) & (image > 0)
-    bg_dark = bg_mask & ~bin_image  # exclude bright regions from mean
+    bg_dark = bg_mask & (~bin_image)  # exclude bright regions from mean
     bg_mean = np.mean(image[bg_dark])
     image[bg_mask] = bg_mean
     return image

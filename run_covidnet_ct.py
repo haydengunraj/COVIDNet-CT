@@ -89,7 +89,7 @@ class Metrics:
 
 class COVIDNetCTRunner:
     """Primary training/testing/inference class"""
-    def __init__(self, meta_file, ckpt=None, data_dir=None, input_height=224, input_width=224, max_bbox_jitter=0.025,
+    def __init__(self, meta_file, ckpt=None, data_dir=None, input_height=512, input_width=512, max_bbox_jitter=0.025,
                  max_rotation=10, max_shear=0.15, max_pixel_shift=10, max_pixel_scale_change=0.2):
         self.meta_file = meta_file
         self.ckpt = ckpt
@@ -249,7 +249,7 @@ class COVIDNetCTRunner:
             # Run image through model
             class_, probs = sess.run([CLASS_PRED_TENSOR, CLASS_PROB_TENSOR], feed_dict=feed_dict)
             print('\nPredicted Class: ' + CLASS_NAMES[class_[0]])
-            print('Confidences:' + ', '.join(
+            print('Confidences: ' + ', '.join(
                 '{}: {}'.format(name, conf) for name, conf in zip(CLASS_NAMES, probs[0])))
             print('**DISCLAIMER**')
             print('Do not use this prediction for self-diagnosis. '
