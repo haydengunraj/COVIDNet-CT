@@ -118,7 +118,7 @@ class COVIDNetCTRunner:
 
             # Load meta file
             print('Loading meta graph from ' + self.meta_file)
-            saver = tf.train.import_meta_graph(self.meta_file)
+            saver = tf.train.import_meta_graph(self.meta_file, clear_devices=True)
         return graph, sess, saver
 
     def load_ckpt(self, sess, saver):
@@ -135,6 +135,9 @@ class COVIDNetCTRunner:
         ckpt_path = os.path.join(output_dir, CKPT_NAME)
         graph, sess, saver = self.load_graph()
         with graph.as_default():
+            # Save graph without optimizer
+            tf.train.export_meta_graph(filename=os.path.join(output_dir, 'model.meta'))
+
             # Create optimizer
             optimizer = tf.train.MomentumOptimizer(
                 learning_rate=learning_rate,
@@ -177,7 +180,7 @@ class COVIDNetCTRunner:
             # Baseline saving and validation
             print('Saving baseline checkpoint')
             saver = tf.train.Saver()
-            saver.save(sess, ckpt_path, global_step=0)
+            saver.save(sess, ckpt_path, global_step=0, write_meta_graph=False)
             print('Starting baseline validation')
             metrics = run_validation()
             self._log_and_print_metrics(metrics, 0, summary_writer)
@@ -198,14 +201,14 @@ class COVIDNetCTRunner:
                     print('[step: {}, loss: {}]'.format(step, results[LOSS_KEY]))
                 if step % save_interval == 0:
                     print('Saving checkpoint at step {}'.format(step))
-                    saver.save(sess, ckpt_path, global_step=step)
+                    saver.save(sess, ckpt_path, global_step=step, write_meta_graph=False)
                 if val_interval > 0 and step % val_interval == 0:
                     print('Starting validation at step {}'.format(step))
                     metrics = run_validation()
                     self._log_and_print_metrics(metrics, step, summary_writer)
 
             print('Saving checkpoint at last step')
-            saver.save(sess, ckpt_path, global_step=num_iters)
+            saver.save(sess, ckpt_path, global_step=num_iters, write_meta_graph=False)
 
     def test(self, batch_size=1, test_split_file='test.txt', plot_confusion=False):
         """Run test on a checkpoint"""
