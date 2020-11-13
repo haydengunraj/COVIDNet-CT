@@ -5,6 +5,8 @@ import itertools
 import numpy as np
 
 IMG_EXTENSIONS = ('png', 'jpg', 'jpeg', 'tif', 'bmp')
+HU_WINDOW_WIDTH = 1500
+HU_WINDOW_CENTER = -600
 
 
 def hu_to_uint8(hu_images, window_width, window_center):
@@ -14,7 +16,7 @@ def hu_to_uint8(hu_images, window_width, window_center):
     return uint8_images
 
 
-def ensure_uint8(data, window_width=1500, window_center=-600):
+def ensure_uint8(data, window_width=HU_WINDOW_WIDTH, window_center=HU_WINDOW_CENTER):
     """Converts non-uint8 data to uint8 and applies window level to HU data"""
     if data.dtype != np.uint8:
         if data.ptp() > 255:
