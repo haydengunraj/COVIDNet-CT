@@ -2,6 +2,8 @@
 
 **Note: The COVIDNet-CT models provided here are intended to be used as reference models that can be built upon and enhanced as new data becomes available. They are currently at a research stage and not yet intended as production-ready models (not meant for direct clinical diagnosis), and we are working continuously to improve them as new data becomes available. Please do not use COVIDNet-CT for self-diagnosis and seek help from your local health authorities.**
 
+**Update 2020-12-03:** We moved the COVIDx-CT v1 dataset to [Kaggle](https://www.kaggle.com/hgunraj/covidxct)
+
 **Update 2020-09-13:** We released the [COVIDNet-CT paper](https://arxiv.org/abs/2009.05383).
 
 <p align="center">
@@ -25,19 +27,37 @@ If there are any technical questions after the README, FAQ, and past/current iss
 * linda.wang513@gmail.com
 * jamesrenhoulee@gmail.com
 
+If you find our work useful, you can cite our paper using:
+
+```
+@Article{Gunraj2020,
+    author={Gunraj, Hayden and Wang, Linda and Wong, Alexander},
+    title={{COVIDNet-CT}: A Tailored Deep Convolutional Neural Network Design for Detection of {COVID}-19 Cases from Chest {CT} Images},
+    journal={Frontiers in Medicine},
+    year={forthcoming},
+    doi={10.3389/fmed.2020.608525},
+    url={https://doi.org/10.3389/fmed.2020.608525}
+}
+```
+
 ## Core COVID-Net Team
 * DarwinAI Corp., Canada and Vision and Image Processing Research Group, University of Waterloo, Canada
-	* Linda Wang
-	* Alexander Wong
-	* Zhong Qiu Lin
-	* James Lee
-	* Paul McInnis
-	* Audrey Chung
-	* Hayden Gunraj, COVIDNet for CT
-* Matt Ross and Blake VanBerlo (City of London), COVID-19 Chest X-Ray Model: https://github.com/aildnont/covid-cxr
-* Ashkan Ebadi (National Research Council Canada)
+  * Linda Wang
+  * Alexander Wong
+  * Zhong Qiu Lin
+  * Paul McInnis
+  * Audrey Chung
+  * Melissa Rinch
+  * Maya Pavlova
+  * Naomi Terhljan
+  * Hayden Gunraj, [COVIDNet for CT](https://github.com/haydengunraj/COVIDNet-CT)
+  * Jeffer Peng, [COVIDNet UI](https://github.com/darwinai/covidnet_ui)
+* Vision and Image Processing Research Group, University of Waterloo, Canada
+  * James Lee
+  * Hossain Aboutaleb 
+* Ashkan Ebadi and Pengcheng Xi (National Research Council Canada)
 * Kim-Ann Git (Selayang Hospital)
-* Abdul Al-Haimi
+* Abdul Al-Haimi, [COVID-19 ShuffleNet Chest X-Ray Model](https://github.com/aalhaimi/covid-net-cxr-shuffle)
 
 ## Table of Contents
 1. [Requirements](#requirements) to install on your system
