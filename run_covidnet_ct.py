@@ -81,7 +81,7 @@ class Metrics:
         }
         sensitivity = np.diag(conf_matrix) / np.maximum(conf_matrix.sum(axis=1), 1)
         pos_pred_val = np.diag(conf_matrix) / np.maximum(conf_matrix.sum(axis=0), 1)
-        for cls, idx, sens, ppv in zip(self.class_names, self.labels, sensitivity, pos_pred_val):
+        for cls, idx in zip(self.class_names, self.labels):
             metrics['{} {}'.format(cls, 'sensitivity')] = sensitivity[idx]
             metrics['{} {}'.format(cls, 'PPV')] = pos_pred_val[idx]
         return metrics
@@ -249,6 +249,13 @@ class COVIDNetCTRunner:
             # Load checkpoint
             self.load_ckpt(sess, saver)
 
+            # Add training placeholder if present
+            try:
+                sess.graph.get_tensor_by_name(TRAINING_PH_TENSOR)
+                feed_dict[TRAINING_PH_TENSOR] = False
+            except KeyError:
+                pass
+
             # Run image through model
             class_, probs = sess.run([CLASS_PRED_TENSOR, CLASS_PROB_TENSOR], feed_dict=feed_dict)
             print('\nPredicted Class: ' + CLASS_NAMES[class_[0]])
@@ -272,7 +279,14 @@ class COVIDNetCTRunner:
 
         # Create feed and fetch dicts
         fetch_dict = {'classes': CLASS_PRED_TENSOR}
-        feed_dict = {TRAINING_PH_TENSOR: False}
+        feed_dict = {}
+
+        # Add training placeholder if present
+        try:
+            sess.graph.get_tensor_by_name(TRAINING_PH_TENSOR)
+            feed_dict[TRAINING_PH_TENSOR] = False
+        except KeyError:
+            pass
 
         def run_validation():
             metrics.reset()

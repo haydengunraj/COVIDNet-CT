@@ -2,6 +2,10 @@
 
 **Note: The COVIDNet-CT models provided here are intended to be used as reference models that can be built upon and enhanced as new data becomes available. They are currently at a research stage and not yet intended as production-ready models (not meant for direct clinical diagnosis), and we are working continuously to improve them as new data becomes available. Please do not use COVIDNet-CT for self-diagnosis and seek help from your local health authorities.**
 
+**Update 2020-12-18:** We released the [COVIDx-CT v2]() dataset on Kaggle.
+
+**Update 2020-12-03:** We released the [COVIDx-CT v1](https://www.kaggle.com/dataset/c395fb339f210700ba392d81bf200f766418238c2734e5237b5dd0b6fc724fcb/version/1) dataset on Kaggle.
+
 **Update 2020-09-13:** We released the [COVIDNet-CT paper](https://arxiv.org/abs/2009.05383).
 
 <p align="center">

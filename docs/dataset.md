@@ -2,8 +2,8 @@
 COVIDx-CT, an open access benchmark dataset that we generated from open source datasets, currently comprises 126,191 CT slices from 2,308 patients. We will be adding to COVIDx-CT over time to improve the dataset.
 
 ## Downloading the Dataset
-The easiest way to use the COVIDx-CT dataset is by downloading it directly from [Kaggle](). Links to different versions are provided below:
-* [COVIDx-CT v1]()
+The easiest way to use the COVIDx-CT dataset is by downloading it directly from [Kaggle](https://www.kaggle.com/hgunraj/covidxct). Links to different versions are provided below:
+* [COVIDx-CT v1](https://www.kaggle.com/dataset/c395fb339f210700ba392d81bf200f766418238c2734e5237b5dd0b6fc724fcb/version/1)
 * [COVIDx-CT v2]()
 
 ## Creating the Dataset from Scratch
