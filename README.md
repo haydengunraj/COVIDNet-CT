@@ -2,7 +2,7 @@
 
 **Note: The COVIDNet-CT models provided here are intended to be used as reference models that can be built upon and enhanced as new data becomes available. They are currently at a research stage and not yet intended as production-ready models (not meant for direct clinical diagnosis), and we are working continuously to improve them as new data becomes available. Please do not use COVIDNet-CT for self-diagnosis and seek help from your local health authorities.**
 
-**Update 2020-12-18:** We released the [COVIDx-CT v2]() dataset on Kaggle.
+**Update 2020-12-XX:** We released the [COVIDx-CT v2]() dataset on Kaggle.
 
 **Update 2020-12-03:** We released the [COVIDx-CT v1](https://www.kaggle.com/dataset/c395fb339f210700ba392d81bf200f766418238c2734e5237b5dd0b6fc724fcb/version/1) dataset on Kaggle.
 
@@ -28,6 +28,19 @@ If there are any technical questions after the README, FAQ, and past/current iss
 * haydengunraj@gmail.com
 * linda.wang513@gmail.com
 * jamesrenhoulee@gmail.com
+
+If you find our work useful, you can cite our paper using:
+
+```
+@Article{Gunraj2020,
+    author={Gunraj, Hayden and Wang, Linda and Wong, Alexander},
+    title={{COVIDNet-CT}: A Tailored Deep Convolutional Neural Network Design for Detection of {COVID}-19 Cases from Chest {CT} Images},
+    journal={Frontiers in Medicine},
+    year={forthcoming},
+    doi={10.3389/fmed.2020.608525},
+    url={https://doi.org/10.3389/fmed.2020.608525}
+}
+```
 
 ## Core COVID-Net Team
 * DarwinAI Corp., Canada and Vision and Image Processing Research Group, University of Waterloo, Canada
