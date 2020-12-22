@@ -1,0 +1,119 @@
+rID,studyID,stack index,slice indices,sex,age,finding,view,modality,aux modality,attribution
+74560,85486,1,18:46,F,60,COVID-19,Axial,CT,lung window,Case courtesy of Dr Bahman Rasuli - Radiopaedia.org - rID: 74560
+74576,85506,0,9:32,M,50,COVID-19,Axial,CT,lung window,Case courtesy of Dr Bahman Rasuli - Radiopaedia.org - rID: 74576
+74724,85703,0,2:41,M,70,COVID-19,Axial,CT,lung window,Case courtesy of Dr Domenico Nicoletti - Radiopaedia.org - rID: 74724
+74867,85885,0,0:98,M,75,COVID-19,Axial,CT,lung window,Case courtesy of Dr Fabio Macori - Radiopaedia.org - rID: 74867
+74868,85889,1,6:19,M,45,COVID-19,Axial,CT,lung window,Case courtesy of Dr Fateme Hosseinabadi - Radiopaedia.org - rID: 74868
+74879,85902,1,21:32,M,25,COVID-19,Axial,CT,lung window,Case courtesy of Dr Bahman Rasuli - Radiopaedia.org - rID: 74879
+74880,85903,1,8:27,F,55,COVID-19,Axial,CT,lung window,Case courtesy of Dr Bahman Rasuli - Radiopaedia.org - rID: 74880
+74887,85914,0,2:109,F,70,COVID-19,Axial,CT,lung window,Case courtesy of Dr Fabio Macori - Radiopaedia.org - rID: 74887
+75249,86359,0,7:77,M,70,COVID-19,Axial,CT,lung window,Case courtesy of Dr Derek Smith - Radiopaedia.org - rID: 75249
+75281,86410,0,22:57,M,80,COVID-19,Axial,CT,lung window,Case courtesy of Dr Kenan Cetinoglu - Radiopaedia.org - rID: 75281
+75329,86491,1,20:27,F,50,COVID-19,Axial,CT,lung window,Case courtesy of Dr Bahman Rasuli - Radiopaedia.org - rID: 75329
+75330,86494,0,7:37,M,55,COVID-19,Axial,CT,lung window,Case courtesy of Dr Bahman Rasuli - Radiopaedia.org - rID: 75330
+75344,86517,0,9:41,M,50,COVID-19,Axial,CT,lung window,Case courtesy of Dr Domenico Nicoletti - Radiopaedia.org - rID: 75344
+75345,86520,0,7:35,M,75,COVID-19,Axial,CT,lung window,Case courtesy of Dr Domenico Nicoletti - Radiopaedia.org - rID: 75345
+75349,86525,1,0:19,M,70,COVID-19,Axial,CT,lung window,Case courtesy of Dr Ali Mashalla Ahre - Radiopaedia.org - rID: 75349
+75417,86625,0,10:80,F,35,COVID-19,Axial,CT,lung window,Case courtesy of Henri Vandermeulen - Radiopaedia.org - rID: 75417
+75420,86640,0,0:0,M,85,COVID-19,Axial,CT,lung window,Case courtesy of Dr Roma Patel - Radiopaedia.org - rID: 75420
+75541,86789,1,6:91,M,85,COVID-19,Axial,CT,lung window,Case courtesy of Dr Joachim Feger - Radiopaedia.org - rID: 75541
+75596,86884,1,52:60,M,65,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 75596
+75605,86912,1,7:58,F,60,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 75605
+75606,86913,1,28:41,F,50,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 75606
+75607,86914,1,15:63,M,75,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 75607
+75647,86969,0,17:88,,,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad A. ElBeialy - Radiopaedia.org - rID: 75647
+75658,86983,1,9:58,M,35,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 75658
+75659,86984,1,25:59,M,45,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 75659
+75660,86985,1,34:37,M,55,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 75660
+75661,86986,1,32:48,F,50,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 75661
+75662,86987,1,11:43,M,65,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 75662
+75665,86991,1,4:9/13:16,F,70,COVID-19,Axial,CT,lung window,Case courtesy of Dr Ammar Haouimi - Radiopaedia.org - rID: 75665
+75682,87014,1,5:71,M,45,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 75682
+75683,87015,1,30:57,F,30,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 75683
+75684,87017,1,18:49,M,45,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 75684
+75706,87045,1,25:36,F,55,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 75706
+75769,87128,1,23:30,F,30,COVID-19,Axial,CT,lung window,Case courtesy of Dr Bahman Rasuli - Radiopaedia.org - rID: 75769
+75770,87129,1,16:24,M,45,COVID-19,Axial,CT,lung window,Case courtesy of Dr Bahman Rasuli - Radiopaedia.org - rID: 75770
+75771,87130,0,11:33,M,70,COVID-19,Axial,CT,lung window,Case courtesy of Dr Bahman Rasuli - Radiopaedia.org - rID: 75771
+75826,87203,0,17:32,F,60,COVID-19,Axial,CT,lung window,Case courtesy of Dr Jorgen Stromberg - Radiopaedia.org - rID: 75826
+75829,87207,1,26:33,F,45,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 75829
+76569,88332,1,14:15,M,35,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 76569
+76340,87998,1,38:68,M,65,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 76340
+76339,87997,1,18:45,M,55,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 76339
+76338,87996,1,43:73,M,65,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 76338
+76335,87994,1,18:24/52:63,F,35,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 76335
+76334,87993,1,42:66,M,75,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 76334
+76333,87992,1,14:67,M,85,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 76333
+76332,87991,1,28:49,M,45,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 76332
+75999,87461,1,37:45/56:67,M,65,COVID-19,Axial,CT,lung window,Case courtesy of Dr Mohammad Taghi Niknejad - Radiopaedia.org - rID: 75999
+75768,87127,1,10:35,M,55,COVID-19,Axial,CT,lung window,Case courtesy of Dr Bahman Rasuli - Radiopaedia.org - rID: 75768
+76023,87500,1,9:37,M,50,COVID-19,Axial,CT,lung window,Case courtesy of Dr Bahman Rasuli - Radiopaedia.org - rID: 76023
+76250,87846,1,3:29,F,80,COVID-19,Axial,CT,lung window,Case courtesy of Dr Bahman Rasuli - Radiopaedia.org - rID: 76250
+76252,87849,1,19:20/26:30,M,25,COVID-19,Axial,CT,lung window,Case courtesy of Dr Bahman Rasuli - Radiopaedia.org - rID: 76252
+76331,87990,1,9:9/11:23/25:26,F,30,COVID-19,Axial,CT,lung window,Case courtesy of Dr Bahman Rasuli - Radiopaedia.org - rID: 76331
+76466,88192,1,16:31,M,35,COVID-19,Axial,CT,lung window,Case courtesy of Dr Bahman Rasuli - Radiopaedia.org - rID: 76466
+76464,88189,1,12:31,M,60,COVID-19,Axial,CT,lung window,Case courtesy of Dr Bahman Rasuli - Radiopaedia.org - rID: 76464
+76295,87917,1,7:19,F,50,COVID-19,Axial,CT,lung window,Case courtesy of Dr Ammar Haouimi - Radiopaedia.org - rID: 76295
+76553,88316,0,2:26,F,55,COVID-19,Axial,CT,lung window,Case courtesy of Dr Ammar Haouimi - Radiopaedia.org - rID: 76553
+76559,88322,0,2:30,M,55,COVID-19,Axial,CT,lung window,Case courtesy of Dr Ammar Haouimi - Radiopaedia.org - rID: 76559
+76561,88324,0,1:32,M,65,COVID-19,Axial,CT,lung window,Case courtesy of Dr Ammar Haouimi - Radiopaedia.org - rID: 76561
+76307,87944,1,42:49,M,70,COVID-19,Axial,CT,lung window,Case courtesy of Dr Joachim Feger - Radiopaedia.org - rID: 76307
+76307,87945,1,7:69,M,70,COVID-19,Axial,CT,lung window,Case courtesy of Dr Joachim Feger - Radiopaedia.org - rID: 76307
+76604,88380,4,17:50,M,40,COVID-19,Axial,CT,lung window,Case courtesy of Dr Ahmed Samir Mehany - Radiopaedia.org - rID: 76604
+76319,87971,0,5:43,F,70,COVID-19,Axial,CT,lung window,Case courtesy of Dr Vitalii Rogalskyi - Radiopaedia.org - rID: 76319
+76319,87972,0,10:32,F,70,COVID-19,Axial,CT,lung window,Case courtesy of Dr Vitalii Rogalskyi - Radiopaedia.org - rID: 76319
+76669,88485,0,8:26,M,50,COVID-19,Axial,CT,lung window,Case courtesy of Dr Khalid Alhusseiny - Radiopaedia.org - rID: 76669
+76222,87801,0,0:33,M,50,COVID-19,Axial,CT,lung window,Case courtesy of Dr Fakhry Mahmoud Ebouda - Radiopaedia.org - rID: 76222
+75792,87161,0,4:29/35:37,M,45,COVID-19,Axial,CT,lung window,Case courtesy of Dr. Mirian Oscco - Radiopaedia.org - rID: 75792
+76015,87486,0,13:51,M,65,COVID-19,Axial,CT,lung window,Case courtesy of Dr Elshan Abdullayev - Radiopaedia.org - rID: 76015
+43325,46670,0,0:78,M,40,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Abdallah Al Khateeb - Radiopaedia.org - rID: 43325
+29090,29465,0,1:39,F,25,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Jack Ren - Radiopaedia.org - rID: 29090
+29090,29466,0,3:45,F,25,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Jack Ren - Radiopaedia.org - rID: 29090
+75217,86315,0,21:79,F,60,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Joachim Feger - Radiopaedia.org - rID: 75217
+48568,53548,0,9:12,M,50,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Domenico Nicoletti - Radiopaedia.org - rID: 48568
+48568,53550,0,5:9,M,50,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Domenico Nicoletti - Radiopaedia.org - rID: 48568
+49397,54521,0,9:47,M,50,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Henry Knipe - Radiopaedia.org - rID: 49397
+45780,50013,0,17:41,M,60,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Henry Knipe - Radiopaedia.org - rID: 45780
+49398,54524,0,6:39,M,60,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Henry Knipe - Radiopaedia.org - rID: 49398
+21992,21987,0,1:41,M,50,Pneumonia,Axial,CT,lung window,Case courtesy of Royal Melbourne Hospital Respiratory - Radiopaedia.org - rID: 21992
+45998,50329,0,9:33,M,60,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Henry Knipe - Radiopaedia.org - rID: 45998
+39331,41587,0,2:41,M,40,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Henry Knipe - Radiopaedia.org - rID: 39331
+32802,33774,0,8:34,M,50,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Eric F Greif - Radiopaedia.org - rID: 32802
+40244,42786,0,6:46,M,70,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Henry Knipe - Radiopaedia.org - rID: 40244
+15025,14922,0,0:10,M,35,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Martin Carnevale - Radiopaedia.org - rID: 15025
+8545,9385,1,0:13,,,Pneumonia,Axial,CT,lung window,Case courtesy of Assoc Prof Frank Gaillard - Radiopaedia.org - rID: 8545
+21993,21989,0,2:32,M,50,Pneumonia,Axial,CT,lung window,Case courtesy of Royal Melbourne Hospital Respiratory - Radiopaedia.org - rID: 21993
+26533,26666,0,3:40,M,39,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Paul Leong - Radiopaedia.org - rID: 26533
+72802,83475,0,46:49,F,65,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Andrei Dumitrescu - Radiopaedia.org - rID: 72802
+50499,55913,0,8:79,M,65,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Abdallah Al Khateeb  - Radiopaedia.org - rID: 50499
+75054,86111,1,1:29,M,70,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Hidayatullah Hamidi - Radiopaedia.org - rID: 75054
+32998,34009,4,0:43,M,55,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Chris O'Donnell - Radiopaedia.org - rID: 32998
+39199,41427,1,5:25,M,75,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Prashant  Mudgal - Radiopaedia.org - rID: 39199
+50806,56291,0,28:53,F,75,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Luke Danaher - Radiopaedia.org - rID: 50806
+34413,35725,0,27:38,F,70,Pneumonia,Axial,CT,lung window,Case courtesy of RMH Core Conditions - Radiopaedia.org - rID: 34413
+21994,21991,0,25:41,M,75,Pneumonia,Axial,CT,lung window,Case courtesy of Royal Melbourne Hospital Respiratory - Radiopaedia.org - rID: 21994
+47738,52440,0,12:30,M,60,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Henry Knipe - Radiopaedia.org - rID: 47738
+46018,50356,0,13:28,M,61,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Alborz Jahangiri - Radiopaedia.org - rID: 46018
+61963,70024,0,6:16,M,50,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Bruno Di Muzio - Radiopaedia.org - rID: 61963
+28316,28557,0,24:56,M,60,Pneumonia,Axial,CT,lung window,Case courtesy of RMH Core Conditions - Radiopaedia.org - rID: 28316
+27858,28102,1,6:104,M,50,Pneumonia,Axial,CT,lung window,Case courtesy of Dr David Cuete - Radiopaedia.org - rID: 27858
+54464,60682,0,1:28,M,70,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Nauman Akram - Radiopaedia.org - rID: 54464
+50836,56341,0,6:51,F,75,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Luke Danaher - Radiopaedia.org - rID: 50836
+62155,70266,2,4:39,M,65,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Bruno Di Muzio - Radiopaedia.org - rID: 62155
+75608,86919,1,51:83,M,19,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Ibrahim Al Sheikh Deeb - Radiopaedia.org - rID: 75608
+44224,47834,1,19:43,M,45,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Henry Knipe - Radiopaedia.org - rID: 44224
+38994,41188,0,0:4,F,73,Pneumonia,Axial,CT,lung window,Case courtesy of Dr David Pryde - Radiopaedia.org - rID: 38994
+30227,30851,1,10:86,M,65,Pneumonia,Axial,CT,lung window,Case courtesy of Dr David Cuete - Radiopaedia.org - rID: 30227
+14389,14317,1,3:33,F,60,Pneumonia,Axial,CT,lung window,Case courtesy of Dr Roberto Schubert - Radiopaedia.org - rID: 14389
+11516,49631,0,0:0,,,Pneumonia,Axial,CT,lung window,Case courtesy of Radswiki - Radiopaedia.org - rID: 11516
+11516,49631,1,0:0,,,Pneumonia,Axial,CT,lung window,Case courtesy of Radswiki - Radiopaedia.org - rID: 11516
+11516,49631,2,0:0,,,Pneumonia,Axial,CT,lung window,Case courtesy of Radswiki - Radiopaedia.org - rID: 11516
+8095,8929,0,5:38,F,35,Normal,Axial,CT,lung window,Case courtesy of Assoc Prof Frank Gaillard - Radiopaedia.org - rID: 8095
+36676,38239,1,2:37,M,25,Normal,Axial,CT,lung window,Case courtesy of Dr Andrew Dixon - Radiopaedia.org - rID: 36676
+40860,43528,1,1:25,F,30,Normal,Axial,CT,lung window,Case courtesy of Dr Bruno Di Muzio - Radiopaedia.org - rID: 40860
+41162,43947,2,0:26,F,35,Normal,Axial,CT,lung window,Case courtesy of Dr Bruno Di Muzio - Radiopaedia.org - rID: 41162
+52234,58114,0,4:80,M,50,Normal,Axial,CT,lung window,Case courtesy of Dr Yair Glick - Radiopaedia.org - rID: 52234
+52486,58404,0,2:46,M,40,Normal,Axial,CT,lung window,Case courtesy of Dr Ian Bickle - Radiopaedia.org - rID: 52486
+52522,58428,0,15:177,F,32,Normal,Axial,CT,lung window,Case courtesy of Dr Ian Bickle - Radiopaedia.org - rID: 52522
+54652,60866,1,5:59,M,30,Normal,Axial,CT,lung window,Case courtesy of Dr Henry Knipe - Radiopaedia.org - rID: 54652
+63459,72068,0,1:88,,,Normal,Axial,CT,lung window,Case courtesy of Assoc Prof Craig Hacking - Radiopaedia.org - rID: 63459
