@@ -4,9 +4,11 @@
 
 **Update 2020-12-XX:** We released the [COVIDNet-CT v2 models](docs/models.md) and [COVIDx-CT v2 A and B]() datasets.
 
+**Update 2020-12-23:** The [COVIDNet-CT paper](https://www.frontiersin.org/articles/10.3389/fmed.2020.608525) was published in Frontiers in Medicine.
+
 **Update 2020-12-03:** We released the [COVIDx-CT v1](https://www.kaggle.com/dataset/c395fb339f210700ba392d81bf200f766418238c2734e5237b5dd0b6fc724fcb/version/1) dataset on Kaggle.
 
-**Update 2020-09-13:** We released the [COVIDNet-CT paper](https://arxiv.org/abs/2009.05383).
+**Update 2020-09-13:** We released a preprint of the [COVIDNet-CT paper](https://arxiv.org/abs/2009.05383).
 
 <p align="center">
 	<img src="assets/exp-covidnet-ct-b.png" alt="photo not available" width="90%" height="40%">
@@ -34,13 +36,16 @@ If there are any technical questions after the README, FAQ, and past/current iss
 If you find our work useful, you can cite our paper using:
 
 ```
-@Article{Gunraj2020,
-    author={Gunraj, Hayden and Wang, Linda and Wong, Alexander},
-    title={{COVIDNet-CT}: A Tailored Deep Convolutional Neural Network Design for Detection of {COVID}-19 Cases from Chest {CT} Images},
-    journal={Frontiers in Medicine},
-    year={forthcoming},
-    doi={10.3389/fmed.2020.608525},
-    url={https://doi.org/10.3389/fmed.2020.608525}
+@article{Gunraj2020,
+  author={Gunraj, Hayden and Wang, Linda and Wong, Alexander},
+  title={COVIDNet-CT: A Tailored Deep Convolutional Neural Network Design for Detection of COVID-19 Cases From Chest CT Images},
+  journal={Frontiers in Medicine},
+  volume={7},
+  pages={1025},
+  year={2020},
+  url={https://www.frontiersin.org/article/10.3389/fmed.2020.608525},
+  doi={10.3389/fmed.2020.608525},
+  issn={2296-858X}
 }
 ```
 
