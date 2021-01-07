@@ -16,13 +16,15 @@ _PATCH_CASES = ['NCP_328_1805', 'CP_1781_3567', 'CP_1769_3516', 'NCP_1058_2635',
                 'NCP_868_2395', 'NCP_868_2396', 'NCP_869_2397', 'NCP_911_2453']
 
 
-def process_cncb_data(cncb_exclude_file, cncb_dir, output_dir):
+def process_cncb_data(cncb_exclude_file, cncb_dir, output_dir, extra_lesion_files=None):
     """Process slices for all included CNCB studies"""
     # Get file paths
-    lesion_file = os.path.join(cncb_dir, _LESION_FILE)
+    lesion_files = [os.path.join(cncb_dir, _LESION_FILE)]
+    if extra_lesion_files is not None:
+        lesion_files += extra_lesion_files
     unzip_file = os.path.join(cncb_dir, _UNZIP_FILE)
     # exclude_file = os.path.join(cncb_dir, _EXCLUDE_FILE)
-    image_files, classes = _get_files(lesion_file, unzip_file, cncb_exclude_file, cncb_dir)
+    image_files, classes = _get_files(lesion_files, unzip_file, cncb_exclude_file, cncb_dir)
 
     # Write to new files as PNGs
     for imf in tqdm(image_files):
@@ -36,29 +38,30 @@ def process_cncb_data(cncb_exclude_file, cncb_dir, output_dir):
     return image_files, classes
 
 
-def _get_lesion_files(lesion_file, exclude_list, root_dir):
-    """Reads the lesion file to identify relevant
+def _get_lesion_files(lesion_files, exclude_list, root_dir):
+    """Reads the lesion files to identify relevant
     slices and returns their paths"""
     files, classes = [], []
-    with open(lesion_file, 'r') as f:
-        f.readline()
-        for line in f.readlines():
-            cls, pid, sid = line.split('/')[:3]
-            if pid not in exclude_list:
-                # Patch to remove a few erroneous files
-                case_str = '{}_{}_{}'.format(cls, pid, sid)
-                if case_str in _PATCH_CASES:
-                    continue
+    for lesion_file in lesion_files:
+        with open(lesion_file, 'r') as f:
+            f.readline()
+            for line in f.readlines():
+                cls, pid, sid = line.split('/')[:3]
+                if pid not in exclude_list:
+                    # Patch to remove a few erroneous files
+                    case_str = '{}_{}_{}'.format(cls, pid, sid)
+                    if case_str in _PATCH_CASES:
+                        continue
 
-                files.append(os.path.join(root_dir, line.strip('\n')))
-                classes.append(_CLASS_MAP[cls])
+                    files.append(os.path.join(root_dir, line.strip('\n')))
+                    classes.append(_CLASS_MAP[cls])
     return files, classes
 
 
-def _get_files(lesion_file, unzip_file, exclude_file, root_dir):
+def _get_files(lesion_files, unzip_file, exclude_file, root_dir):
     """Gets image file paths according to given lists"""
     excluded_pids = _get_excluded_pids(exclude_file)
-    files, classes = _get_lesion_files(lesion_file, excluded_pids['CP'] + excluded_pids['NCP'], root_dir)
+    files, classes = _get_lesion_files(lesion_files, excluded_pids['CP'] + excluded_pids['NCP'], root_dir)
     with open(unzip_file, 'r') as f:
         reader = list(csv.DictReader(f, delimiter=',', quotechar='|'))
         for row in reader:

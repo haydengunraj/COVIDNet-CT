@@ -1,5 +1,5 @@
 """
-Training/testing/inference script for COVIDNet-CT model for COVID-19 detection in CT images.
+Training/testing/inference script for COVID-Net CT models for COVID-19 detection in CT images.
 """
 
 import os
@@ -31,7 +31,7 @@ LOSS_TENSOR = 'add:0'
 
 # Names for train checkpoints
 CKPT_NAME = 'model.ckpt'
-MODEL_NAME = 'COVIDNet-CT'
+MODEL_NAME = 'COVID-Net_CT'
 
 # Output directory for storing runs
 OUTPUT_DIR = 'output'
@@ -57,6 +57,15 @@ def create_session():
     config.gpu_options.allow_growth = True
     sess = tf.Session(config=config)
     return sess
+
+
+def get_lr_scheduler(init_lr, global_step=None, decay_steps=None, schedule_type='cosine'):
+    if schedule_type == 'constant':
+        return init_lr
+    elif schedule_type == 'cosine_decay':
+        return tf.train.cosine_decay(init_lr, global_step, decay_steps)
+    elif schedule_type == 'exp_decay':
+        return tf.train.exponential_decay(init_lr, global_step, decay_steps)
 
 
 class Metrics:
@@ -137,6 +146,9 @@ class COVIDNetCTRunner:
         with graph.as_default():
             # Save graph without optimizer
             tf.train.export_meta_graph(filename=os.path.join(output_dir, 'model.meta'))
+
+            # Create LR tensor
+
 
             # Create optimizer
             optimizer = tf.train.MomentumOptimizer(
@@ -230,7 +242,7 @@ class COVIDNetCTRunner:
                 disp.plot(include_values=True, cmap='Blues', ax=ax, xticks_rotation='horizontal', values_format='.5g')
                 plt.show()
 
-    def infer(self, image_file, autocrop=False):
+    def infer(self, image_file, autocrop=True):
         """Run inference on the given image"""
         # Load and preprocess image
         image = cv2.imread(image_file, cv2.IMREAD_GRAYSCALE)
@@ -386,4 +398,4 @@ if __name__ == '__main__':
         )
     elif mode == 'infer':
         # Run inference
-        runner.infer(args.image_file, args.auto_crop)
+        runner.infer(args.image_file, not args.no_crop)

@@ -1,14 +1,14 @@
-# COVID-Net Open Source Initiative - COVIDNet-CT
+# COVID-Net Open Source Initiative - COVID-Net CT
 
-**Note: The COVIDNet-CT models provided here are intended to be used as reference models that can be built upon and enhanced as new data becomes available. They are currently at a research stage and not yet intended as production-ready models (not meant for direct clinical diagnosis), and we are working continuously to improve them as new data becomes available. Please do not use COVIDNet-CT for self-diagnosis and seek help from your local health authorities.**
+**Note: The COVID-Net CT models provided here are intended to be used as reference models that can be built upon and enhanced as new data becomes available. They are currently at a research stage and not yet intended as production-ready models (not meant for direct clinical diagnosis), and we are working continuously to improve them as new data becomes available. Please do not use COVID-Net CT for self-diagnosis and seek help from your local health authorities.**
 
-**Update 2020-12-XX:** We released the [COVIDNet-CT v2 models](docs/models.md) and [COVIDx-CT v2 A and B]() datasets.
+**Update 2021-01-XX:** We released the [COVID-Net CT-2 models](docs/models.md) and [COVIDx CT-2A and CT-2B]() datasets.
 
-**Update 2020-12-23:** The [COVIDNet-CT paper](https://www.frontiersin.org/articles/10.3389/fmed.2020.608525) was published in Frontiers in Medicine.
+**Update 2020-12-23:** The [COVID-Net CT paper](https://www.frontiersin.org/articles/10.3389/fmed.2020.608525) was published in _Frontiers in Medicine_.
 
-**Update 2020-12-03:** We released the [COVIDx-CT v1](https://www.kaggle.com/dataset/c395fb339f210700ba392d81bf200f766418238c2734e5237b5dd0b6fc724fcb/version/1) dataset on Kaggle.
+**Update 2020-12-03:** We released the [COVIDx CT v1](https://www.kaggle.com/dataset/c395fb339f210700ba392d81bf200f766418238c2734e5237b5dd0b6fc724fcb/version/1) dataset on Kaggle.
 
-**Update 2020-09-13:** We released a preprint of the [COVIDNet-CT paper](https://arxiv.org/abs/2009.05383).
+**Update 2020-09-13:** We released a preprint of the [COVID-Net CT paper](https://arxiv.org/abs/2009.05383).
 
 <p align="center">
 	<img src="assets/exp-covidnet-ct-b.png" alt="photo not available" width="90%" height="40%">
@@ -16,9 +16,9 @@
 	<em>Example CT scans of COVID-19 cases and their associated critical factors (highlighted in red) as identified by GSInquire.</em>
 </p>
 
-The coronavirus disease 2019 (COVID-19) pandemic continues to have a tremendous impact on patients and healthcare systems around the world. In the fight against this novel disease, there is a pressing need for rapid and effective screening tools to identify patients infected with COVID-19, and to this end CT imaging has been proposed as one of the key screening methods which may be used as a complement to RT-PCR testing, particularly in situations where patients undergo routine CT scans for non-COVID-19 related reasons, patients have worsening respiratory status or developing complications that require expedited care, or patients are suspected to be COVID-19-positive but have negative RT-PCR test results. Early studies on CT-based screening have reported abnormalities in chest CT images which are characteristic of COVID-19 infection, but these abnormalities may be difficult to distinguish from abnormalities caused by other lung conditions. Motivated by this, in this study we introduce COVIDNet-CT, a deep convolutional neural network architecture that is tailored for detection of COVID-19 cases from chest CT images via a machine-driven design exploration approach. Additionally, we introduce COVIDx-CT, a benchmark CT image dataset derived from a variety of sources of CT imaging data comprising 126,191 images across 2,116 patient cases. Furthermore, in the interest of reliability and transparency, we leverage an explainability-driven performance validation strategy to investigate the decision-making behaviour of COVIDNet-CT, and in doing so ensure that COVIDNet-CT makes predictions based on relevant indicators in CT images. Both COVIDNet-CT and the COVIDx-CT dataset are available to the general public in an open-source and open access manner as part of the COVID-Net initiative. While COVIDNet-CT is **not yet a production-ready screening solution**, we hope that releasing the model and dataset will encourage researchers, clinicians, and citizen data scientists alike to leverage and build upon them.
+The coronavirus disease 2019 (COVID-19) pandemic continues to have a tremendous impact on patients and healthcare systems around the world. In the fight against this novel disease, there is a pressing need for rapid and effective screening tools to identify patients infected with COVID-19, and to this end CT imaging has been proposed as one of the key screening methods which may be used as a complement to RT-PCR testing, particularly in situations where patients undergo routine CT scans for non-COVID-19 related reasons, patients have worsening respiratory status or developing complications that require expedited care, or patients are suspected to be COVID-19-positive but have negative RT-PCR test results. Early studies on CT-based screening have reported abnormalities in chest CT images which are characteristic of COVID-19 infection, but these abnormalities may be difficult to distinguish from abnormalities caused by other lung conditions. Motivated by this, in this study we introduce COVID-Net CT, a deep convolutional neural network architecture that is tailored for detection of COVID-19 cases from chest CT images via a machine-driven design exploration approach. Additionally, we introduce COVIDx CT, a benchmark CT image dataset derived from a variety of sources of CT imaging data currently comprised of 149,010 images across 3,036 patient cases. Furthermore, in the interest of reliability and transparency, we leverage an explainability-driven performance validation strategy to investigate the decision-making behaviour of COVID-Net CT, and in doing so ensure that COVID-Net CT makes predictions based on relevant indicators in CT images. Both COVID-Net CT and the COVIDx CT dataset are available to the general public in an open-source and open access manner as part of the COVID-Net initiative. While COVID-Net CT is **not yet a production-ready screening solution**, we hope that releasing the model and dataset will encourage researchers, clinicians, and citizen data scientists alike to leverage and build upon them.
 
-For a detailed description of the methodology behind COVIDNet-CT and a full description of the COVIDx-CT dataset, please click [here](https://arxiv.org/abs/2009.05383).
+For a detailed description of the methodology behind COVID-Net CT and a full description of the COVIDx CT dataset, please click [here](https://arxiv.org/abs/2009.05383).
 
 This work is made possible by a number of publicly available CT data sources. Licenses and acknowledgements for these datasets can be found [here](docs/licenses_acknowledgements.md).
 
@@ -26,7 +26,7 @@ Our desire is to encourage broad adoption and contribution to this project. Acco
 
 For COVIDNet-CXR models and the COVIDx dataset for COVID-19 detection and severity assessment from chest X-ray images, please go to the [main COVID-Net repository](https://github.com/lindawangg/COVID-Net).
 
-If you are a researcher or healthcare worker and you would like access to the **GSInquire tool to use to interpret COVIDNet-CT results** on your data or existing data, please reach out to a28wong@uwaterloo.ca or alex@darwinai.ca.
+If you are a researcher or healthcare worker and you would like access to the **GSInquire tool to use to interpret COVID-Net CT results** on your data or existing data, please reach out to a28wong@uwaterloo.ca or alex@darwinai.ca.
 
 If there are any technical questions after the README, FAQ, and past/current issues have been read, please post an issue or contact:
 * haydengunraj@gmail.com
@@ -70,7 +70,7 @@ If you find our work useful, you can cite our paper using:
 
 ## Table of Contents
 1. [Requirements to install on your system](#requirements)
-2. [How to download and prepare the COVIDx-CT dataset](docs/dataset.md)
+2. [How to download and prepare the COVIDx CT dataset](docs/dataset.md)
 3. [Steps for training, evaluation and inference](docs/train_eval_inference.md)
 4. [Results](#results)
 5. [Links to pretrained models](docs/models.md)
@@ -87,13 +87,13 @@ The main requirements are listed below:
 * Matplotlib
 
 ## Results
-These are the final test results for each COVIDNet-CT model on the COVIDx-CT dataset.
+These are the final test results for each COVID-Net CT model on the COVIDx CT dataset.
 
-### COVIDNet-CT-A
+### COVID-Net CT-A
 <p>
 	<img src="assets/cm-covidnet-ct-a.png" alt="photo not available" width="50%" height="50%">
 	<br>
-	<em>Confusion matrix for COVIDNet-CT-A on the COVIDx-CT test dataset.</em>
+	<em>Confusion matrix for COVID-Net CT-A on the COVIDx CT test dataset.</em>
 </p>
 
 <div class="tg-wrap"><table class="tg">
@@ -128,11 +128,11 @@ These are the final test results for each COVIDNet-CT model on the COVIDx-CT dat
   </tr>
 </table></div>
 
-### COVIDNet-CT-B
+### COVID-Net CT-B
 <p>
 	<img src="assets/cm-covidnet-ct-b.png" alt="photo not available" width="50%" height="50%">
 	<br>
-	<em>Confusion matrix for COVIDNet-CT-B on the COVIDx-CT test dataset.</em>
+	<em>Confusion matrix for COVID-Net CT-B on the COVIDx CT test dataset.</em>
 </p>
 
 <div class="tg-wrap"><table class="tg">

@@ -9,21 +9,13 @@ from .utils import load_nifti_volume, ranges_to_indices, CLASS_MAP
 _TCIA_FNAME_GLOB = 'volume-covid19-A-{}.nii.gz'
 
 
-def process_tcia_covid_data(tcia_meta_csv, tcia_exclude_file, tcia_dir, output_dir, class_map=CLASS_MAP):
-    """Process slices for all coronacases studies in the given CSV file"""
-    # Create exclude list
-    exclude_list = set()
-    with open(tcia_exclude_file, 'r') as f:
-        for line in f.readlines():
-            exclude_list.add(line.strip('\n'))
-
+def process_tcia_covid_data(tcia_meta_csv, tcia_dir, output_dir, class_map=CLASS_MAP):
+    """Process slices for all TCIA COVID-19 studies in the given CSV file"""
     filenames = []
     classes = []
     with open(tcia_meta_csv, 'r') as f:
         reader = list(csv.DictReader(f, delimiter=',', quotechar='|'))
         for row in tqdm(reader):
-            if row['pid'] in exclude_list:
-                continue
             if row['slice indices']:
                 slice_indices = ranges_to_indices(row['slice indices'])
             else:
@@ -37,7 +29,7 @@ def process_tcia_covid_data(tcia_meta_csv, tcia_exclude_file, tcia_dir, output_d
 
 
 def _process_tcia_covid_stack(tcia_dir, pid, slice_indices, output_dir):
-    """Processes slices from a particular coronacases stack"""
+    """Processes slices from a particular TCIA CT stack"""
     # Load NiFTI stack
     fname = _TCIA_FNAME_GLOB.format(pid)
     nifti_fname = os.path.join(tcia_dir, fname)

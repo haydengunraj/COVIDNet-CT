@@ -15,7 +15,7 @@ The networks take as input an image of shape (N, 512, 512, 3) and output the sof
 3. To train from a pretrained model:
 ```
 python run_covidnet_ct.py train \
-    --model_dir models/COVIDNet-CT-A \
+    --model_dir models/COVID-Net-CT-A \
     --meta_name model.meta \
     --ckpt_name model
 ```
@@ -27,7 +27,7 @@ python run_covidnet_ct.py train \
 3. To evaluate a TensorFlow checkpoint:
 ```
 python run_covidnet_ct.py val \
-    --model_dir models/COVIDNet-CT-A \
+    --model_dir models/COVID-Net-CT-A \
     --meta_name model.meta \
     --ckpt_name model \
     --plot_confusion
@@ -39,11 +39,11 @@ python run_covidnet_ct.py val \
 your local authorities for the latest advice on seeking medical assistance.**
 
 1. Download a model from the [pretrained models section](models.md)
-2. Locate models and CT image to be inferenced
+2. Locate models and CT image to be tested
 3. To run inference,
 ```
 python run_covidnet_ct.py infer \
-    --model_dir models/COVIDNet-CT-A \
+    --model_dir models/COVID-Net-CT-A \
     --meta_name model.meta \
     --ckpt_name model \
     --image_file assets/ex-covid-ct.png
