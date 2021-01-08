@@ -1,17 +1,36 @@
 # COVIDx CT Dataset
-COVIDx CT, an open access benchmark dataset that we generated from open source datasets, currently comprises 126,191 CT slices from 2,116 patients. We will be adding to COVIDx CT over time to improve the dataset.
+COVIDx CT, an open access benchmark dataset that we generated from open source datasets, currently comprises 155,191 CT slices from 3,792 patients. We will be adding to COVIDx CT over time to improve the dataset.
+
+Labels for the images are obtained in one of three ways:
+1. Manual labelling or segmentation by radiologists (all validation and test images are labelled this way)
+2. Manual labelling by non-radiologists (these images are only included in the training set)
+3. Automatic labelling using a previous COVID-Net CT model (these images are only included in the training set)
+
+[metadata.csv](../metadata.csv) indicates the labelling method used for each patient.
 
 COVIDx CT is divided into "A" and "B" variants, the details of which are given below.
 
 #### COVIDx CT-A
-The "A" variant consists of cases with confirmed diagnoses (i.e., RT-PCR, radiologist-confirmed, etc.). For non-COVID-19 pneumonia and COVID-19 cases, CT slices containing abnormalities have been identified by radiologists.
-
-COVIDNet-CT A currently comprises comprises 149,010 CT slices from 3,036 patients.
+The "A" variant consists of cases with confirmed diagnoses (i.e., RT-PCR, radiologist-confirmed, etc.). COVIDNet-CT A currently comprises comprises 149,010 CT slices from 3,036 patients.
 
 #### COVIDx CT-B
-The "B" variant contains all of the "A" variant and adds some cases which are assumed to be correctly diagnosed but could not be verified. Moreover, the "B" variant also contains some cases where the identification of abnormal slices was not performed by a radiologist. Notably, the additional images included in this variant are only added to the training set, and as such **the validation and testing sets are identical to those of the "A" variant.**
+The "B" variant contains all of the "A" variant and adds some cases which are assumed to be correctly diagnosed but could not be verified. COVIDNet-CT B currently comprises comprises 155,191 CT slices from 3,792 patients. Notably, the additional images included in this variant are only added to the training set, and as such **the validation and testing sets are identical to those of the "A" variant.**
 
-COVIDNet-CT B currently comprises comprises 155,191 CT slices from 3,792 patients.
+#### Metadata
+Metadata for each patient is included in [metadata.csv](../metadata.csv). The metadata includes:
+* Patient ID
+* Data source
+* Age & sex (if available)
+* Finding (Normal, Pneumonia, or COVID-19)
+* Verified finding, which indicates whether the finding is confirmed (Yes or No)
+* Slice selection, which indicates how slice selection was performed (either Expert, Non-expert, or Automatic)
+* View and modality (all are axial CT)
+
+Some basic patient information from the dataset:
+* **Countries:** China, Iran, Italy, Turkey, Ukraine, Belgium, Australia, Afghanistan, Scotland, Lebanon, England, Algeria, Peru, Azerbaijan, Russia
+* **Age range (for cases which have age information):** 0-87
+* **Median age (for cases which have age information):** 45 
+* **Sexes (for cases which have sex information):** 419 Male (54.8%), 346 Female (45.2%)
 
 ## Downloading the Dataset
 The easiest way to use the COVIDx CT dataset is by downloading it directly from [Kaggle](https://www.kaggle.com/hgunraj/covidxct). Links to different versions are provided below:
@@ -59,7 +78,7 @@ Before constructing the dataset, additional packages must be installed:
 * [pylidc](https://pypi.org/project/pylidc/)
 * [nibabel](https://pypi.org/project/nibabel/)
 
-The dataset is constructed from the downloaded sources using `create_COVIDx_CT.ipynb`. Several variables in this notebook must be set to reflect the locations of the raw data sources:
+The dataset is constructed from the downloaded sources using [create_COVIDx_CT.ipynb](../create_COVIDx_CT.ipynb). Several variables in this notebook must be set to reflect the locations of the raw data sources:
 * `CNCB_EXCLUDE_FILE`: this points to the file `cncb_exclude_list.txt`, and should not be modified unless this file is moved from its default location.
 * `CNCB_EXTRA_LESION_FILE` this points to the file `cncb_extra_lesions_slices.csv`, and should not be modified unless this file is moved from its default location.
 * `CNCB_DIR`: this should be set to the location of the prepared CNCB dataset, with Normal, CP, and NCP directories as well as metadata files.
@@ -81,7 +100,7 @@ To create the experimental "B" variant of the dataset, additional paths must be 
 * `MOSMED_META_CSV`: this points to the file `mosmed_metadata.csv`, and should not be modified unless this file is moved from its default location.
 
 ### Step 3: Running the Notebook
-Once the notebook is prepared, the dataset is constructed by simply running all cells in the notebook. Notably, `create_COVIDx-CT.ipynb` will not re-create files which were previously created, allowing for the dataset construction to be interrupted without having to recreate all the files.
+Once the notebook is prepared, the dataset is constructed by simply running all cells in the notebook. Notably, `create_COVIDx_CT.ipynb` will not re-create files which were previously created, allowing for the dataset construction to be interrupted without having to recreate all the files.
 
 After running the construction cells, there is an optional check at the end of the notebook to ensure that all files were created successfully.
 
