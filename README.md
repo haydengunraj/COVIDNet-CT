@@ -16,7 +16,7 @@
 	<em>Example CT scans of COVID-19 cases and their associated critical factors (highlighted in red) as identified by GSInquire.</em>
 </p>
 
-The coronavirus disease 2019 (COVID-19) pandemic continues to have a tremendous impact on patients and healthcare systems around the world. In the fight against this novel disease, there is a pressing need for rapid and effective screening tools to identify patients infected with COVID-19, and to this end CT imaging has been proposed as one of the key screening methods which may be used as a complement to RT-PCR testing, particularly in situations where patients undergo routine CT scans for non-COVID-19 related reasons, patients have worsening respiratory status or developing complications that require expedited care, or patients are suspected to be COVID-19-positive but have negative RT-PCR test results. Early studies on CT-based screening have reported abnormalities in chest CT images which are characteristic of COVID-19 infection, but these abnormalities may be difficult to distinguish from abnormalities caused by other lung conditions. Motivated by this, in this study we introduce COVID-Net CT, a deep convolutional neural network architecture that is tailored for detection of COVID-19 cases from chest CT images via a machine-driven design exploration approach. Additionally, we introduce COVIDx CT, a benchmark CT image dataset derived from a variety of sources of CT imaging data currently comprised of 149,010 images across 3,036 patient cases. Furthermore, in the interest of reliability and transparency, we leverage an explainability-driven performance validation strategy to investigate the decision-making behaviour of COVID-Net CT, and in doing so ensure that COVID-Net CT makes predictions based on relevant indicators in CT images. Both COVID-Net CT and the COVIDx CT dataset are available to the general public in an open-source and open access manner as part of the COVID-Net initiative. While COVID-Net CT is **not yet a production-ready screening solution**, we hope that releasing the model and dataset will encourage researchers, clinicians, and citizen data scientists alike to leverage and build upon them.
+The coronavirus disease 2019 (COVID-19) pandemic continues to have a tremendous impact on patients and healthcare systems around the world. In the fight against this novel disease, there is a pressing need for rapid and effective screening tools to identify patients infected with COVID-19, and to this end CT imaging has been proposed as one of the key screening methods which may be used as a complement to RT-PCR testing, particularly in situations where patients undergo routine CT scans for non-COVID-19 related reasons, patients have worsening respiratory status or developing complications that require expedited care, or patients are suspected to be COVID-19-positive but have negative RT-PCR test results. Early studies on CT-based screening have reported abnormalities in chest CT images which are characteristic of COVID-19 infection, but these abnormalities may be difficult to distinguish from abnormalities caused by other lung conditions. Motivated by this, in this study we introduce COVID-Net CT, a deep convolutional neural network architecture that is tailored for detection of COVID-19 cases from chest CT images via a machine-driven design exploration approach. Additionally, we introduce COVIDx CT, a benchmark CT image dataset derived from a variety of sources of CT imaging data currently comprising 149,010 images across 3,036 patient cases. Furthermore, in the interest of reliability and transparency, we leverage an explainability-driven performance validation strategy to investigate the decision-making behaviour of COVID-Net CT, and in doing so ensure that COVID-Net CT makes predictions based on relevant indicators in CT images. Both COVID-Net CT and the COVIDx CT dataset are available to the general public in an open-source and open access manner as part of the COVID-Net initiative. While COVID-Net CT is **not yet a production-ready screening solution**, we hope that releasing the model and dataset will encourage researchers, clinicians, and citizen data scientists alike to leverage and build upon them.
 
 For a detailed description of the methodology behind COVID-Net CT and a full description of the COVIDx CT dataset, please click [here](https://arxiv.org/abs/2009.05383).
 
@@ -87,13 +87,13 @@ The main requirements are listed below:
 * Matplotlib
 
 ## Results
-These are the final test results for each COVID-Net CT model on the COVIDx CT dataset.
+These are the final test results for the current COVID-Net CT models on the COVIDx CT dataset.
 
-### COVID-Net CT-A
+### COVID-Net CT-2 L (2A)
 <p>
-	<img src="assets/cm-covidnet-ct-a.png" alt="photo not available" width="50%" height="50%">
+	<img src="assets/cm-covidnet-ct-2-l.png" alt="photo not available" width="50%" height="50%">
 	<br>
-	<em>Confusion matrix for COVID-Net CT-A on the COVIDx CT test dataset.</em>
+	<em>Confusion matrix for COVID-Net CT-2 L on the COVIDx CT-2A test dataset.</em>
 </p>
 
 <div class="tg-wrap"><table class="tg">
@@ -106,9 +106,9 @@ These are the final test results for each COVID-Net CT model on the COVIDx CT da
     <td class="tg-7btt">COVID-19</td>
   </tr>
   <tr>
-    <td class="tg-c3ow">100</td>
     <td class="tg-c3ow">99.0</td>
-    <td class="tg-c3ow">97.3</td>
+    <td class="tg-c3ow">98.2</td>
+    <td class="tg-c3ow">96.2</td>
   </tr>
 </table></div>
 
@@ -123,16 +123,16 @@ These are the final test results for each COVID-Net CT model on the COVIDx CT da
   </tr>
   <tr>
     <td class="tg-c3ow">99.4</td>
-    <td class="tg-c3ow">98.4</td>
-    <td class="tg-c3ow">99.7</td>
+    <td class="tg-c3ow">97.2</td>
+    <td class="tg-c3ow">96.7</td>
   </tr>
 </table></div>
 
-### COVID-Net CT-B
+### COVID-Net CT-2 S (2A)
 <p>
-	<img src="assets/cm-covidnet-ct-b.png" alt="photo not available" width="50%" height="50%">
+	<img src="assets/cm-covidnet-ct-2-s.png" alt="photo not available" width="50%" height="50%">
 	<br>
-	<em>Confusion matrix for COVID-Net CT-B on the COVIDx CT test dataset.</em>
+	<em>Confusion matrix for COVID-Net CT-2 S on the COVIDx CT-2A test dataset.</em>
 </p>
 
 <div class="tg-wrap"><table class="tg">
@@ -145,9 +145,9 @@ These are the final test results for each COVID-Net CT model on the COVIDx CT da
     <td class="tg-7btt">COVID-19</td>
   </tr>
   <tr>
-    <td class="tg-c3ow">99.8</td>
-    <td class="tg-c3ow">99.2</td>
-    <td class="tg-c3ow">94.7</td>
+    <td class="tg-c3ow">98.9</td>
+    <td class="tg-c3ow">98.1</td>
+    <td class="tg-c3ow">95.7</td>
   </tr>
 </table></div>
 
@@ -161,8 +161,8 @@ These are the final test results for each COVID-Net CT model on the COVIDx CT da
     <td class="tg-7btt">COVID-19</td>
   </tr>
   <tr>
-    <td class="tg-c3ow">99.4</td>
-    <td class="tg-c3ow">96.8</td>
-    <td class="tg-c3ow">99.8</td>
+    <td class="tg-c3ow">99.3</td>
+    <td class="tg-c3ow">97.0</td>
+    <td class="tg-c3ow">96.4</td>
   </tr>
 </table></div>
