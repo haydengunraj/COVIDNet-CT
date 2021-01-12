@@ -11,10 +11,10 @@ Labels for the images are obtained in one of three ways:
 COVIDx CT is divided into "A" and "B" variants, the details of which are given below.
 
 #### COVIDx CT-A
-The "A" variant consists of cases with confirmed diagnoses (i.e., RT-PCR, radiologist-confirmed, etc.). COVIDNet-CT A currently comprises comprises 149,010 CT slices from 3,036 patients.
+The "A" variant consists of cases with confirmed diagnoses (i.e., RT-PCR, radiologist-confirmed, etc.). COVIDx CT-A currently comprises comprises 149,010 CT slices from 3,036 patients.
 
 #### COVIDx CT-B
-The "B" variant contains all of the "A" variant and adds some cases which are assumed to be correctly diagnosed but could not be verified. COVIDNet-CT B currently comprises comprises 155,191 CT slices from 3,792 patients. Notably, the additional images included in this variant are only added to the training set, and as such **the validation and testing sets are identical to those of the "A" variant.**
+The "B" variant contains all of the "A" variant and adds some cases which are assumed to be correctly diagnosed but could not be verified. COVIDx CT-B currently comprises comprises 155,191 CT slices from 3,792 patients. Notably, the additional images included in this variant are only added to the training set, and as such **the validation and testing sets are identical to those of the "A" variant.**
 
 #### Metadata
 Metadata for each patient is included in [metadata.csv](../metadata.csv). The metadata includes:
