@@ -2,7 +2,7 @@
 
 **Note: The COVID-Net CT models provided here [as part of the COVID-Net Initiative](https://github.com/lindawangg/COVID-Net) are intended to be used as reference models that can be built upon and enhanced as new data becomes available. They are currently at a research stage and not yet intended as production-ready models (i.e., not meant for direct clinical diagnosis), and we are working continuously to improve them as new data becomes available. Please do not use COVID-Net CT for self-diagnosis and seek help from your local health authorities.**
 
-**Update 2021-01-XX:** We released the [COVID-Net CT-2 models](docs/models.md) and [COVIDx CT-2A and CT-2B]() datasets, comprising 149,010 CT slices from 3,036 patients and 155,191 CT slices from 3,792 patients respectively.
+**Update 2021-01-15:** We released the [COVID-Net CT-2 models](docs/models.md) and [COVIDx CT-2A and CT-2B](https://www.kaggle.com/hgunraj/covidxct) datasets, comprising 149,010 CT slices from 3,036 patients and 155,191 CT slices from 3,792 patients respectively. The models and dataset are described [in this preprint]().
 
 **Update 2020-12-23:** The [COVID-Net CT paper](https://www.frontiersin.org/articles/10.3389/fmed.2020.608525) was published in _Frontiers in Medicine_.
 
@@ -11,7 +11,7 @@
 **Update 2020-09-13:** We released a preprint of the [COVID-Net CT paper](https://arxiv.org/abs/2009.05383).
 
 <p align="center">
-	<img src="assets/exp-covidnet-ct-b.png" alt="photo not available" width="90%" height="40%">
+	<img src="assets/exp-covidnet-ct-2-a.png" alt="photo not available" width="90%" height="40%">
 	<br>
 	<em>Example CT scans of COVID-19 cases and their associated critical factors (highlighted in red) as identified by GSInquire.</em>
 </p>

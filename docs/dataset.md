@@ -1,4 +1,14 @@
 # COVIDx CT Dataset
+
+## Quick Links
+1. [Description](#description)
+2. [Metadata](#metadata)
+3. [Downloading the dataset](#downloading-the-dataset)
+4. [Creating the dataset from scratch](#creating-the-dataset-from-scratch)
+5. [Data distribution](#data-distribution)
+6. [Licenses and acknowledgements for the datasets used](licenses_acknowledgements.md)
+
+## Description
 COVIDx CT, an open access benchmark dataset that we generated from open source datasets, currently comprises 155,191 CT slices from 3,792 patients. We will be adding to COVIDx CT over time to improve the dataset.
 
 Labels for the images are obtained in one of three ways:
@@ -11,12 +21,12 @@ Labels for the images are obtained in one of three ways:
 COVIDx CT is divided into "A" and "B" variants, the details of which are given below.
 
 #### COVIDx CT-A
-The "A" variant consists of cases with confirmed diagnoses (i.e., RT-PCR, radiologist-confirmed, etc.). COVIDx CT-A currently comprises comprises 149,010 CT slices from 3,036 patients.
+The "A" variant consists of cases with confirmed diagnoses (i.e., RT-PCR, radiologist-confirmed, etc.). COVIDx CT-2A currently comprises 149,010 CT slices from 3,036 patients.
 
 #### COVIDx CT-B
-The "B" variant contains all of the "A" variant and adds some cases which are assumed to be correctly diagnosed but could not be verified. COVIDx CT-B currently comprises comprises 155,191 CT slices from 3,792 patients. Notably, the additional images included in this variant are only added to the training set, and as such **the validation and testing sets are identical to those of the "A" variant.**
+The "B" variant contains all of the "A" variant and adds some cases which are assumed to be correctly diagnosed but could not be verified. COVIDx CT-2B comprises comprises 155,191 CT slices from 3,792 patients. Notably, the additional images included in this variant are only added to the training set, and as such **the validation and testing sets are identical to those of the "A" variant.**
 
-#### Metadata
+## Metadata
 Metadata for each patient is included in [metadata.csv](../metadata.csv). The metadata includes:
 * Patient ID
 * Data source
@@ -30,12 +40,14 @@ Some basic patient information from the dataset:
 * **Countries:** China, Iran, Italy, Turkey, Ukraine, Belgium, Australia, Afghanistan, Scotland, Lebanon, England, Algeria, Peru, Azerbaijan, Russia
 * **Age range (for cases which have age information):** 0-87
 * **Median age (for cases which have age information):** 45 
-* **Sexes (for cases which have sex information):** 419 Male (54.8%), 346 Female (45.2%)
+* **Sexes:** 3027 Unknown (79.83%), 419 Male (11.05%), 346 Female (9.12%)
 
 ## Downloading the Dataset
 The easiest way to use the COVIDx CT dataset is by downloading it directly from [Kaggle](https://www.kaggle.com/hgunraj/covidxct). Links to different versions are provided below:
 * [COVIDx CT-1](https://www.kaggle.com/dataset/c395fb339f210700ba392d81bf200f766418238c2734e5237b5dd0b6fc724fcb/version/1)
-* [COVIDx CT-2]()
+* [COVIDx CT-2](https://www.kaggle.com/dataset/c395fb339f210700ba392d81bf200f766418238c2734e5237b5dd0b6fc724fcb/version/2)
+
+Note that COVIDx CT-2B is not available on Kaggle, and must be [generated from scratch](#creating-the-dataset-from-scratch)
 
 ## Creating the Dataset from Scratch
 If you wish to construct the dataset from scratch, instructions for doing so are provided below.
