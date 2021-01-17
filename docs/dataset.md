@@ -9,7 +9,7 @@
 6. [Licenses and acknowledgements for the datasets used](licenses_acknowledgements.md)
 
 ## Description
-COVIDx CT, an open access benchmark dataset that we generated from open source datasets, currently comprises 155,191 CT slices from 3,792 patients. We will be adding to COVIDx CT over time to improve the dataset.
+COVIDx CT, an open access benchmark dataset that we generated from open source datasets, currently comprises 201,103 CT slices from 4,501 patients. We will be adding to COVIDx CT over time to improve the dataset.
 
 Labels for the images are obtained in one of three ways:
 1. Manual labelling or segmentation by radiologists (all validation and test images are labelled this way)
@@ -21,10 +21,10 @@ Labels for the images are obtained in one of three ways:
 COVIDx CT is divided into "A" and "B" variants, the details of which are given below.
 
 #### COVIDx CT-A
-The "A" variant consists of cases with confirmed diagnoses (i.e., RT-PCR, radiologist-confirmed, etc.). COVIDx CT-2A currently comprises 149,010 CT slices from 3,036 patients.
+The "A" variant consists of cases with confirmed diagnoses (i.e., RT-PCR, radiologist-confirmed, etc.). COVIDx CT-2A comprises 194,922 CT slices from 3,745 patients.
 
 #### COVIDx CT-B
-The "B" variant contains all of the "A" variant and adds some cases which are assumed to be correctly diagnosed but could not be verified. COVIDx CT-2B comprises comprises 155,191 CT slices from 3,792 patients. Notably, the additional images included in this variant are only added to the training set, and as such **the validation and testing sets are identical to those of the "A" variant.**
+The "B" variant contains all of the "A" variant and adds some cases which are assumed to be correctly diagnosed but could not be verified. COVIDx CT-2B comprises comprises 201,103 CT slices from 4,501 patients. Notably, the additional images included in this variant are only added to the training set, and as such **the validation and testing sets are identical to those of the "A" variant.**
 
 ## Metadata
 Metadata for each patient is included in [metadata.csv](../metadata.csv). The metadata includes:
@@ -38,14 +38,14 @@ Metadata for each patient is included in [metadata.csv](../metadata.csv). The me
 
 Some basic patient information from the dataset:
 * **Countries:** China, Iran, Italy, Turkey, Ukraine, Belgium, Australia, Afghanistan, Scotland, Lebanon, England, Algeria, Peru, Azerbaijan, Russia
-* **Age range (for cases which have age information):** 0-87
-* **Median age (for cases which have age information):** 45 
-* **Sexes:** 3027 Unknown (79.83%), 419 Male (11.05%), 346 Female (9.12%)
+* **Age range (for cases which have age information):** 0-93
+* **Median age (for cases which have age information):** 51
+* **Sexes:** 3027 Unknown (67.25%), 741 Male (16.46%), 733 Female (16.29%)
 
 ## Downloading the Dataset
 The easiest way to use the COVIDx CT dataset is by downloading it directly from [Kaggle](https://www.kaggle.com/hgunraj/covidxct). Links to different versions are provided below:
 * [COVIDx CT-1](https://www.kaggle.com/dataset/c395fb339f210700ba392d81bf200f766418238c2734e5237b5dd0b6fc724fcb/version/1)
-* [COVIDx CT-2](https://www.kaggle.com/dataset/c395fb339f210700ba392d81bf200f766418238c2734e5237b5dd0b6fc724fcb/version/2)
+* [COVIDx CT-2](https://www.kaggle.com/dataset/c395fb339f210700ba392d81bf200f766418238c2734e5237b5dd0b6fc724fcb/version/3)
 
 Note that COVIDx CT-2B is not available on Kaggle, and must be [generated from scratch](#creating-the-dataset-from-scratch)
 
@@ -61,6 +61,7 @@ We construct the "A" variant of the COVIDx CT dataset from the following publicl
 * [COVID-CTSet](https://www.kaggle.com/mohammadrahimzadeh/covidctset-a-large-covid19-ct-scans-dataset)
 * [Radiopaedia.org](https://radiopaedia.org/)
 * [LIDC-IDRI](https://wiki.cancerimagingarchive.net/display/Public/LIDC-IDRI)
+* [Integrative CT Images and Clinical Features for COVID-19 (iCTCF)](http://ictcf.biocuckoo.cn/index.php)
 
 The following additional data source is leveraged to construct the "B" variant of the dataset:
 * [MosMedData](https://mosmed.ai/)
@@ -84,6 +85,19 @@ path = /path/to/LIDC-IDRI
 warn = True
 ```
 
+#### iCTCF Data
+The iCTCF data may be downloaded [here](http://ictcf.biocuckoo.cn/index.php). All patient cases listed in [ictcf_metadata.csv](../dataset_construction/metadata/ictcf_metadata.csv) should be downloaded in JPEG form. Once downloaded and extracted, the data should have the following structure:
+* `<iCTCF root>/`
+    * `Patient 1/`
+        * `CT/`
+            * `IMG-0001-00001.jpg`
+            * `...`
+    * `Patient 2/`
+        * `CT/`
+            * `IMG-0001-00001.jpg`
+            * `...`
+    * `...`
+
 ### Step 2: Setting up the Notebook
 Before constructing the dataset, additional packages must be installed:
 * [tqdm](https://pypi.org/project/tqdm/)
@@ -104,6 +118,8 @@ The dataset is constructed from the downloaded sources using [create_COVIDx_CT.i
 * `TCIA_DIR`: this should be set to the location of the `CT_Images_in_COVID-19_August_2020` directory from the NIH TCIA dataset.
 * `COVID_CTSET_META_CSV`: this should be set to the location of the file `Labels&Detailes/Patient_details.csv` from COVID-CTSet.
 * `COVID_CTSET_DIR`: this should be set to the location of the `Train&Validation` directory from COVID-CTSet.
+* `ICTCF_META_CSV`: this points to the file `ictcf_metadata.csv`, and should not be modified unless this file is moved from its default location.
+* `ICTCF_DIR`: this should be set to the location of the directory containing iCTCF patient cases in JPEG form (i.e., case directories for `Patient 1`, `Patient 2`, etc.).
 * `OUTPUT_DIR`: this should be set to the directory in which the final dataset will be created.
 
 To create the experimental "B" variant of the dataset, additional paths must be set:
@@ -123,7 +139,7 @@ Chest CT image distribution
 
 |  Type | Normal | Pneumonia | COVID-19 | Total |
 |:-----:|:------:|:---------:|:--------:|:-----:|
-| train |  35996 |   25496   |   36374  | 97866 |
+| train |  35996 |   25496   |   82286  |143778 |
 |   val |  11842 |    7400   |    6244  | 25486 |
 |  test |  12245 |    7395   |    6018  | 25658 |
 
@@ -131,7 +147,7 @@ Patient distribution
 
 |  Type | Normal | Pneumonia | COVID-19 | Total |
 |:-----:|:------:|:---------:|:--------:|:-----:|
-| train |   321  |     558   |   1249   | 2128  |
+| train |   321  |     558   |   1958   | 2837  |
 |   val |   126  |     190   |    166   |  482  |
 |  test |   126  |     125   |    175   |  426  |
 
@@ -140,7 +156,7 @@ Chest CT image distribution
 
 |  Type | Normal | Pneumonia | COVID-19 | Total |
 |:-----:|:------:|:---------:|:--------:|:-----:|
-| train |  35996 |   25496   |   42555  |104047 |
+| train |  35996 |   25496   |   88467  |149959 |
 |   val |  11842 |    7400   |    6244  | 25486 |
 |  test |  12245 |    7395   |    6018  | 25658 |
 
@@ -148,6 +164,6 @@ Patient distribution
 
 |  Type | Normal | Pneumonia | COVID-19 | Total |
 |:-----:|:------:|:---------:|:--------:|:-----:|
-| train |   321  |     558   |   2005   | 2884  |
+| train |   321  |     558   |   2714   | 3593  |
 |   val |   126  |     190   |    166   |  482  |
 |  test |   126  |     125   |    175   |  426  |

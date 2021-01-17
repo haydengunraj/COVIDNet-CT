@@ -30,9 +30,7 @@ def process_cncb_data(cncb_exclude_file, cncb_dir, output_dir, extra_lesion_file
     for imf in tqdm(image_files):
         output_path = _make_output_path(output_dir, imf)
         if not os.path.exists(output_path):
-            image = cv2.imread(imf, cv2.IMREAD_UNCHANGED)
-            if image.ndim > 2:
-                image = image[:, :, 0]
+            image = cv2.imread(imf, cv2.IMREAD_GRAYSCALE)
             cv2.imwrite(output_path, image)
 
     return image_files, classes
