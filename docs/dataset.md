@@ -30,6 +30,7 @@ The "B" variant contains all of the "A" variant and adds some cases which are as
 Metadata for each patient is included in [metadata.csv](../metadata.csv). The metadata includes:
 * Patient ID
 * Data source
+* Country (if available)
 * Age & sex (if available)
 * Finding (Normal, Pneumonia, or COVID-19)
 * Verified finding, which indicates whether the finding is confirmed (Yes or No)
