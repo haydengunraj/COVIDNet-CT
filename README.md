@@ -2,7 +2,7 @@
 
 **Note: The COVID-Net CT models provided here [as part of the COVID-Net Initiative](https://github.com/lindawangg/COVID-Net) are intended to be used as reference models that can be built upon and enhanced as new data becomes available. They are currently at a research stage and not yet intended as production-ready models (i.e., not meant for direct clinical diagnosis), and we are working continuously to improve them as new data becomes available. Please do not use COVID-Net CT for self-diagnosis and seek help from your local health authorities.**
 
-**Update 2021-01-XX:** We released the [COVID-Net CT-2 models](docs/models.md) and [COVIDx CT-2A and CT-2B](https://www.kaggle.com/hgunraj/covidxct) datasets, comprising 194,922 CT slices from 3,745 patients and 201,103 CT slices from 4,501 patients respectively. The models and dataset are described [in this preprint]().
+<!---**Update 2021-01-XX:** We released the [COVID-Net CT-2 models](docs/models.md) and [COVIDx CT-2A and CT-2B](https://www.kaggle.com/hgunraj/covidxct) datasets, comprising 194,922 CT slices from 3,745 patients and 201,103 CT slices from 4,501 patients respectively. The models and dataset are described [in this preprint](https://arxiv.org/abs/2101.07433).--->
 
 **Update 2020-12-23:** The [COVID-Net CT paper](https://www.frontiersin.org/articles/10.3389/fmed.2020.608525) was published in _Frontiers in Medicine_.
 
@@ -33,7 +33,7 @@ If there are any technical questions after the README, FAQ, and past/current iss
 * linda.wang513@gmail.com
 * jamesrenhoulee@gmail.com
 
-If you find our work useful, you can cite our paper using:
+If you find our work useful for your research, please cite:
 
 ```
 @article{Gunraj2020,
@@ -46,6 +46,15 @@ If you find our work useful, you can cite our paper using:
   url={https://www.frontiersin.org/article/10.3389/fmed.2020.608525},
   doi={10.3389/fmed.2020.608525},
   issn={2296-858X}
+}
+```
+
+```
+@misc{Gunraj2021,
+    author={Gunraj, Hayden and Sabri, Ali and Koff, David and Wong, Alexander},
+    title={COVID-Net CT-2: Enhanced Deep Neural Networks for Detection of COVID-19 from Chest CT Images Through Bigger, More Diverse Learning},
+    year={2021},
+    eprint={arXiv:2101.07433}
 }
 ```
 
@@ -70,6 +79,7 @@ If you find our work useful, you can cite our paper using:
 * Ashkan Ebadi and Pengcheng Xi (National Research Council Canada)
 * Kim-Ann Git (Selayang Hospital)
 * Abdul Al-Haimi, [COVID-19 ShuffleNet Chest X-Ray Model](https://github.com/aalhaimi/covid-net-cxr-shuffle)
+* Dr. Ali Sabri (Department of Radiology, Niagara Health, McMaster University, Canada)
 
 ## Table of Contents
 1. [Requirements to install on your system](#requirements)
