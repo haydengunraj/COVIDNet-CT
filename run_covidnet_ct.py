@@ -6,6 +6,7 @@ import os
 import sys
 import cv2
 import json
+import shutil
 import numpy as np
 from math import ceil
 import tensorflow as tf
@@ -59,6 +60,27 @@ def create_session():
     return sess
 
 
+def load_graph(meta_file):
+    """Creates new graph and session"""
+    graph = tf.Graph()
+    with graph.as_default():
+        # Create session and load model
+        sess = create_session()
+
+        # Load meta file
+        print('Loading meta graph from ' + meta_file)
+        saver = tf.train.import_meta_graph(meta_file, clear_devices=True)
+    return graph, sess, saver
+
+
+def load_ckpt(ckpt, sess, saver):
+    """Helper for loading weights"""
+    # Load weights
+    if ckpt is not None:
+        print('Loading weights from ' + ckpt)
+        saver.restore(sess, ckpt)
+
+
 def get_lr_scheduler(init_lr, global_step=None, decay_steps=None, schedule_type='cosine'):
     if schedule_type == 'constant':
         return init_lr
@@ -98,8 +120,9 @@ class Metrics:
 
 class COVIDNetCTRunner:
     """Primary training/testing/inference class"""
-    def __init__(self, meta_file, ckpt=None, data_dir=None, input_height=512, input_width=512, max_bbox_jitter=0.025,
-                 max_rotation=10, max_shear=0.15, max_pixel_shift=10, max_pixel_scale_change=0.2):
+    def __init__(self, meta_file, ckpt=None, data_dir=None, input_height=512, input_width=512,
+                 lr=0.001, momentum=0.9, fc_only=False, max_bbox_jitter=0.025, max_rotation=10,
+                 max_shear=0.15, max_pixel_shift=10, max_pixel_scale_change=0.2):
         self.meta_file = meta_file
         self.ckpt = ckpt
         self.input_height = input_height
@@ -118,57 +141,19 @@ class COVIDNetCTRunner:
                 max_pixel_scale_change=max_pixel_scale_change
             )
 
-    def load_graph(self):
-        """Creates new graph and session"""
-        graph = tf.Graph()
-        with graph.as_default():
-            # Create session and load model
-            sess = create_session()
+        # Load graph/checkpoint and add optimizer
+        self.graph, self.sess, self.saver = load_graph(self.meta_file)
+        with self.graph.as_default():
+            self.train_op = self._add_optimizer(lr, momentum, fc_only)
+            load_ckpt(self.ckpt, self.sess, self.saver)
 
-            # Load meta file
-            print('Loading meta graph from ' + self.meta_file)
-            saver = tf.train.import_meta_graph(self.meta_file, clear_devices=True)
-        return graph, sess, saver
-
-    def load_ckpt(self, sess, saver):
-        """Helper for loading weights"""
-        # Load weights
-        if self.ckpt is not None:
-            print('Loading weights from ' + self.ckpt)
-            saver.restore(sess, self.ckpt)
-
-    def trainval(self, epochs, output_dir, batch_size=1, learning_rate=0.001, momentum=0.9,
-                 fc_only=False, train_split_file='train.txt', val_split_file='val.txt',
+    def trainval(self, epochs, output_dir, batch_size=1, train_split_file='train.txt', val_split_file='val.txt',
                  log_interval=20, val_interval=1000, save_interval=1000):
         """Run training with intermittent validation"""
         ckpt_path = os.path.join(output_dir, CKPT_NAME)
-        graph, sess, saver = self.load_graph()
-        with graph.as_default():
-            # Save graph without optimizer
-            tf.train.export_meta_graph(filename=os.path.join(output_dir, 'model.meta'))
-
-            # Create LR tensor
-
-
-            # Create optimizer
-            optimizer = tf.train.MomentumOptimizer(
-                learning_rate=learning_rate,
-                momentum=momentum
-            )
-
-            # Create train op
-            global_step = tf.train.get_or_create_global_step()
-            loss = graph.get_tensor_by_name(LOSS_TENSOR)
-            grad_vars = optimizer.compute_gradients(loss)
-            if fc_only:
-                grad_vars = dense_grad_filter(grad_vars)
-            minimize_op = optimizer.apply_gradients(grad_vars, global_step)
-            update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
-            train_op = tf.group(minimize_op, update_ops)
-
-            # Load checkpoint
-            sess.run(tf.global_variables_initializer())
-            self.load_ckpt(sess, saver)
+        with self.graph.as_default():
+            # Copy original graph without optimizer
+            shutil.copy(self.meta_file, output_dir)
 
             # Create train dataset
             dataset, num_images, batch_size = self.dataset.train_dataset(train_split_file, batch_size)
@@ -178,21 +163,21 @@ class COVIDNetCTRunner:
             # Create feed and fetch dicts
             feed_dict = {TRAINING_PH_TENSOR: True}
             fetch_dict = {
-                TRAIN_OP_KEY: train_op,
+                TRAIN_OP_KEY: self.train_op,
                 LOSS_KEY: LOSS_TENSOR
             }
 
             # Add summaries
-            summary_writer = tf.summary.FileWriter(os.path.join(output_dir, 'events'), graph)
-            fetch_dict[TF_SUMMARY_KEY] = self._get_train_summary_op(graph)
+            summary_writer = tf.summary.FileWriter(os.path.join(output_dir, 'events'), self.graph)
+            fetch_dict[TF_SUMMARY_KEY] = self._get_train_summary_op()
 
             # Create validation function
-            run_validation = self._get_validation_fn(sess, batch_size, val_split_file)
+            run_validation = self._get_validation_fn(batch_size, val_split_file)
 
             # Baseline saving and validation
             print('Saving baseline checkpoint')
             saver = tf.train.Saver()
-            saver.save(sess, ckpt_path, global_step=0, write_meta_graph=False)
+            saver.save(self.sess, ckpt_path, global_step=0, write_meta_graph=False)
             print('Starting baseline validation')
             metrics = run_validation()
             self._log_and_print_metrics(metrics, 0, summary_writer)
@@ -201,10 +186,10 @@ class COVIDNetCTRunner:
             print('Training with batch_size {} for {} steps'.format(batch_size, num_iters))
             for i in range(num_iters):
                 # Run training step
-                data = sess.run(data_next)
+                data = self.sess.run(data_next)
                 feed_dict[IMAGE_INPUT_TENSOR] = data['image']
                 feed_dict[LABEL_INPUT_TENSOR] = data['label']
-                results = sess.run(fetch_dict, feed_dict)
+                results = self.sess.run(fetch_dict, feed_dict)
 
                 # Log and save
                 step = i + 1
@@ -213,25 +198,21 @@ class COVIDNetCTRunner:
                     print('[step: {}, loss: {}]'.format(step, results[LOSS_KEY]))
                 if step % save_interval == 0:
                     print('Saving checkpoint at step {}'.format(step))
-                    saver.save(sess, ckpt_path, global_step=step, write_meta_graph=False)
+                    saver.save(self.sess, ckpt_path, global_step=step, write_meta_graph=False)
                 if val_interval > 0 and step % val_interval == 0:
                     print('Starting validation at step {}'.format(step))
                     metrics = run_validation()
                     self._log_and_print_metrics(metrics, step, summary_writer)
 
             print('Saving checkpoint at last step')
-            saver.save(sess, ckpt_path, global_step=num_iters, write_meta_graph=False)
+            saver.save(self.sess, ckpt_path, global_step=num_iters, write_meta_graph=False)
 
     def test(self, batch_size=1, test_split_file='test.txt', plot_confusion=False):
         """Run test on a checkpoint"""
-        graph, sess, saver = self.load_graph()
-        with graph.as_default():
-            # Load checkpoint
-            self.load_ckpt(sess, saver)
-
+        with self.graph.as_default():
             # Run test
             print('Starting test')
-            metrics = self._get_validation_fn(sess, batch_size, test_split_file)()
+            metrics = self._get_validation_fn(batch_size, test_split_file)()
             self._log_and_print_metrics(metrics)
 
             if plot_confusion:
@@ -256,20 +237,16 @@ class COVIDNetCTRunner:
         feed_dict = {IMAGE_INPUT_TENSOR: image, TRAINING_PH_TENSOR: False}
 
         # Run inference
-        graph, sess, saver = self.load_graph()
-        with graph.as_default():
-            # Load checkpoint
-            self.load_ckpt(sess, saver)
-
+        with self.graph.as_default():
             # Add training placeholder if present
             try:
-                sess.graph.get_tensor_by_name(TRAINING_PH_TENSOR)
+                self.sess.graph.get_tensor_by_name(TRAINING_PH_TENSOR)
                 feed_dict[TRAINING_PH_TENSOR] = False
             except KeyError:
                 pass
 
             # Run image through model
-            class_, probs = sess.run([CLASS_PRED_TENSOR, CLASS_PROB_TENSOR], feed_dict=feed_dict)
+            class_, probs = self.sess.run([CLASS_PRED_TENSOR, CLASS_PROB_TENSOR], feed_dict=feed_dict)
             print('\nPredicted Class: ' + CLASS_NAMES[class_[0]])
             print('Confidences: ' + ', '.join(
                 '{}: {}'.format(name, conf) for name, conf in zip(CLASS_NAMES, probs[0])))
@@ -278,7 +255,30 @@ class COVIDNetCTRunner:
                   'You should check with your local authorities for '
                   'the latest advice on seeking medical assistance.')
 
-    def _get_validation_fn(self, sess, batch_size=1, val_split_file='val.txt'):
+    def _add_optimizer(self, learning_rate, momentum, fc_only=False):
+        """Adds an optimizer and creates the train op"""
+        # Create optimizer
+        optimizer = tf.train.MomentumOptimizer(
+            learning_rate=learning_rate,
+            momentum=momentum
+        )
+
+        # Create train op
+        global_step = tf.train.get_or_create_global_step()
+        loss = self.graph.get_tensor_by_name(LOSS_TENSOR)
+        grad_vars = optimizer.compute_gradients(loss)
+        if fc_only:
+            grad_vars = dense_grad_filter(grad_vars)
+        minimize_op = optimizer.apply_gradients(grad_vars, global_step)
+        update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+        train_op = tf.group(minimize_op, update_ops)
+
+        # Initialize
+        self.sess.run(tf.global_variables_initializer())
+
+        return train_op
+
+    def _get_validation_fn(self, batch_size=1, val_split_file='val.txt'):
         """Creates validation function to call in self.trainval() or self.test()"""
         # Create val dataset
         dataset, num_images, batch_size = self.dataset.validation_dataset(val_split_file, batch_size)
@@ -295,7 +295,7 @@ class COVIDNetCTRunner:
 
         # Add training placeholder if present
         try:
-            sess.graph.get_tensor_by_name(TRAINING_PH_TENSOR)
+            self.sess.graph.get_tensor_by_name(TRAINING_PH_TENSOR)
             feed_dict[TRAINING_PH_TENSOR] = False
         except KeyError:
             pass
@@ -303,9 +303,9 @@ class COVIDNetCTRunner:
         def run_validation():
             metrics.reset()
             for i in range(num_iters):
-                data = sess.run(data_next)
+                data = self.sess.run(data_next)
                 feed_dict[IMAGE_INPUT_TENSOR] = data['image']
-                results = sess.run(fetch_dict, feed_dict)
+                results = self.sess.run(fetch_dict, feed_dict)
                 metrics.update(data['label'], results['classes'])
             return metrics.values()
 
@@ -331,15 +331,14 @@ class COVIDNetCTRunner:
         # Restore confusion matrix
         metrics['confusion matrix'] = cm
 
-    @staticmethod
-    def _get_train_summary_op(graph, tag_prefix='train/'):
-        loss = graph.get_tensor_by_name(LOSS_TENSOR)
+    def _get_train_summary_op(self, tag_prefix='train/'):
+        loss = self.graph.get_tensor_by_name(LOSS_TENSOR)
         loss_summary = tf.summary.scalar(tag_prefix + 'loss', loss)
         return loss_summary
 
 
 if __name__ == '__main__':
-    # Suppress most console output
+    # Suppress most TF messages
     tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
     mode, args = parse_args(sys.argv[1:])
@@ -350,7 +349,10 @@ if __name__ == '__main__':
 
     # Create runner
     if mode == 'train':
-        augmentation_kwargs = dict(
+        train_kwargs = dict(
+            lr=args.learning_rate,
+            momentum=args.momentum,
+            fc_only=args.fc_only,
             max_bbox_jitter=args.max_bbox_jitter,
             max_rotation=args.max_rotation,
             max_shear=args.max_shear,
@@ -358,14 +360,14 @@ if __name__ == '__main__':
             max_pixel_scale_change=args.max_pixel_scale_change
         )
     else:
-        augmentation_kwargs = {}
+        train_kwargs = {}
     runner = COVIDNetCTRunner(
         meta_file,
         ckpt=ckpt,
         data_dir=args.data_dir,
         input_height=args.input_height,
         input_width=args.input_width,
-        **augmentation_kwargs
+        **train_kwargs
     )
 
     if mode == 'train':
@@ -380,9 +382,6 @@ if __name__ == '__main__':
             args.epochs,
             output_dir,
             batch_size=args.batch_size,
-            learning_rate=args.learning_rate,
-            momentum=args.momentum,
-            fc_only=args.fc_only,
             train_split_file=args.train_split_file,
             val_split_file=args.val_split_file,
             log_interval=args.log_interval,

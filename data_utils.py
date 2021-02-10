@@ -22,7 +22,9 @@ def ensure_uint8(data, window_width=HU_WINDOW_WIDTH, window_center=HU_WINDOW_CEN
         if data.ptp() > 255:
             # Assume HU
             data = hu_to_uint8(data, window_width, window_center)
-        data = data.astype(np.uint8)
+        else:
+            # Assume uint8 range with incorrect dtype
+            data = data.astype(np.uint8)
     return data
 
 
