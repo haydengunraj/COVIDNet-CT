@@ -7,13 +7,12 @@ import augmentations
 
 class COVIDxCTDataset:
     """COVIDx CT dataset class, which handles construction of train/validation datasets"""
-    def __init__(self, data_dir, image_height=512, image_width=512, max_bbox_jitter=0.025, max_rotation=10,
-                 max_shear=0.15, max_pixel_shift=10, max_pixel_scale_change=0.2, shuffle_buffer=1000):
+    def __init__(self, data_dir, image_height=512, image_width=512, max_bbox_jitter=0.025,
+                 max_rotation=10, max_shear=0.15, max_pixel_shift=10, max_pixel_scale_change=0.2):
         # General parameters
         self.data_dir = data_dir
         self.image_height = image_height
         self.image_width = image_width
-        self.shuffle_buffer = shuffle_buffer
 
         # Augmentation parameters
         self.max_bbox_jitter = max_bbox_jitter
@@ -40,12 +39,13 @@ class COVIDxCTDataset:
             files = np.asarray(files)
             classes = np.asarray(classes, dtype=np.int32)
             bboxes = np.asarray(bboxes, dtype=np.int32)
-            class_nums = np.unique(classes)
+            class_nums, class_counts = np.unique(classes, return_counts=True)
+            max_cls_count = class_counts.max()
             class_wise_datasets = []
-            for cls in class_nums:
+            for (cls, cls_count) in zip(class_nums, class_counts):
                 indices = np.where(classes == cls)[0]
-                class_wise_datasets.append(
-                    tf.data.Dataset.from_tensor_slices((files[indices], classes[indices], bboxes[indices])))
+                class_wise_datasets.append(tf.data.Dataset.from_tensor_slices(
+                    (files[indices], classes[indices], bboxes[indices])).repeat(round(max_cls_count/cls_count)))
             class_weights = [1.0 / len(class_nums) for _ in class_nums]
             dataset = tf.data.experimental.sample_from_datasets(
                 class_wise_datasets, class_weights)
@@ -54,7 +54,7 @@ class COVIDxCTDataset:
 
         # Shuffle and repeat in training
         if is_training:
-            dataset = dataset.shuffle(buffer_size=self.shuffle_buffer)
+            dataset = dataset.shuffle(buffer_size=count)
             dataset = dataset.repeat()
 
         # Create and apply map function
@@ -93,10 +93,10 @@ class COVIDxCTDataset:
         """Apply augmentations to image and bbox"""
         image_shape = tf.cast(tf.shape(image), tf.float32)
         image_height, image_width = image_shape[0], image_shape[1]
-        image = augmentations.random_exterior_exclusion(image)
+        # image = augmentations.random_exterior_exclusion(image)
         bbox = augmentations.random_bbox_jitter(bbox, image_height, image_width, self.max_bbox_jitter)
-        image, bbox = augmentations.random_rotation(image, self.max_rotation, bbox)
-        image, bbox = augmentations.random_shear(image, self.max_shear, bbox)
+        # image, bbox = augmentations.random_rotation(image, self.max_rotation, bbox)
+        # image, bbox = augmentations.random_shear(image, self.max_shear, bbox)
         image = tf.image.crop_to_bounding_box(image, bbox[1], bbox[0], bbox[3] - bbox[1], bbox[2] - bbox[0])
         image = augmentations.random_shift_and_scale(image, self.max_pixel_shift, self.max_pixel_scale_change)
         image = tf.image.random_flip_left_right(image)

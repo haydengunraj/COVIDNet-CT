@@ -11,7 +11,7 @@ HU_WINDOW_CENTER = -600
 
 def hu_to_uint8(hu_images, window_width, window_center):
     """Converts HU images to uint8 images"""
-    images = (hu_images.astype(np.float) - window_center + window_width/2)/window_width
+    images = (hu_images.astype(np.float32) - window_center + window_width/2)/window_width
     uint8_images = np.uint8(255.0*np.clip(images, 0.0, 1.0))
     return uint8_images
 
@@ -19,7 +19,7 @@ def hu_to_uint8(hu_images, window_width, window_center):
 def ensure_uint8(data, window_width=HU_WINDOW_WIDTH, window_center=HU_WINDOW_CENTER):
     """Converts non-uint8 data to uint8 and applies window level to HU data"""
     if data.dtype != np.uint8:
-        if data.ptp() > 255:
+        if float(data.max()) - float(data.min()) > 255:  # Note: ptp() not used due to overflow issues
             # Assume HU
             data = hu_to_uint8(data, window_width, window_center)
         else:

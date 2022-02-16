@@ -59,23 +59,24 @@ If you find our work useful for your research, please cite:
 ```
 
 ## Core COVID-Net Team
-* DarwinAI Corp., Canada and Vision and Image Processing Research Group, University of Waterloo, Canada
+* DarwinAI Corp., Canada and Vision and Image Processing Lab, University of Waterloo, Canada
   * Linda Wang
   * Alexander Wong
   * Zhong Qiu Lin
   * Paul McInnis
   * Audrey Chung
   * Melissa Rinch
-  * Maya Pavlova
-  * Naomi Terhljan
-  * Siddharth Surana
-  * Hayden Gunraj, [COVID-Net for CT](https://github.com/haydengunraj/COVIDNet-CT)
-  * Jeffer Peng, [COVIDNet UI](https://github.com/darwinai/covidnet_ui)
-* Vision and Image Processing Research Group, University of Waterloo, Canada
+  * Jeffer Peng
+* Vision and Image Processing Lab, University of Waterloo, Canada
   * James Lee
   * Hossein Aboutalebi
   * Alex MacLean
   * Saad Abbasi
+  * Hayden Gunraj
+  * Maya Pavlova
+  * Naomi Terhljan
+  * Siddharth Surana
+  * Andy Zhao
 * Ashkan Ebadi and Pengcheng Xi (National Research Council Canada)
 * Kim-Ann Git (Selayang Hospital)
 * Abdul Al-Haimi, [COVID-19 ShuffleNet Chest X-Ray Model](https://github.com/aalhaimi/covid-net-cxr-shuffle)

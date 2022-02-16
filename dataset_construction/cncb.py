@@ -25,6 +25,7 @@ def process_cncb_data(cncb_exclude_file, cncb_dir, output_dir, extra_lesion_file
     unzip_file = os.path.join(cncb_dir, _UNZIP_FILE)
     # exclude_file = os.path.join(cncb_dir, _EXCLUDE_FILE)
     image_files, classes = _get_files(lesion_files, unzip_file, cncb_exclude_file, cncb_dir)
+    filenames = [os.path.basename(f) for f in image_files]
 
     # Write to new files as PNGs
     for imf in tqdm(image_files):
@@ -33,7 +34,7 @@ def process_cncb_data(cncb_exclude_file, cncb_dir, output_dir, extra_lesion_file
             image = cv2.imread(imf, cv2.IMREAD_GRAYSCALE)
             cv2.imwrite(output_path, image)
 
-    return image_files, classes
+    return filenames, classes
 
 
 def _get_lesion_files(lesion_files, exclude_list, root_dir):

@@ -2,6 +2,8 @@ import os
 import cv2
 import numpy as np
 import nibabel as nib
+import SimpleITK as sitk
+from pydicom import dcmread
 
 from data_utils import ensure_uint8
 
@@ -14,6 +16,25 @@ def load_nifti_volume(nifti_file):
     volume = nib.load(nifti_file).get_fdata()
     volume = ensure_uint8(volume)
     volume = np.rollaxis(volume, 2, 0)  # HWN to NHW
+    return volume
+
+
+def load_dicom(dcm_file):
+    """Loads a slice from a DICOM file, ensuring uint8 dtype"""
+    ds = dcmread(dcm_file)
+    data = ds.pixel_array*ds.RescaleSlope + ds.RescaleIntercept
+    image = ensure_uint8(data)
+    return image
+
+
+def load_mha_volume(mha_file):
+    """Loads a volume from an MHA file, ensuring uint8 dtype"""
+    reader = sitk.ImageFileReader()
+    reader.SetFileName(mha_file)
+    reader.SetImageIO('MetaImageIO')
+    volume = reader.Execute()
+    volume = sitk.GetArrayFromImage(volume)
+    volume = ensure_uint8(volume)
     return volume
 
 

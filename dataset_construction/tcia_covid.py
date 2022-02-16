@@ -44,7 +44,7 @@ def _process_tcia_covid_stack(tcia_dir, pid, slice_indices, output_dir):
     for idx in slice_indices:
         slc = volume[idx]
         filenames.append(prefix + '-{:04d}.png'.format(idx))
-        out_fname = os.path.join(output_dir, filenames[-1])
-        if not os.path.isfile(out_fname):
-            cv2.imwrite(out_fname, slc)
+        out_file = os.path.join(output_dir, filenames[-1])
+        if not os.path.exists(out_file):
+            cv2.imwrite(out_file, slc)
     return filenames

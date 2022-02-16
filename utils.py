@@ -8,7 +8,8 @@ def parse_args(args):
     parser = argparse.ArgumentParser(description='COVID-Net CT Train/Test/Infer Script')
     parser.add_argument('-md', '--model_dir', type=str, default='models/COVID-Net-CT-A', help='Model directory')
     parser.add_argument('-mn', '--meta_name', type=str, default='model.meta', help='Model meta name')
-    parser.add_argument('-ck', '--ckpt_name', type=str, default='model', help='Model checkpoint name')
+    parser.add_argument('-ck', '--ckpt_name', type=str, default='model',
+                        help='Model checkpoint name. Set to "None" to use an untrained model.')
     parser.add_argument('-ih', '--input_height', type=int, default=512, help='Input image height')
     parser.add_argument('-iw', '--input_width', type=int, default=512, help='Input image width')
     if args[0] == 'train':
@@ -57,7 +58,13 @@ def parse_args(args):
         raise ValueError('Mode must be one of {train, test, infer} or {-h, --help}')
 
     parsed_args = parser.parse_args(args[1:])
+
+    # Add data_dir = None for inference
     if args[0] == 'infer':
         parsed_args.data_dir = None
+
+    # Catch "None" arg for checkpoint
+    if parsed_args.ckpt_name.lower() == 'none':
+        parsed_args.ckpt_name = None
 
     return args[0], parsed_args

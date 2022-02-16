@@ -1,5 +1,5 @@
 # Licenses and Acknowledgements
-This work would not have been possible without the efforts of many researchers to make COVID-19 radiography data publicly accessible. In particular, we construct the COVIDx CT dataset from the following publicly available data sources:
+This work would not have been possible without the efforts of many researchers to make COVID-19 CT data publicly accessible. In particular, we construct the COVIDx CT dataset from the following publicly available data sources:
 * **[CNCB 2019 Novel Coronavirus Resource (2019nCoVR) AI Diagnosis Dataset](http://ncov-ai.big.ac.cn/download?lang=en)**
   * **Publication Citation:** Kang Zhang, Xiaohong Liu, Jun Shen, et al. Jianxing He, Tianxin Lin, Weimin Li, Guangyu Wang. (2020). Clinically Applicable AI System for Accurate Diagnosis, Quantitative Measurements and Prognosis of COVID-19 Pneumonia Using Computed Tomography. _Cell_. DOI: https://doi.org/10.1016/j.cell.2020.04.045
   * **License:** [Attribution 3.0 China Mainland (CC BY 3.0 CN)](https://creativecommons.org/licenses/by/3.0/cn/deed.en)
