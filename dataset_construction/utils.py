@@ -22,7 +22,7 @@ def load_nifti_volume(nifti_file):
 def load_dicom(dcm_file):
     """Loads a slice from a DICOM file, ensuring uint8 dtype"""
     ds = dcmread(dcm_file)
-    data = ds.pixel_array*ds.RescaleSlope + ds.RescaleIntercept
+    data = np.float32(ds.pixel_array)*float(ds.RescaleSlope) + float(ds.RescaleIntercept)
     image = ensure_uint8(data)
     return image
 

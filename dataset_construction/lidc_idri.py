@@ -12,11 +12,11 @@ from .utils import ranges_to_indices, CLASS_MAP
 _NODULE_PAD = 3
 
 
-def process_lidc_idri_data(lidc_idri_meta_csv, output_dir, pad=_NODULE_PAD):
+def process_lidc_idri_data(meta_csv, output_dir, pad=_NODULE_PAD):
     """Process slices for all LIDC-IDRI studies in the given CSV file"""
     filenames = []
     classes = []
-    with open(lidc_idri_meta_csv, 'r') as f:
+    with open(meta_csv, 'r') as f:
         reader = list(csv.DictReader(f, delimiter=',', quotechar='|'))
         for row in tqdm(reader):
             if row['lung range']:

@@ -9,11 +9,11 @@ from .utils import load_nifti_volume, ranges_to_indices, CLASS_MAP
 _TCIA_FNAME_GLOB = 'volume-covid19-A-{}.nii.gz'
 
 
-def process_tcia_covid_data(tcia_meta_csv, tcia_dir, output_dir, class_map=CLASS_MAP):
+def process_tcia_covid_data(root_dir, meta_csv, output_dir, class_map=CLASS_MAP):
     """Process slices for all TCIA COVID-19 studies in the given CSV file"""
     filenames = []
     classes = []
-    with open(tcia_meta_csv, 'r') as f:
+    with open(meta_csv, 'r') as f:
         reader = list(csv.DictReader(f, delimiter=',', quotechar='|'))
         for row in tqdm(reader):
             if row['slice indices']:
@@ -21,7 +21,7 @@ def process_tcia_covid_data(tcia_meta_csv, tcia_dir, output_dir, class_map=CLASS
             else:
                 slice_indices = None
             fnames = _process_tcia_covid_stack(
-                tcia_dir, row['pid'], slice_indices, output_dir)
+                root_dir, row['pid'], slice_indices, output_dir)
             cls = class_map[row['finding']]
             filenames.extend(fnames)
             classes.extend([cls for _ in range(len(fnames))])

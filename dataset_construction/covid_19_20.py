@@ -10,12 +10,12 @@ _CT_FNAME_GLOB = 'volume-covid19-A-*_ct.nii.gz'
 _SEG_FNAME_GLOB = 'volume-covid19-A-*_seg.nii.gz'
 
 
-def process_covid_19_20_data(covid_19_20_dir, output_dir):
+def process_covid_19_20_data(root_dir, output_dir):
     """Process slices for COVID-19-20 challenge studies"""
     filenames = []
     classes = []
-    ct_files = sorted(glob.glob(os.path.join(covid_19_20_dir, _CT_FNAME_GLOB)))
-    seg_files = sorted(glob.glob(os.path.join(covid_19_20_dir, _SEG_FNAME_GLOB)))
+    ct_files = sorted(glob.glob(os.path.join(root_dir, _CT_FNAME_GLOB)))
+    seg_files = sorted(glob.glob(os.path.join(root_dir, _SEG_FNAME_GLOB)))
     for ct_file, seg_file in tqdm(zip(ct_files, seg_files), total=len(ct_files)):
         volume = load_nifti_volume(ct_file)
         volume = np.swapaxes(volume, 1, 2)  # transpose to natural orientation

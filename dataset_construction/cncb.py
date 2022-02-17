@@ -16,15 +16,15 @@ _PATCH_CASES = ['NCP_328_1805', 'CP_1781_3567', 'CP_1769_3516', 'NCP_1058_2635',
                 'NCP_868_2395', 'NCP_868_2396', 'NCP_869_2397', 'NCP_911_2453']
 
 
-def process_cncb_data(cncb_exclude_file, cncb_dir, output_dir, extra_lesion_files=None):
+def process_cncb_data(root_dir, exclude_file, output_dir, extra_lesion_files=None):
     """Process slices for all included CNCB studies"""
     # Get file paths
-    lesion_files = [os.path.join(cncb_dir, _LESION_FILE)]
+    lesion_files = [os.path.join(root_dir, _LESION_FILE)]
     if extra_lesion_files is not None:
         lesion_files += extra_lesion_files
-    unzip_file = os.path.join(cncb_dir, _UNZIP_FILE)
+    unzip_file = os.path.join(root_dir, _UNZIP_FILE)
     # exclude_file = os.path.join(cncb_dir, _EXCLUDE_FILE)
-    image_files, classes = _get_files(lesion_files, unzip_file, cncb_exclude_file, cncb_dir)
+    image_files, classes = _get_files(lesion_files, unzip_file, exclude_file, root_dir)
     filenames = [os.path.basename(f) for f in image_files]
 
     # Write to new files as PNGs

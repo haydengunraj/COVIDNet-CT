@@ -82,11 +82,12 @@ def load_ckpt(ckpt, sess, saver):
 
 
 def get_lr_scheduler(init_lr, global_step=None, decay_steps=None, schedule_type='cosine'):
+    """Helper for making a learning rate scheduler"""
     if schedule_type == 'constant':
         return init_lr
-    elif schedule_type == 'cosine_decay':
+    elif schedule_type == 'cosine':
         return tf.train.cosine_decay(init_lr, global_step, decay_steps)
-    elif schedule_type == 'exp_decay':
+    elif schedule_type == 'exp':
         return tf.train.exponential_decay(init_lr, global_step, decay_steps)
 
 

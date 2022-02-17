@@ -11,17 +11,17 @@ from .utils import ranges_to_indices, CLASS_MAP
 _RADIOPAEDIA_URL_FMT = 'https://radiopaedia.org/studies/{}/stacks'
 
 
-def process_radiopaedia_data(radiopaedia_meta_csv, radiopaedia_exclude_file, output_dir, class_map=CLASS_MAP):
+def process_radiopaedia_data(meta_csv, exclude_file, output_dir, class_map=CLASS_MAP):
     """Downloads slices for all studies in the given radiopaedia CSV file"""
     # Create exclude list
     exclude_list = set()
-    with open(radiopaedia_exclude_file, 'r') as f:
+    with open(exclude_file, 'r') as f:
         for line in f.readlines():
             exclude_list.add(line.strip('\n'))
 
     filenames = []
     classes = []
-    with open(radiopaedia_meta_csv, 'r') as f:
+    with open(meta_csv, 'r') as f:
         reader = list(csv.DictReader(f, delimiter=',', quotechar='|'))
         for row in tqdm(reader):
             if row['studyID'] in exclude_list:

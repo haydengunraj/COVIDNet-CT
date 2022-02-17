@@ -19,14 +19,14 @@ def _uint16_hu_to_uint8(data):
     return ensure_uint8(data)
 
 
-def process_covid_ctset_data(covid_ctset_meta_csv, covid_ctset_dir, output_dir):
+def process_covid_ctset_data(meta_csv, root_dir, output_dir):
     """Processes slices for all patients in the given COVID-CTSet CSV file"""
     filenames = []
     classes = []
-    with open(covid_ctset_meta_csv, 'r') as f:
+    with open(meta_csv, 'r') as f:
         reader = list(csv.DictReader(f, delimiter=',', quotechar='|'))
         for row in tqdm(reader):
-            fnames = _process_covid_ctset_patient(row['Patient ID'], covid_ctset_dir, output_dir)
+            fnames = _process_covid_ctset_patient(row['Patient ID'], root_dir, output_dir)
             cls = _CLASS_MAP[row['COVID-19 Infection']]
             filenames.extend(fnames)
             classes.extend([cls]*len(fnames))

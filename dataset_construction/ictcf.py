@@ -7,15 +7,15 @@ from tqdm import tqdm
 from .utils import ranges_to_indices, CLASS_MAP
 
 
-def process_ictcf_data(ictcf_meta_csv, ictcf_dir, output_dir, class_map=CLASS_MAP):
+def process_ictcf_data(root_dir, meta_csv, output_dir, class_map=CLASS_MAP):
     """Process slices for COVID-19 studies from iCTCF"""
     filenames = []
     classes = []
-    with open(ictcf_meta_csv, 'r') as f:
+    with open(meta_csv, 'r') as f:
         reader = list(csv.DictReader(f, delimiter=',', quotechar='|'))
         for row in tqdm(reader):
             slice_indices = ranges_to_indices(row['slice indices'])
-            image_files = _get_patient_files(ictcf_dir, row['pid'])
+            image_files = _get_patient_files(root_dir, row['pid'])
             cls = class_map[row['finding']]
             for i in slice_indices:
                 out_fname = 'HUST-{}-{:04d}.png'.format(row['pid'].replace(' ', ''), i)

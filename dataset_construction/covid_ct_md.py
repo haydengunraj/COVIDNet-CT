@@ -8,7 +8,7 @@ from tqdm import tqdm
 from .utils import load_dicom, CLASS_MAP
 
 
-def process_covid_ct_md_data(covid_ct_md_dir, index_csv, label_file, output_dir, class_map=CLASS_MAP):
+def process_covid_ct_md_data(root_dir, index_csv, label_file, output_dir, class_map=CLASS_MAP):
     """Process slices from COVID-CT-MD dataset"""
     filenames, classes = [], []
 
@@ -16,7 +16,7 @@ def process_covid_ct_md_data(covid_ct_md_dir, index_csv, label_file, output_dir,
     labels = np.load(label_file)
     with open(index_csv, 'r') as f:
         # Get list of normal case dirs and CSV lines to set progress bar length
-        normal_dirs = glob.glob(os.path.join(covid_ct_md_dir, 'Normal Cases', 'normal*'))
+        normal_dirs = glob.glob(os.path.join(root_dir, 'Normal Cases', 'normal*'))
         reader = list(csv.DictReader(f))
         pbar = tqdm(total=(len(normal_dirs) + len(reader)))
         for row in reader:
@@ -25,7 +25,7 @@ def process_covid_ct_md_data(covid_ct_md_dir, index_csv, label_file, output_dir,
                 label_idx -= 1  # indexing jumps from 41 to 43, so need to correct > 42
             cls = row['Diagnosis']
             pid = row['Folder/ID']
-            path = os.path.join(covid_ct_md_dir, row['Relative Path'].rstrip('/').rstrip('.') + ' Cases', pid)
+            path = os.path.join(root_dir, row['Relative Path'].rstrip('/').rstrip('.') + ' Cases', pid)
             dcm_files = sorted(glob.glob(os.path.join(path, '*.dcm')))
             indices = np.where(labels[label_idx, :len(dcm_files)])[0]
             for i in indices:

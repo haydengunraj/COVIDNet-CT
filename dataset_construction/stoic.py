@@ -6,16 +6,15 @@ from tqdm import tqdm
 from .utils import load_mha_volume, ranges_to_indices, CLASS_MAP
 
 
-def process_stoic_data(stoic_meta_csv, stoic_dir, output_dir, class_map=CLASS_MAP):
+def process_stoic_data(root_dir, meta_csv, output_dir, class_map=CLASS_MAP):
     """Process slices from the STOIC challenge dataset"""
     filenames, classes = [], []
-
-    with open(stoic_meta_csv, 'r') as f:
+    with open(meta_csv, 'r') as f:
         reader = list(csv.DictReader(f))
         for row in tqdm(reader):
             pid = row['pid']
             indices = ranges_to_indices(row['slice indices'])
-            mha_file = os.path.join(stoic_dir, '{}.mha'.format(pid))
+            mha_file = os.path.join(root_dir, '{}.mha'.format(pid))
             volume = load_mha_volume(mha_file)[::-1]  # reverse to match indices
             for i in indices:
                 fname = 'STOIC-{}-{:04d}.png'.format(pid, i)
