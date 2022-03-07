@@ -32,10 +32,10 @@ class COVIDxCTDataset:
     def _make_dataset(self, split_file, batch_size, is_training, balanced=True):
         """Creates COVIDX-CT dataset for train or val split"""
         files, classes, bboxes = self._get_files(split_file)
-        count = len(files)
 
         # Create balanced dataset if required
         if is_training and balanced:
+            count = 0
             files = np.asarray(files)
             classes = np.asarray(classes, dtype=np.int32)
             bboxes = np.asarray(bboxes, dtype=np.int32)
@@ -44,12 +44,15 @@ class COVIDxCTDataset:
             class_wise_datasets = []
             for (cls, cls_count) in zip(class_nums, class_counts):
                 indices = np.where(classes == cls)[0]
+                num_reps = round(max_cls_count/cls_count)
                 class_wise_datasets.append(tf.data.Dataset.from_tensor_slices(
-                    (files[indices], classes[indices], bboxes[indices])).repeat(round(max_cls_count/cls_count)))
+                    (files[indices], classes[indices], bboxes[indices])).repeat(num_reps))
+                count += num_reps*len(indices)
             class_weights = [1.0 / len(class_nums) for _ in class_nums]
             dataset = tf.data.experimental.sample_from_datasets(
                 class_wise_datasets, class_weights)
         else:
+            count = len(files)
             dataset = tf.data.Dataset.from_tensor_slices((files, classes, bboxes))
 
         # Shuffle and repeat in training
@@ -93,10 +96,10 @@ class COVIDxCTDataset:
         """Apply augmentations to image and bbox"""
         image_shape = tf.cast(tf.shape(image), tf.float32)
         image_height, image_width = image_shape[0], image_shape[1]
-        # image = augmentations.random_exterior_exclusion(image)
+        image = augmentations.random_exterior_exclusion(image)
         bbox = augmentations.random_bbox_jitter(bbox, image_height, image_width, self.max_bbox_jitter)
-        # image, bbox = augmentations.random_rotation(image, self.max_rotation, bbox)
-        # image, bbox = augmentations.random_shear(image, self.max_shear, bbox)
+        image, bbox = augmentations.random_rotation(image, self.max_rotation, bbox)
+        image, bbox = augmentations.random_shear(image, self.max_shear, bbox)
         image = tf.image.crop_to_bounding_box(image, bbox[1], bbox[0], bbox[3] - bbox[1], bbox[2] - bbox[0])
         image = augmentations.random_shift_and_scale(image, self.max_pixel_shift, self.max_pixel_scale_change)
         image = tf.image.random_flip_left_right(image)

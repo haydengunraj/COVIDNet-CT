@@ -86,7 +86,7 @@ def get_lr_scheduler(init_lr, global_step=None, decay_steps=None, schedule_type=
     if schedule_type == 'constant':
         return init_lr
     elif schedule_type == 'cosine':
-        return tf.train.cosine_decay(init_lr, global_step, decay_steps)
+        return tf.train.cosine_decay(init_lr, global_step, decay_steps, alpha=0.01)
     elif schedule_type == 'exp':
         return tf.train.exponential_decay(init_lr, global_step, decay_steps)
 
@@ -177,8 +177,7 @@ class COVIDNetCTRunner:
 
             # Baseline saving and validation
             print('Saving baseline checkpoint')
-            saver = tf.train.Saver()
-            saver.save(self.sess, ckpt_path, global_step=0, write_meta_graph=False)
+            self.saver.save(self.sess, ckpt_path, global_step=0, write_meta_graph=False)
             print('Starting baseline validation')
             metrics = run_validation()
             self._log_and_print_metrics(metrics, 0, summary_writer)
@@ -199,14 +198,14 @@ class COVIDNetCTRunner:
                     print('[step: {}, loss: {}]'.format(step, results[LOSS_KEY]))
                 if step % save_interval == 0:
                     print('Saving checkpoint at step {}'.format(step))
-                    saver.save(self.sess, ckpt_path, global_step=step, write_meta_graph=False)
+                    self.saver.save(self.sess, ckpt_path, global_step=step, write_meta_graph=False)
                 if val_interval > 0 and step % val_interval == 0:
                     print('Starting validation at step {}'.format(step))
                     metrics = run_validation()
                     self._log_and_print_metrics(metrics, step, summary_writer)
 
             print('Saving checkpoint at last step')
-            saver.save(self.sess, ckpt_path, global_step=num_iters, write_meta_graph=False)
+            self.saver.save(self.sess, ckpt_path, global_step=num_iters, write_meta_graph=False)
 
     def test(self, batch_size=1, test_split_file='test.txt', plot_confusion=False):
         """Run test on a checkpoint"""
@@ -259,13 +258,15 @@ class COVIDNetCTRunner:
     def _add_optimizer(self, learning_rate, momentum, fc_only=False):
         """Adds an optimizer and creates the train op"""
         # Create optimizer
+        global_step = tf.train.get_or_create_global_step()
+        lr = get_lr_scheduler(learning_rate, global_step, decay_steps=50000)
         optimizer = tf.train.MomentumOptimizer(
             learning_rate=learning_rate,
             momentum=momentum
         )
 
         # Create train op
-        global_step = tf.train.get_or_create_global_step()
+        # global_step = tf.train.get_or_create_global_step()
         loss = self.graph.get_tensor_by_name(LOSS_TENSOR)
         grad_vars = optimizer.compute_gradients(loss)
         if fc_only:
