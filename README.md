@@ -54,11 +54,16 @@ If you find our work useful for your research, please cite:
 ```
 
 ```
-@misc{Gunraj2021,
-    author={Gunraj, Hayden and Sabri, Ali and Koff, David and Wong, Alexander},
-    title={COVID-Net CT-2: Enhanced Deep Neural Networks for Detection of COVID-19 from Chest CT Images Through Bigger, More Diverse Learning},
-    year={2021},
-    eprint={arXiv:2101.07433}
+@article{Gunraj2022,
+  author={Gunraj, Hayden and Sabri, Ali and Koff, David and Wong, Alexander},
+  title={COVID-Net CT-2: Enhanced Deep Neural Networks for Detection of COVID-19 From Chest CT Images Through Bigger, More Diverse Learning},
+  journal={Frontiers in Medicine},
+  volume={8},
+  pages={729287},
+  year={2022},
+  url={https://www.frontiersin.org/articles/10.3389/fmed.2021.729287},
+  doi={10.3389/fmed.2021.729287},
+  issn={2296-858X}
 }
 ```
 
