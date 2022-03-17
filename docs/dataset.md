@@ -21,10 +21,10 @@ Labels for the images are obtained in one of three ways:
 COVIDx CT is divided into "A" and "B" variants, the details of which are given below.
 
 #### COVIDx CT-A
-The "A" variant consists of cases with confirmed diagnoses (i.e., RT-PCR, radiologist-confirmed, etc.). COVIDx CT-2A comprises 194,922 CT slices from 3,745 patients.
+The "A" variant consists of cases with confirmed diagnoses (i.e., RT-PCR, radiologist-confirmed, etc.). COVIDx CT-3A comprises 425,024 CT slices from 5,312 patients.
 
 #### COVIDx CT-B
-The "B" variant contains all of the "A" variant and adds some cases which are assumed to be correctly diagnosed but could not be verified. COVIDx CT-2B comprises comprises 201,103 CT slices from 4,501 patients. Notably, the additional images included in this variant are only added to the training set, and as such **the validation and testing sets are identical to those of the "A" variant.**
+The "B" variant contains all of the "A" variant and adds some cases which are assumed to be correctly diagnosed but could not be verified. COVIDx CT-2B comprises comprises 431,205 CT slices from 6,068 patients. Notably, the additional images included in this variant are only added to the training set, and as such **the validation and testing sets are identical to those of the "A" variant.**
 
 ## Metadata
 Metadata for each patient is included in [metadata.csv](../metadata.csv). The metadata includes:
@@ -38,15 +38,15 @@ Metadata for each patient is included in [metadata.csv](../metadata.csv). The me
 * View and modality (all are axial CT)
 
 Some basic patient information from the dataset:
-* **Countries:** China, Iran, Italy, Turkey, Ukraine, Belgium, Australia, Afghanistan, Scotland, Lebanon, England, Algeria, Peru, Azerbaijan, Russia
-* **Age range (for cases which have age information):** 0-93
-* **Median age (for cases which have age information):** 51
-* **Sexes:** 3027 Unknown (67.25%), 741 Male (16.46%), 733 Female (16.29%)
+* **Countries:** China, France, Russia, Iran, USA, Australia, Algeria, Italy, Scotland, Peru, Lebanon, England, Turkey, Belgium, Azerbaijan, Afghanistan, Ukraine
+* **Age range (for cases which have age information):** 0-94
+* **Sexes:** 3091 Unknown (50.9%), 1639 Male (27.0%), 1338 Female (22.1%)
 
 ## Downloading the Dataset
 The easiest way to use the COVIDx CT dataset is by downloading it directly from [Kaggle](https://www.kaggle.com/hgunraj/covidxct). Links to different versions are provided below:
 * [COVIDx CT-1](https://www.kaggle.com/dataset/c395fb339f210700ba392d81bf200f766418238c2734e5237b5dd0b6fc724fcb/version/1)
 * [COVIDx CT-2](https://www.kaggle.com/dataset/c395fb339f210700ba392d81bf200f766418238c2734e5237b5dd0b6fc724fcb/version/4)
+* [COVIDx CT-3](link-tbd)
 
 Note that COVIDx CT-2B is not available on Kaggle, and must be [generated from scratch](#creating-the-dataset-from-scratch)
 
@@ -63,6 +63,9 @@ We construct the "A" variant of the COVIDx CT dataset from the following publicl
 * [Radiopaedia.org](https://radiopaedia.org/)
 * [LIDC-IDRI](https://wiki.cancerimagingarchive.net/display/Public/LIDC-IDRI)
 * [Integrative CT Images and Clinical Features for COVID-19 (iCTCF)](http://ictcf.biocuckoo.cn/index.php)
+* [COVID-CT-MD](https://github.com/ShahinSHH/COVID-CT-MD)
+* [Stony Brook University COVID-19 Positive Cases (COVID-19-NY-SBU)](https://wiki.cancerimagingarchive.net/pages/viewpage.action?pageId=89096912)
+* [Study of thoracic CT in COVID-19 (STOIC)](https://stoic2021.grand-challenge.org/)
 
 The following additional data source is leveraged to construct the "B" variant of the dataset:
 * [MosMedData](https://mosmed.ai/)
@@ -121,6 +124,14 @@ The dataset is constructed from the downloaded sources using [create_COVIDx_CT.i
 * `COVID_CTSET_DIR`: this should be set to the location of the `Train&Validation` directory from COVID-CTSet.
 * `ICTCF_META_CSV`: this points to the file `ictcf_metadata.csv`, and should not be modified unless this file is moved from its default location.
 * `ICTCF_DIR`: this should be set to the location of the directory containing iCTCF patient cases in JPEG form (i.e., case directories for `Patient 1`, `Patient 2`, etc.).
+* `COVID_CT_MD_DIR`: this should be set to the root directory containing the `{COVID-19, Cap, Normal} Cases` directories from COVID-CT-MD.
+* `COVID_CT_MD_INDEX_CSV`: this should point to COVID-CT-MD's `Index.csv` file.
+* `COVID_CT_MD_META_CSV`: this points to the file `covid_ct_md_metadata.csv`, and should not be modified unless this file is moved from its default location.
+* `COVID_CT_MD_LABEL_CSV`: this should be set to the location of the file `Slice-level-labels.npy` from COVID-CT-MD.
+* `STOIC_META_CSV`: this points to the file `stoic_metadata.csv`, and should not be modified unless this file is moved from its default location.
+* `STOIC_DIR`: this should be set to the location of the `data/mha` directory of the STOIC data.
+* `STONYBROOK_META_CSV`: this points to the file `stonybrook_metadata.csv`, and should not be modified unless this file is moved from its default location.
+* `STONYBROOK_DIR`: this should be set to the location of the `COVID-19-NY-SBU` directory of the Stony Brook data (the inner directory containing patient cases).
 * `OUTPUT_DIR`: this should be set to the directory in which the final dataset will be created.
 
 To create the experimental "B" variant of the dataset, additional paths must be set:
@@ -135,36 +146,36 @@ After running the construction cells, there is an optional check at the end of t
 
 ## Data Distribution
 
-### COVIDx CT-2A
+### COVIDx CT-3A
 Chest CT image distribution
 
 |  Type | Normal | Pneumonia | COVID-19 | Total |
 |:-----:|:------:|:---------:|:--------:|:-----:|
-| train |  35996 |   25496   |   82286  |143778 |
-|   val |  11842 |    7400   |    6244  | 25486 |
-|  test |  12245 |    7395   |    6018  | 25658 |
+| train |  35996 |   26970   |  294552  |357518 |
+|   val |  17570 |    8008   |    8147  | 33725 |
+|  test |  17922 |    7965   |    7894  | 33781 |
 
 Patient distribution
 
 |  Type | Normal | Pneumonia | COVID-19 | Total |
 |:-----:|:------:|:---------:|:--------:|:-----:|
-| train |   321  |     558   |   1958   | 2837  |
-|   val |   126  |     190   |    166   |  482  |
-|  test |   126  |     125   |    175   |  426  |
+| train |   321  |     592   |   3336   | 4249  |
+|   val |   164  |     202   |    194   |  560  |
+|  test |   164  |     138   |    201   |  503  |
 
-### COVIDx CT-2B
+### COVIDx CT-3B
 Chest CT image distribution
 
 |  Type | Normal | Pneumonia | COVID-19 | Total |
 |:-----:|:------:|:---------:|:--------:|:-----:|
-| train |  35996 |   25496   |   88467  |149959 |
-|   val |  11842 |    7400   |    6244  | 25486 |
-|  test |  12245 |    7395   |    6018  | 25658 |
+| train |  35996 |   26970   |  300733  |363699 |
+|   val |  17570 |    8008   |    8147  | 33725 |
+|  test |  17922 |    7965   |    7894  | 33781 |
 
 Patient distribution
 
 |  Type | Normal | Pneumonia | COVID-19 | Total |
 |:-----:|:------:|:---------:|:--------:|:-----:|
-| train |   321  |     558   |   2714   | 3593  |
-|   val |   126  |     190   |    166   |  482  |
-|  test |   126  |     125   |    175   |  426  |
+| train |   321  |     592   |   4092   | 5005  |
+|   val |   164  |     202   |    194   |  560  |
+|  test |   164  |     138   |    201   |  503  |

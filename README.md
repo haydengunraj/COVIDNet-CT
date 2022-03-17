@@ -2,6 +2,10 @@
 
 **Note: The COVID-Net CT models provided here [as part of the COVID-Net Initiative](http://www.covid-net.ml) are intended to be used as reference models that can be built upon and enhanced as new data becomes available. They are currently at a research stage and not yet intended as production-ready models (i.e., not meant for direct clinical diagnosis), and we are working continuously to improve them as new data becomes available. Please do not use COVID-Net CT for self-diagnosis and seek help from your local health authorities.**
 
+**Update 2022-03-XX:** We released the [COVIDx CT-3](link-tbd) dataset on Kaggle.
+
+**Update 2022-03-10:** The [COVID-Net CT-2 paper](https://www.frontiersin.org/articles/10.3389/fmed.2021.729287) was published in _Frontiers in Medicine_.
+
 **Update 2021-01-26:** We released the [COVID-Net CT-2 models](docs/models.md) and [COVIDx CT-2A and CT-2B](https://www.kaggle.com/hgunraj/covidxct) datasets, comprising 194,922 CT slices from 3,745 patients and 201,103 CT slices from 4,501 patients respectively. The models and dataset are described [in this preprint](https://arxiv.org/abs/2101.07433).
 
 **Update 2020-12-23:** The [COVID-Net CT-1 paper](https://www.frontiersin.org/articles/10.3389/fmed.2020.608525) was published in _Frontiers in Medicine_.

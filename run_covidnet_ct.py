@@ -121,9 +121,8 @@ class Metrics:
 
 class COVIDNetCTRunner:
     """Primary training/testing/inference class"""
-    def __init__(self, meta_file, ckpt=None, data_dir=None, input_height=512, input_width=512,
-                 lr=0.001, momentum=0.9, fc_only=False, max_bbox_jitter=0.025, max_rotation=10,
-                 max_shear=0.15, max_pixel_shift=10, max_pixel_scale_change=0.2):
+    def __init__(self, meta_file, ckpt=None, data_dir=None, input_height=512, input_width=512, max_bbox_jitter=0.025,
+                 max_rotation=10, max_shear=0.15, max_pixel_shift=10, max_pixel_scale_change=0.2):
         self.meta_file = meta_file
         self.ckpt = ckpt
         self.input_height = input_height
@@ -142,77 +141,119 @@ class COVIDNetCTRunner:
                 max_pixel_scale_change=max_pixel_scale_change
             )
 
-        # Load graph/checkpoint and add optimizer
-        self.graph, self.sess, self.saver = load_graph(self.meta_file)
-        with self.graph.as_default():
-            self.train_op = self._add_optimizer(lr, momentum, fc_only)
-            load_ckpt(self.ckpt, self.sess, self.saver)
+    def load_graph(self):
+        """Creates new graph and session"""
+        graph = tf.Graph()
+        with graph.as_default():
+            # Create session and load model
+            sess = create_session()
 
-    def trainval(self, epochs, output_dir, batch_size=1, train_split_file='train.txt', val_split_file='val.txt',
+            # Load meta file
+            print('Loading meta graph from ' + self.meta_file)
+            saver = tf.train.import_meta_graph(self.meta_file, clear_devices=True)
+        return graph, sess, saver
+
+    def load_ckpt(self, sess, saver):
+        """Helper for loading weights"""
+        # Load weights
+        if self.ckpt is not None:
+            print('Loading weights from ' + self.ckpt)
+            saver.restore(sess, self.ckpt)
+
+    def trainval(self, epochs, output_dir, batch_size=1, learning_rate=0.001, momentum=0.9,
+                 fc_only=False, train_split_file='train.txt', val_split_file='val.txt',
                  log_interval=20, val_interval=1000, save_interval=1000):
         """Run training with intermittent validation"""
         ckpt_path = os.path.join(output_dir, CKPT_NAME)
-        with self.graph.as_default():
-            # Copy original graph without optimizer
-            shutil.copy(self.meta_file, output_dir)
+        graph, sess, saver = self.load_graph()
+        with graph.as_default():
+            # Save graph without optimizer
+            tf.train.export_meta_graph(filename=os.path.join(output_dir, 'model.meta'))
 
             # Create train dataset
-            dataset, num_images, batch_size = self.dataset.train_dataset(train_split_file, batch_size)
+            dataset, num_images, batch_size = self.dataset.train_dataset(train_split_file, batch_size, True)
             data_next = dataset.make_one_shot_iterator().get_next()
-            num_iters = ceil(num_images / batch_size) * epochs
+            num_iters = ceil(num_images/batch_size)*epochs
+
+            # Create optimizer
+            global_step = tf.train.get_or_create_global_step()
+            scheduler = get_lr_scheduler(
+                learning_rate, schedule_type='cosine_decay',
+                global_step=global_step, decay_steps=num_iters, alpha=0.01)
+            optimizer = tf.train.MomentumOptimizer(
+                learning_rate=scheduler,
+                momentum=momentum
+            )
+            optimizer = tf.train.experimental.enable_mixed_precision_graph_rewrite(optimizer)
+
+            # Create train op
+            loss = graph.get_tensor_by_name(LOSS_TENSOR)
+            grad_vars = optimizer.compute_gradients(loss)
+            if fc_only:
+                grad_vars = dense_grad_filter(grad_vars)
+            minimize_op = optimizer.apply_gradients(grad_vars, global_step)
+            update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+            train_op = tf.group(minimize_op, update_ops)
+
+            # Load checkpoint
+            sess.run(tf.global_variables_initializer())
+            self.load_ckpt(sess, saver)
 
             # Create feed and fetch dicts
             feed_dict = {TRAINING_PH_TENSOR: True}
             fetch_dict = {
-                TRAIN_OP_KEY: self.train_op,
+                TRAIN_OP_KEY: train_op,
                 LOSS_KEY: LOSS_TENSOR
             }
 
             # Add summaries
-            summary_writer = tf.summary.FileWriter(os.path.join(output_dir, 'events'), self.graph)
-            fetch_dict[TF_SUMMARY_KEY] = self._get_train_summary_op()
+            summary_writer = tf.summary.FileWriter(os.path.join(output_dir, 'events'), graph)
+            fetch_dict[TF_SUMMARY_KEY] = self._get_train_summary_op(graph)
 
             # Create validation function
-            run_validation = self._get_validation_fn(batch_size, val_split_file)
+            run_validation = self._get_validation_fn(sess, batch_size, val_split_file)
 
-            # Baseline saving and validation
-            print('Saving baseline checkpoint')
-            self.saver.save(self.sess, ckpt_path, global_step=0, write_meta_graph=False)
             print('Starting baseline validation')
             metrics = run_validation()
             self._log_and_print_metrics(metrics, 0, summary_writer)
 
             # Training loop
             print('Training with batch_size {} for {} steps'.format(batch_size, num_iters))
+            loss_accum = 0
             for i in range(num_iters):
                 # Run training step
-                data = self.sess.run(data_next)
+                data = sess.run(data_next)
                 feed_dict[IMAGE_INPUT_TENSOR] = data['image']
                 feed_dict[LABEL_INPUT_TENSOR] = data['label']
-                results = self.sess.run(fetch_dict, feed_dict)
+                results = sess.run(fetch_dict, feed_dict)
 
                 # Log and save
                 step = i + 1
                 if step % log_interval == 0:
                     summary_writer.add_summary(results[TF_SUMMARY_KEY], step)
-                    print('[step: {}, loss: {}]'.format(step, results[LOSS_KEY]))
-                if step % save_interval == 0:
+                    print('[step: {}, loss: {}]'.format(step, loss_accum/log_interval))
+                    loss_accum = 0
+                if step%save_interval == 0:
                     print('Saving checkpoint at step {}'.format(step))
-                    self.saver.save(self.sess, ckpt_path, global_step=step, write_meta_graph=False)
+                    saver.save(sess, ckpt_path, global_step=step, write_meta_graph=False)
                 if val_interval > 0 and step % val_interval == 0:
                     print('Starting validation at step {}'.format(step))
                     metrics = run_validation()
                     self._log_and_print_metrics(metrics, step, summary_writer)
 
             print('Saving checkpoint at last step')
-            self.saver.save(self.sess, ckpt_path, global_step=num_iters, write_meta_graph=False)
+            saver.save(sess, ckpt_path, global_step=num_iters, write_meta_graph=False)
 
     def test(self, batch_size=1, test_split_file='test.txt', plot_confusion=False):
         """Run test on a checkpoint"""
-        with self.graph.as_default():
+        graph, sess, saver = self.load_graph()
+        with graph.as_default():
+            # Load checkpoint
+            self.load_ckpt(sess, saver)
+
             # Run test
             print('Starting test')
-            metrics = self._get_validation_fn(batch_size, test_split_file)()
+            metrics = self._get_validation_fn(sess, batch_size, test_split_file)()
             self._log_and_print_metrics(metrics)
 
             if plot_confusion:
@@ -223,30 +264,34 @@ class COVIDNetCTRunner:
                 disp.plot(include_values=True, cmap='Blues', ax=ax, xticks_rotation='horizontal', values_format='.5g')
                 plt.show()
 
-    def infer(self, image_file, autocrop=True):
+    def infer(self, image_file, autocrop=False):
         """Run inference on the given image"""
         # Load and preprocess image
         image = cv2.imread(image_file, cv2.IMREAD_GRAYSCALE)
         if autocrop:
             image, _ = auto_body_crop(image)
         image = cv2.resize(image, (self.input_width, self.input_height), cv2.INTER_CUBIC)
-        image = image.astype(np.float32) / 255.0
+        image = image.astype(np.float32)/255.0
         image = np.expand_dims(np.stack((image, image, image), axis=-1), axis=0)
 
         # Create feed dict
         feed_dict = {IMAGE_INPUT_TENSOR: image, TRAINING_PH_TENSOR: False}
 
         # Run inference
-        with self.graph.as_default():
+        graph, sess, saver = self.load_graph()
+        with graph.as_default():
+            # Load checkpoint
+            self.load_ckpt(sess, saver)
+
             # Add training placeholder if present
             try:
-                self.sess.graph.get_tensor_by_name(TRAINING_PH_TENSOR)
+                sess.graph.get_tensor_by_name(TRAINING_PH_TENSOR)
                 feed_dict[TRAINING_PH_TENSOR] = False
             except KeyError:
                 pass
 
             # Run image through model
-            class_, probs = self.sess.run([CLASS_PRED_TENSOR, CLASS_PROB_TENSOR], feed_dict=feed_dict)
+            class_, probs = sess.run([CLASS_PRED_TENSOR, CLASS_PROB_TENSOR], feed_dict=feed_dict)
             print('\nPredicted Class: ' + CLASS_NAMES[class_[0]])
             print('Confidences: ' + ', '.join(
                 '{}: {}'.format(name, conf) for name, conf in zip(CLASS_NAMES, probs[0])))
@@ -255,32 +300,7 @@ class COVIDNetCTRunner:
                   'You should check with your local authorities for '
                   'the latest advice on seeking medical assistance.')
 
-    def _add_optimizer(self, learning_rate, momentum, fc_only=False):
-        """Adds an optimizer and creates the train op"""
-        # Create optimizer
-        global_step = tf.train.get_or_create_global_step()
-        lr = get_lr_scheduler(learning_rate, global_step, decay_steps=50000)
-        optimizer = tf.train.MomentumOptimizer(
-            learning_rate=learning_rate,
-            momentum=momentum
-        )
-
-        # Create train op
-        # global_step = tf.train.get_or_create_global_step()
-        loss = self.graph.get_tensor_by_name(LOSS_TENSOR)
-        grad_vars = optimizer.compute_gradients(loss)
-        if fc_only:
-            grad_vars = dense_grad_filter(grad_vars)
-        minimize_op = optimizer.apply_gradients(grad_vars, global_step)
-        update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
-        train_op = tf.group(minimize_op, update_ops)
-
-        # Initialize
-        self.sess.run(tf.global_variables_initializer())
-
-        return train_op
-
-    def _get_validation_fn(self, batch_size=1, val_split_file='val.txt'):
+    def _get_validation_fn(self, sess, batch_size=1, val_split_file='val.txt'):
         """Creates validation function to call in self.trainval() or self.test()"""
         # Create val dataset
         dataset, num_images, batch_size = self.dataset.validation_dataset(val_split_file, batch_size)
@@ -297,7 +317,7 @@ class COVIDNetCTRunner:
 
         # Add training placeholder if present
         try:
-            self.sess.graph.get_tensor_by_name(TRAINING_PH_TENSOR)
+            sess.graph.get_tensor_by_name(TRAINING_PH_TENSOR)
             feed_dict[TRAINING_PH_TENSOR] = False
         except KeyError:
             pass
@@ -305,9 +325,9 @@ class COVIDNetCTRunner:
         def run_validation():
             metrics.reset()
             for i in range(num_iters):
-                data = self.sess.run(data_next)
+                data = sess.run(data_next)
                 feed_dict[IMAGE_INPUT_TENSOR] = data['image']
-                results = self.sess.run(fetch_dict, feed_dict)
+                results = sess.run(fetch_dict, feed_dict)
                 metrics.update(data['label'], results['classes'])
             return metrics.values()
 
@@ -333,8 +353,9 @@ class COVIDNetCTRunner:
         # Restore confusion matrix
         metrics['confusion matrix'] = cm
 
-    def _get_train_summary_op(self, tag_prefix='train/'):
-        loss = self.graph.get_tensor_by_name(LOSS_TENSOR)
+    @staticmethod
+    def _get_train_summary_op(graph, tag_prefix='train/'):
+        loss = graph.get_tensor_by_name(LOSS_TENSOR)
         loss_summary = tf.summary.scalar(tag_prefix + 'loss', loss)
         return loss_summary
 
@@ -351,10 +372,7 @@ if __name__ == '__main__':
 
     # Create runner
     if mode == 'train':
-        train_kwargs = dict(
-            lr=args.learning_rate,
-            momentum=args.momentum,
-            fc_only=args.fc_only,
+        augmentation_kwargs = dict(
             max_bbox_jitter=args.max_bbox_jitter,
             max_rotation=args.max_rotation,
             max_shear=args.max_shear,
@@ -362,14 +380,14 @@ if __name__ == '__main__':
             max_pixel_scale_change=args.max_pixel_scale_change
         )
     else:
-        train_kwargs = {}
+        augmentation_kwargs = {}
     runner = COVIDNetCTRunner(
         meta_file,
         ckpt=ckpt,
         data_dir=args.data_dir,
         input_height=args.input_height,
         input_width=args.input_width,
-        **train_kwargs
+        **augmentation_kwargs
     )
 
     if mode == 'train':
@@ -379,17 +397,20 @@ if __name__ == '__main__':
         with open(os.path.join(output_dir, 'run_settings.json'), 'w') as f:
             json.dump(vars(args), f)
 
-        # Run trainval
-        runner.trainval(
-            args.epochs,
-            output_dir,
-            batch_size=args.batch_size,
-            train_split_file=args.train_split_file,
-            val_split_file=args.val_split_file,
-            log_interval=args.log_interval,
-            val_interval=args.val_interval,
-            save_interval=args.save_interval
-        )
+            # Run trainval
+            runner.trainval(
+                args.epochs,
+                output_dir,
+                batch_size=args.batch_size,
+                learning_rate=args.learning_rate,
+                momentum=args.momentum,
+                fc_only=args.fc_only,
+                train_split_file=args.train_split_file,
+                val_split_file=args.val_split_file,
+                log_interval=args.log_interval,
+                val_interval=args.val_interval,
+                save_interval=args.save_interval
+            )
     elif mode == 'test':
         # Run validation
         runner.test(

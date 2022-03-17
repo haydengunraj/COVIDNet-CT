@@ -28,6 +28,16 @@ This work would not have been possible without the efforts of many researchers t
 * **[Integrative CT Images and Clinical Features for COVID-19 (iCTCF)](http://ictcf.biocuckoo.cn/index.php)**
   * **Publication Citation:** Ning, W., Lei, S., Yang, J. et al. Open resource of clinical data from patients with pneumonia for the prediction of COVID-19 outcomes via deep learning. _Nat Biomed Eng_ 4, 1197–1207 (2020). https://doi.org/10.1038/s41551-020-00633-5
   * **License:** [Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)
+* **[COVID-CT-MD](https://github.com/ShahinSHH/COVID-CT-MD)**
+  * **Publication Citation:** Afshar, P., Heidarian, S., Enshaei, N. et al. COVID-CT-MD, COVID-19 computed tomography scan dataset applicable in machine learning and deep learning. _Sci Data_ 8, 121 (2021). https://doi.org/10.1038/s41597-021-00900-3
+  * **License:** Unknown; assumed to be open access based on publication
+* **[Stony Brook University COVID-19 Positive Cases (COVID-19-NY-SBU)](https://wiki.cancerimagingarchive.net/pages/viewpage.action?pageId=89096912)**
+  * **Data Citation:** Saltz, J., Saltz, M., Prasanna, P., Moffitt, R., Hajagos, J., Bremer, E., Balsamo, J., & Kurc, T. (2021). Stony Brook University COVID-19 Positive Cases [Data set]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.BBAG-2923
+  * **TCIA Citation:** Clark K, Vendt B, Smith K, Freymann J, Kirby J, Koppel P, Moore S, Phillips S, Maffitt D, Pringle M, Tarbox L, Prior F. (2013) The Cancer Imaging Archive (TCIA): Maintaining and Operating a Public Information Repository, _Journal of Digital Imaging_, Volume 26, Number 6, pp 1045-1057. DOI: https://doi.org/10.1007/s10278-013-9622-7
+  * **License:** [Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)
+* **[Study of thoracic CT in COVID-19 (STOIC)](https://stoic2021.grand-challenge.org/)**
+  * **Publication Citation:** Marie-Pierre Revel, Samia Boussouar, Constance de Margerie-Mellon, Inès Saab, Thibaut Lapotre, Dominique Mompoint, Guillaume Chassagnon, Audrey Milon, Mathieu Lederlin, Souhail Bennani, Sébastien Molière, Marie-Pierre Debray, Florian Bompard, Severine Dangeard, Chahinez Hani, Mickaël Ohana, Sébastien Bommart, Carole Jalaber, Mostafa El Hajjam, Isabelle Petit, Laure Fournier, Antoine Khalil, Pierre-Yves Brillet, Marie-France Bellin, Alban Redheuil, Laurence Rocher, Valérie Bousson, Pascal Rousset, Jules Grégory, Jean-François Deux, Elisabeth Dion, Dominique Valeyre, Raphael Porcher, Léa Jilet, and Hendy Abdoul. Study of Thoracic CT in COVID-19: The STOIC Project. _Radiology_ 2021 301:1, E361-E370. https://doi.org/10.1148/radiol.2021210384
+  * **License:** [Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/)
 * **[MosMedData](https://mosmed.ai/)**
   * **Publication Citation:** S.P. Morozov, A.E. Andreychenko, N.A. Pavlov, A.V. Vladzymyrskyy, N.V. Ledikhova, V.A. Gombolevskiy, I.A. Blokhin, P.B. Gelezhe, A.V. Gonchar, V.Yu. Chernina (2020). MosMedData: Chest CT Scans with COVID-19 Related Findings Dataset. _medRxiv_. DOI: https://doi.org/10.1101/2020.05.20.20100362
   * **License:** [Attribution-NonCommercial-NoDerivs 3.0 Unported (CC BY-NC-ND 3.0)](https://creativecommons.org/licenses/by-nc-nd/3.0/)

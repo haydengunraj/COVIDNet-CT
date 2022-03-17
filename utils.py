@@ -16,11 +16,11 @@ def parse_args(args):
         # General training parameters
         parser.add_argument('-os', '--output_suffix', type=str, default=datetime.now().strftime('_%Y-%m-%d_%H.%M.%S'),
                             help='Suffix to append to output directory name')
-        parser.add_argument('-dd', '--data_dir', type=str, default='data/COVIDx_CT-2A', help='Data directory')
+        parser.add_argument('-dd', '--data_dir', type=str, default='data/COVIDx_CT-3A', help='Data directory')
         parser.add_argument('-tf', '--train_split_file', type=str,
-                            default='splits/v2/train_COVIDx_CT-2A.txt', help='Train split file')
+                            default='splits/v3/train_COVIDx_CT-3A.txt', help='Train split file')
         parser.add_argument('-vf', '--val_split_file', type=str,
-                            default='splits/v2/val_COVIDx_CT-2A.txt', help='Val split file')
+                            default='splits/v3/val_COVIDx_CT-3A.txt', help='Val split file')
         parser.add_argument('-ep', '--epochs', type=int, default=20, help='Training epochs')
         parser.add_argument('-bs', '--batch_size', type=int, default=8, help='Batch size')
         parser.add_argument('-lr', '--learning_rate', type=float, default=0.001, help='Optimizer learning rate')
@@ -41,10 +41,10 @@ def parse_args(args):
         parser.add_argument('-sc', '--max_pixel_scale_change', type=float, default=0.15,
                             help='Max change in pixel value scale')
     elif args[0] == 'test':
-        parser.add_argument('-dd', '--data_dir', type=str, default='data/COVIDx-CT_v2A', help='Data directory')
+        parser.add_argument('-dd', '--data_dir', type=str, default='data/COVIDx-CT_v3A', help='Data directory')
         parser.add_argument('-bs', '--batch_size', type=int, default=8, help='Batch size')
         parser.add_argument('-tf', '--test_split_file', type=str,
-                            default='splits/v2/test_COVIDx_CT-2A.txt', help='Test split file')
+                            default='splits/v3/test_COVIDx_CT-3A.txt', help='Test split file')
         parser.add_argument('-pc', '--plot_confusion', action='store_true', help='Flag to plot confusion matrix')
     elif args[0] == 'infer':
         parser.add_argument('-im', '--image_file', type=str, default='assets/ex-covid-ct.png', help='Image file')
