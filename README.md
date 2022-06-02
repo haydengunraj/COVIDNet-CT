@@ -2,16 +2,11 @@
 
 **Note: The COVID-Net CT models provided here [as part of the COVID-Net Initiative](http://www.covid-net.ml) are intended to be used as reference models that can be built upon and enhanced as new data becomes available. They are currently at a research stage and not yet intended as production-ready models (i.e., not meant for direct clinical diagnosis), and we are working continuously to improve them as new data becomes available. Please do not use COVID-Net CT for self-diagnosis and seek help from your local health authorities.**
 
-**Update 2022-03-XX:** We released the [COVIDx CT-3](link-tbd) dataset on Kaggle.
-
-**Update 2022-03-10:** The [COVID-Net CT-2 paper](https://www.frontiersin.org/articles/10.3389/fmed.2021.729287) was published in _Frontiers in Medicine_.
-
-**Update 2021-01-26:** We released the [COVID-Net CT-2 models](docs/models.md) and [COVIDx CT-2A and CT-2B](https://www.kaggle.com/hgunraj/covidxct) datasets, comprising 194,922 CT slices from 3,745 patients and 201,103 CT slices from 4,501 patients respectively. The models and dataset are described [in this preprint](https://arxiv.org/abs/2101.07433).
-
-**Update 2020-12-23:** The [COVID-Net CT-1 paper](https://www.frontiersin.org/articles/10.3389/fmed.2020.608525) was published in _Frontiers in Medicine_.
-
-**Update 2020-12-03:** We released the [COVIDx CT-1](https://www.kaggle.com/dataset/c395fb339f210700ba392d81bf200f766418238c2734e5237b5dd0b6fc724fcb/version/1) dataset on Kaggle.
-
+**Update 2022-06-02:** We released the [COVIDx CT-3A and CT-3B](https://www.kaggle.com/datasets/hgunraj/covidxct) datasets on Kaggle, comprising 425,024 CT slices from 5,312 patients and 431,205 CT slices from 6,068 patients, respectively.\
+**Update 2022-03-10:** The [COVID-Net CT-2 paper](https://www.frontiersin.org/articles/10.3389/fmed.2021.729287) was published in _Frontiers in Medicine_.\
+**Update 2021-01-26:** We released the [COVID-Net CT-2 models](docs/models.md) and [COVIDx CT-2A and CT-2B](https://www.kaggle.com/datasets/c395fb339f210700ba392d81bf200f766418238c2734e5237b5dd0b6fc724fcb/version/4) datasets, comprising 194,922 CT slices from 3,745 patients and 201,103 CT slices from 4,501 patients, respectively. The models and dataset are described [in this preprint](https://arxiv.org/abs/2101.07433).\
+**Update 2020-12-23:** The [COVID-Net CT-1 paper](https://www.frontiersin.org/articles/10.3389/fmed.2020.608525) was published in _Frontiers in Medicine_.\
+**Update 2020-12-03:** We released the [COVIDx CT-1](https://www.kaggle.com/dataset/c395fb339f210700ba392d81bf200f766418238c2734e5237b5dd0b6fc724fcb/version/1) dataset on Kaggle.\
 **Update 2020-09-13:** We released a preprint of the [COVID-Net CT paper](https://arxiv.org/abs/2009.05383).
 
 <p align="center">
@@ -26,16 +21,13 @@ For a detailed description of the methodology behind COVID-Net CT and a full des
 
 This work is made possible by a number of publicly available CT data sources. Licenses and acknowledgements for these datasets can be found [here](docs/licenses_acknowledgements.md).
 
-Our desire is to encourage broad adoption and contribution to this project. Accordingly this project has been licensed under the GNU Affero General Public License 3.0. Please see [license file](LICENSE.md) for terms. If you would like to discuss alternative licensing models, please reach out to us at haydengunraj@gmail.com and a28wong@uwaterloo.ca or alex@darwinai.ca.
+Our desire is to encourage broad adoption and contribution to this project. Accordingly this project has been licensed under the GNU Affero General Public License 3.0. Please see [license file](LICENSE.md) for terms. If you would like to discuss alternative licensing models, please reach out to us at hayden.gunraj@uwaterloo.com and a28wong@uwaterloo.ca.
 
 For COVID-Net CXR models and the COVIDx dataset for COVID-19 detection and severity assessment from chest X-ray images, please go to the [main COVID-Net repository](https://github.com/lindawangg/COVID-Net).
 
 If you are a researcher or healthcare worker and you would like access to the **GSInquire tool to use to interpret COVID-Net CT results** on your data or existing data, please reach out to a28wong@uwaterloo.ca or alex@darwinai.ca.
 
-If there are any technical questions after the README, FAQ, and past/current issues have been read, please post an issue or contact:
-* haydengunraj@gmail.com
-* linda.wang513@gmail.com
-* jamesrenhoulee@gmail.com
+If there are any technical questions after the README, FAQ, and past/current issues have been read, please post an issue or contact hayden.gunraj@uwaterloo.com
 
 If you find our work useful for your research, please cite:
 
@@ -112,11 +104,11 @@ The main requirements are listed below:
 ## Results
 These are the final test results for the current COVID-Net CT models on the COVIDx CT dataset.
 
-### COVID-Net CT-2 L (2A)
+### COVID-Net CT-2 L (3A)
 <p>
 	<img src="assets/cm-covidnet-ct-2-l.png" alt="photo not available" width="50%" height="50%">
 	<br>
-	<em>Confusion matrix for COVID-Net CT-2 L on the COVIDx CT-2A test dataset.</em>
+	<em>Confusion matrix for COVID-Net CT-2 L on the COVIDx CT-3A test dataset.</em>
 </p>
 
 <div class="tg-wrap"><table class="tg">
@@ -151,11 +143,11 @@ These are the final test results for the current COVID-Net CT models on the COVI
   </tr>
 </table></div>
 
-### COVID-Net CT-2 S (2A)
+### COVID-Net CT-2 S (3A)
 <p>
 	<img src="assets/cm-covidnet-ct-2-s.png" alt="photo not available" width="50%" height="50%">
 	<br>
-	<em>Confusion matrix for COVID-Net CT-2 S on the COVIDx CT-2A test dataset.</em>
+	<em>Confusion matrix for COVID-Net CT-2 S on the COVIDx CT-3A test dataset.</em>
 </p>
 
 <div class="tg-wrap"><table class="tg">

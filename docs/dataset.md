@@ -48,7 +48,7 @@ The easiest way to use the COVIDx CT dataset is by downloading it directly from 
 * [COVIDx CT-2](https://www.kaggle.com/dataset/c395fb339f210700ba392d81bf200f766418238c2734e5237b5dd0b6fc724fcb/version/4)
 * [COVIDx CT-3](link-tbd)
 
-Note that COVIDx CT-2B is not available on Kaggle, and must be [generated from scratch](#creating-the-dataset-from-scratch)
+Note that COVIDx CT B variants are not available on Kaggle, and must be generated from scratch.
 
 ## Creating the Dataset from Scratch
 If you wish to construct the dataset from scratch, instructions for doing so are provided below.
