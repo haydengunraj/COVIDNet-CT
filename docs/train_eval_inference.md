@@ -26,7 +26,7 @@ For more options and information, `python run_covid_ct.py train --help`
 2. Locate the TensorFlow checkpoint files
 3. To evaluate a TensorFlow checkpoint:
 ```
-python run_covidnet_ct.py val \
+python run_covidnet_ct.py test \
     --model_dir models/COVID-Net_CT-2_L \
     --meta_name model.meta \
     --ckpt_name model \
