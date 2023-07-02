@@ -32,7 +32,7 @@ python run_covidnet_ct.py test \
     --ckpt_name model \
     --plot_confusion
 ```
-For more options and information, `python run_covid_ct.py val --help`
+For more options and information, `python run_covid_ct.py test --help`
 
 ## Steps for inference
 **DISCLAIMER: Do not use this prediction for self-diagnosis. You should check with
